@@ -1,6 +1,9 @@
 # PyCharm/Jetbrains
 .idea
 
+# Alternative configuration files
+.flaskenv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

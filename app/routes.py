@@ -9,7 +9,7 @@ financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
 ts_data_schema = TSDataSchema()
 
-ts_hierarchy_file = open(basedir + '/ts_hierarchy.json')
+ts_hierarchy_file = open(basedir + '/ts_hierarchy.json') #TODO Move to DB
 ts_hierarchy = json.loads(ts_hierarchy_file.read())
 
 
@@ -82,6 +82,7 @@ def add_tsi():
     db.session.commit()
 
     return ts_data_schema.jsonify(new_tsi)
+
 
 @app.route('/tsi/<tsid>', methods=['GET'])
 def get_tsi(tsid):

@@ -29,11 +29,13 @@ class TSData(db.Model):
     source = db.Column(db.String(100))
 
 
-class TSDataSchema(ma.ModelSchema):
+class TSDataSchema(ma.Schema):
     class Meta:
         model = TSData
+        load_instance = True
 
 
-class FinancialObjectSchema(ma.ModelSchema):
+class FinancialObjectSchema(ma.Schema):
     class Meta:
         model = FinancialObject
+        load_instance = True

@@ -1,5 +1,6 @@
 from app import app, db, ma
 
+
 class FinancialObject(db.Model):
     __tablename__ = 'financial_objects'
     foid = db.Column(db.Integer, primary_key=True)
@@ -28,3 +29,11 @@ class TSData(db.Model):
     source = db.Column(db.String(100))
 
 
+class TSDataSchema(ma.ModelSchema):
+    class Meta:
+        model = TSData
+
+
+class FinancialObjectSchema(ma.ModelSchema):
+    class Meta:
+        model = FinancialObject

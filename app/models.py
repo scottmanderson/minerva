@@ -29,6 +29,22 @@ class TSData(db.Model):
     source = db.Column(db.String(100))
 
 
+class DataSource(db.Model):
+    __tablename__ = 'data_sources'
+    source_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    hierarchy_rank = db.Column(db.Integer)
+    api_key = db.Column(db.String(100))
+    poll_relationship = db.relationship('DataSourcePolls', backref='DataSource')
+
+
+class DataSourcePolls(db.Model):
+    __tablename__ = 'data_source_polls'
+    ds_poll_id = db.Column(db.Integer, primary_key=True)
+    source_id = db.Column(db.Integer, db.ForeignKey('data_sources.source_id'))
+    ticker = db.Column(db.String(50))
+
+
 class TSDataSchema(ma.Schema):
     class Meta:
         model = TSData

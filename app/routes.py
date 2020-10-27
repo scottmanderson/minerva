@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import FinancialObject, FinancialObjectSchema, TSData, TSDataSchema
+from app.models import FinancialObject, FinancialObjectSchema, TSData, TSDataSchema, DataSource
 from config import basedir
 
 import flask
@@ -9,8 +9,8 @@ financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
 ts_data_schema = TSDataSchema()
 
-ts_hierarchy_file = open(basedir + '/ts_hierarchy.json') #TODO Move to DB
-ts_hierarchy = json.loads(ts_hierarchy_file.read())
+all_data_sources = DataSource.query.all()
+ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 
 # Basic Object Manipulation Routes

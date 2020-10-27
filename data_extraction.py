@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import TSData
+from app.models import TSData, DataSource, DataSourcePoll
 from config import basedir
 
 from datetime import datetime
@@ -9,14 +9,13 @@ import pandas as pd
 import pandas_datareader as pdr
 
 
-api_keys_file = open(basedir + '/api_keys.json', "r")
-api_keys = json.loads(api_keys_file.read())
-
 auto_update_ts_file = open(basedir + '/auto_update_ts.json')
 auto_update_ts = json.loads(auto_update_ts_file.read())
 
-ts_hierarchy_file = open(basedir + '/ts_hierarchy.json')
-ts_hierarchy = json.loads(ts_hierarchy_file.read())
+all_data_sources = DataSource.query.all()
+all_data_source_polls = DataSourcePoll.query.all()
+api_keys = {source.name: source.api_key for source in all_data_sources}
+ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 
 class TSHierarchy(object):
@@ -63,7 +62,7 @@ class TSExtraction(object):
             else:
                 db.session.commit()
 
-    def update_av_daily_data(self, api_key=api_keys['alphavantage']):
+    def update_av_daily_data(self, api_key=api_keys['av-daily-adjusted']):
         av_code = self.ticker  # TODO: Add lookup for unorthodox references
         source_code = 'av-daily-adjusted'
         try:

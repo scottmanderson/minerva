@@ -13,6 +13,7 @@ class FinancialObject(db.Model):
                                       lazy='dynamic',
                                       single_parent=True,
                                       order_by='asc(TSData.dt)')
+    data_source_poll_relationship = db.relationship('DataSourcePoll', backref='FinancialObject')
 
     def __init__(self, name, report_name, ticker=None):
         self.name = name
@@ -35,14 +36,15 @@ class DataSource(db.Model):
     name = db.Column(db.String(50))
     hierarchy_rank = db.Column(db.Integer)
     api_key = db.Column(db.String(100))
-    poll_relationship = db.relationship('DataSourcePolls', backref='DataSource')
+    poll_relationship = db.relationship('DataSourcePoll', backref='DataSource')
 
 
-class DataSourcePolls(db.Model):
+class DataSourcePoll(db.Model):
     __tablename__ = 'data_source_polls'
     ds_poll_id = db.Column(db.Integer, primary_key=True)
     source_id = db.Column(db.Integer, db.ForeignKey('data_sources.source_id'))
-    ticker = db.Column(db.String(50))
+    foid = db.Column(db.Integer, db.ForeignKey('financial_objects.foid'))
+    data_source_code = db.Column(db.String(50))
 
 
 class TSDataSchema(ma.Schema):

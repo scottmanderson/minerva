@@ -47,16 +47,9 @@ class TSExtraction(object):
             tsi.level = row[1]['value']
             tsi.source = row[1]['source']
 
-            #if ((before['foid'] == tsi.foid) & (before['dt'] == tsi.dt) & (before['source'] == tsi.source)).any():
-            #    db.session.commit()
-            #else:
-            #    db.session.add(tsi)
-            #    db.session.commit()
-
-            if before\
-                    [before['foid'] == tsi.foid]\
-                    [before['dt'] == tsi.dt]\
-                    [before['source'] == tsi.source].empty:
+            if before.loc[(before['foid'] == tsi.foid)
+                          & (before['dt'] == tsi.dt)
+                          & (before['source'] == tsi.source)].empty:
                 db.session.add(tsi)
                 db.session.commit()
             else:

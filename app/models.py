@@ -51,13 +51,13 @@ class DataSourcePoll(db.Model):
     data_source_code = db.Column(db.String(50))
 
 
-class TSDataSchema(ma.Schema):
+class TSDataSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = TSData
         load_instance = True
 
 
-class FinancialObjectSchema(ma.Schema):
+class FinancialObjectSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = FinancialObject
         load_instance = True

@@ -47,7 +47,7 @@ def get_all_fo():
 @app.route("/fo/<foid>", methods=["GET"])
 def get_fo(foid):
     fo = FinancialObject.query.get(foid)
-    return financial_objects_schema.jsonify(fo)
+    return financial_object_schema.jsonify(fo)
 
 
 @app.route("/fo/<foid>", methods=["PUT"])

@@ -14,14 +14,8 @@ auto_update_ts_file = open(basedir + "/auto_update_ts.json")
 auto_update_ts = json.loads(auto_update_ts_file.read())
 
 all_data_sources = fetch_all_data_sources()
-api_keys = {source.name: source.api_key for source in []}
-ts_hierarchy = {source.name: source.hierarchy_rank for source in []}
-
-
-class TSHierarchy(object):
-    """Creates a ranking of different data providers to resolve conflicts"""
-
-    pass
+api_keys = {source.name: source.api_key for source in all_data_sources}
+ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 
 class TSExtraction(object):

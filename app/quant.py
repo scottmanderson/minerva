@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, ma
 from app.models import (
     FinancialObject,
     FinancialObjectSchema,
@@ -17,7 +17,6 @@ from calendar import leapdays, monthrange
 from datetime import datetime, timedelta
 import flask
 import json
-import marshmallow as ma
 import numpy as np
 import pandas as pd
 

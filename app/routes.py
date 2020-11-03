@@ -8,7 +8,7 @@ from app.models import (
 )
 from app.quant import TSCalc, TSCalcSchema
 from config import basedir
-
+from shared_functions import fetch_all_data_sources
 import flask
 import json
 
@@ -17,7 +17,7 @@ financial_objects_schema = FinancialObjectSchema(many=True)
 ts_data_schema = TSDataSchema()
 ts_calc_schema = TSCalcSchema()
 
-all_data_sources = DataSource.query.all()
+all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 

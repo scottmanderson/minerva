@@ -1,6 +1,7 @@
 from app import app, db
 from app.models import TSData, DataSource, DataSourcePoll
 from config import basedir
+from shared_functions import fetch_all_data_sources
 
 from datetime import datetime
 import json
@@ -12,10 +13,9 @@ import pandas_datareader as pdr
 auto_update_ts_file = open(basedir + "/auto_update_ts.json")
 auto_update_ts = json.loads(auto_update_ts_file.read())
 
-all_data_sources = DataSource.query.all()
-all_data_source_polls = DataSourcePoll.query.all()
-api_keys = {source.name: source.api_key for source in all_data_sources}
-ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
+all_data_sources = fetch_all_data_sources()
+api_keys = {source.name: source.api_key for source in []}
+ts_hierarchy = {source.name: source.hierarchy_rank for source in []}
 
 
 class TSHierarchy(object):

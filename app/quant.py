@@ -7,6 +7,7 @@ from app.models import (
     DataSource,
     DataSourcePoll,
 )
+from shared_functions import fetch_all_data_sources
 from bokeh.embed import json_item
 from bokeh.io import output_file
 from bokeh.models import ColumnDataSource, LinearAxis, Range1d
@@ -21,7 +22,7 @@ import numpy as np
 import pandas as pd
 
 
-all_data_sources = DataSource.query.all()
+all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 

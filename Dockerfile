@@ -15,7 +15,7 @@ RUN chmod +x boot.sh
 # RUN chown -R minverva:minverva ./
 
 USER minerva
-CMD ["python", "./database/create_db.py"]
+# CMD ["python", "./create_db.py"]
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]

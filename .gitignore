@@ -4,6 +4,9 @@
 # Alternative configuration files
 .flaskenv
 
+# Postgres
+postgres-data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    container_name: minerva-finance-app
+    restart: always
+    build: .
+    ports:
+      - "80:5000"
+  postgresDB:
+    container_name: postgresDB
+    environment:
+      POSTGRES_USER: minerva
+      POSTGRES_PASSWORD: athena
+      POSTGRES_DB: minervaDB
+    image: postgres:latest
+    build: ./database
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

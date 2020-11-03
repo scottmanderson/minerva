@@ -1,0 +1,3 @@
+CREATE DATABASE "minervaDB";
+CREATE USER minerva WITH PASSWORD 'athena';
+GRANT ALL PRIVILEGES ON DATABASE "minervaDB" to minerva;

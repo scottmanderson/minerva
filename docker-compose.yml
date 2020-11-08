@@ -13,7 +13,6 @@ services:
       POSTGRES_PASSWORD: athena
       POSTGRES_DB: minervaDB
     image: postgres:latest
-    build: ./database
     ports:
       - "5432:5432"
     restart: always

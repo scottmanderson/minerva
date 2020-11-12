@@ -1,5 +1,4 @@
 import React from "react";
-import { Store } from "../context/Store";
 import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
 

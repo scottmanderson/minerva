@@ -8,7 +8,7 @@ import {
   GET_ACTIVE_FINANCIAL_OBJECT_ID,
 } from "./action-types";
 
-const reducer = (state, action) => {
+const rootReducer = (state, action) => {
   switch (action.type) {
     case FIN_OBJS_LOADED:
       return Object.assign({}, state, {
@@ -27,4 +27,4 @@ const reducer = (state, action) => {
   }
 };
 
-export default reducer;
+export default rootReducer;

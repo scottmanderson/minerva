@@ -12,7 +12,7 @@ const rootReducer = (state, action) => {
   switch (action.type) {
     case FIN_OBJS_LOADED:
       return Object.assign({}, state, {
-        finObjs: state.finObjs.concat(action.payload),
+        finObjs: action.payload,
       });
     case STATISTICS_LOADED:
       return Object.assign({}, state, {

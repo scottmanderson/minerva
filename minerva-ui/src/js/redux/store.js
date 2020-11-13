@@ -5,10 +5,29 @@ import createSagaMiddleware from "redux-saga";
 import rootReducer from "./rootReducer";
 import rootSaga from "./sagas/rootSaga";
 
+const reduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 const sagaMiddleware = createSagaMiddleware();
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const initialState = {};
+const initialState = {
+  finObjs: [
+    {
+      foid: 1,
+      name: "SPDR S&P 500 Index ETF",
+      report_name: "SPY",
+      ticker: "SPY",
+    },
+    {
+      foid: 2,
+      name: "Vanguard Emerging Markets ETF",
+      report_name: "VWO",
+      ticker: "VWO",
+    },
+  ],
+  activeFinObjID: 1,
+};
 
 const store = createStore(
   rootReducer,

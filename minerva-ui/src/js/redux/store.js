@@ -1,6 +1,7 @@
 import React from "react";
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
+import logger from "redux-logger";
 
 import rootReducer from "./rootReducer";
 import rootSaga from "./sagas/rootSaga";
@@ -32,7 +33,7 @@ const initialState = {
 const store = createStore(
   rootReducer,
   initialState,
-  storeEnhancers(applyMiddleware(sagaMiddleware))
+  storeEnhancers(applyMiddleware(sagaMiddleware, logger))
 );
 
 sagaMiddleware.run(rootSaga);

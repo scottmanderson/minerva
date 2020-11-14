@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFinObjs, setActiveFinObjID } from "../redux/actions";
+import ObjectList from "../components/ObjectList";
 
 const ObjectPane = () => {
   const finObjs = useSelector((state) => state.finObjs);
@@ -17,22 +18,11 @@ const ObjectPane = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h3>Database Objects</h3>
-      <h4>{activeFinObjID || "null"}</h4>
-      <ul className="list-group list-group-flush">
-        {finObjs.map((el) => (
-          <li
-            className="list-group-item"
-            key={el.foid}
-            id={"foid" + el.foid}
-            onClick={(e) => handleListItemClick(e)}
-          >
-            {el.report_name}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ObjectList
+      finObjs={finObjs}
+      activeFinObjID={activeFinObjID}
+      handleListItemClick={handleListItemClick}
+    />
   );
 };
 

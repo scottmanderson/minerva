@@ -1,19 +1,27 @@
 import React from "react";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
 import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
+import { Grid } from "@material-ui/core";
 
 const App = () => {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-2">
+    <Container maxWidth="lg">
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <Grid item xs={2}>
           <ObjectPane />
-        </div>
-        <div className="col-10">
+        </Grid>
+        <Grid item xs={10}>
           <DisplayPane />
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

@@ -37,24 +37,15 @@ class TSCalc(object):
     ):
         self.foid = foid
         self.freq_code = freq_code
-        self.level: pd.DataFrame = self.compute_ts_level(self.foid, self.freq_code)
-        self.ts: pd.DataFrame = self.compute_ts_returns(self.foid, self.freq_code)
-        self.cumulative: pd.DataFrame = (
-            self.compute_cumulative_return(self.ts).resample(self.freq_code).ffill()
-        )
-        self.start: datetime = (
-            datetime.fromisoformat(start)
-            if start
-            else self.ts.index.min().to_pydatetime()
-        )
-        self.end: datetime = (
-            datetime.fromisoformat(end) if end else self.ts.index.max().to_pydatetime()
-        )
+        # self.start and self.end will be set by generate_time_series function if not set here
+        self.start: datetime = datetime.fromisoformat(start) if start else None
+        self.end: datetime = datetime.fromisoformat(end) if end else None
+        self.benchmark = benchmark
 
-        self.ts = self.ts[start:end]
-        print(f"self.start={self.start} & self.end={self.end}")
+        # div_id_target is a stub for mounting bokeh charts on the client side
+        self.div_id_target = None
+
         self.periodicity = None
-
         if self.freq_code == "A":
             self.periodicity = 1
         elif self.freq_code == "Q":
@@ -63,7 +54,62 @@ class TSCalc(object):
             self.periodicity = 12
         elif self.freq_code == "D":
             self.periodicity = 365
+
+        self.level, self.ts = self.generate_time_series()
+        self.cumulative: pd.DataFrame = (
+            self.compute_cumulative_return(self.ts).resample(self.freq_code).ffill()
+        )
+
         self.calculate()
+
+    def generate_time_series(self):
+        """return a time series of levels of ts data (appropriate for graphing economic indicators and growth of a
+        dollar return charts"""
+        all_tsi_fo = TSData.query.filter(TSData.foid == self.foid)
+        df = pd.read_sql(all_tsi_fo.statement, all_tsi_fo.session.bind)
+
+        sources = set([source for source in df["source"]])
+        df["rank"] = df.apply(lambda x: ts_hierarchy[x["source"]], axis=1)
+
+        if len(sources) > 1:
+            df["best"] = df.groupby("dt")["rank"].transform(lambda x: x.min())
+        else:
+            df["best"] = df["rank"]
+
+        returns = (
+            df.pivot(index="dt", columns="rank", values="level")
+            .resample(self.freq_code)
+            .ffill()
+            .pct_change()
+            .reset_index()
+            .melt(id_vars="dt")
+        )
+
+        if len(sources) > 1:
+            returns["best"] = returns.groupby("dt")["rank"].transform(lambda x: x.min())
+        else:
+            returns["best"] = returns["rank"]
+        returns = returns[returns["rank"] == returns["best"]]
+        returns.set_index("dt", inplace=True)
+        returns.drop(["rank", "best"], axis=1, inplace=True)
+        returns.columns = ["returns"]
+
+        df = df[df["rank"] == df["best"]]
+        df.set_index("dt", inplace=True)
+        if returns.index.max() > df.index.max():
+            returns.drop(returns.tail(1).index, inplace=True)
+
+        if not self.start:
+            self.start = returns.index.min()
+        if not self.end:
+            self.end = returns.index.max()
+
+        df.dropna()
+
+        return (
+            df["level"],
+            returns["returns"][self.start : self.end],
+        )
 
     def calculate(self):
         self.mtd_return = self.ts[self.ts.index.max()]
@@ -108,11 +154,10 @@ class TSCalc(object):
             begin=datetime(self.end.year - 5, self.end.month, self.end.day),
             through=self.end,
         )
-        self.itd_annualized_return = (
-            self.cumulative[self.end.date().isoformat()]
-            / self.cumulative[self.end.date().isoformat()] ** 365
-            / (self.end - self.start).days
-        )  # Here begins time window returns (default ITD)
+        self.itd_annualized_return = self.calculate_geometric_annualized_return(
+            begin=self.start, through=self.end
+        )
+        # Here begins time window returns (default ITD)
         self.itd_annualized_volatility = self.ts.std() * np.sqrt(self.periodicity)
         self.calendar_year_returns = {
             self.end.year: self.cumulative.loc[self.cumulative.index.max()]
@@ -133,53 +178,6 @@ class TSCalc(object):
         }
         # self.bokeh_ts_level_plot = self.generate_bokeh_ts_level_plot()
         # self.bokeh_return_plot = self.generate_bokeh_return_plot()
-
-    @staticmethod
-    def compute_ts_level(foid, start=None, end=None):
-        """return a time series of levels of ts data (appropriate for graphing economic indicators and growth of a
-        dollar return charts"""
-        all_tsi_fo = TSData.query.filter(TSData.foid == foid)
-        df = pd.read_sql(all_tsi_fo.statement, all_tsi_fo.session.bind)
-        sources = set([source for source in df["source"]])
-        first = df.dt.min()
-        last = df.dt.max()
-        df["rank"] = df.apply(lambda x: ts_hierarchy[x["source"]], axis=1)
-        df["best"] = df.groupby("dt")["rank"].transform(lambda x: x.min())
-        df = df[df["rank"] == df["best"]]
-        df.set_index("dt", inplace=True)
-        if not start:
-            start = df.index.min()
-        if not end:
-            end = df.index.max()
-        df.dropna()
-        return df["level"][start:end]
-
-    @staticmethod
-    def compute_ts_returns(foid, freq_code, start=None, end=None):
-        """return a time series of returns, with resampling for periodicity"""
-        all_tsi_fo = TSData.query.filter(TSData.foid == foid)
-        df = pd.read_sql(all_tsi_fo.statement, all_tsi_fo.session.bind)
-        df["rank"] = df.apply(lambda x: ts_hierarchy[x["source"]], axis=1)
-        returns = (
-            df.pivot(index="dt", columns="rank", values="level")
-            .resample(freq_code)
-            .ffill()
-            .pct_change()
-            .reset_index()
-            .melt(id_vars="dt")
-        )
-        returns["best"] = df.groupby("dt")["rank"].transform(lambda x: x.min())
-        returns = returns[returns["rank"] == returns["best"]]
-        returns.set_index("dt", inplace=True)
-        returns.drop(["rank", "best"], axis=1, inplace=True)
-        print(returns.columns)
-        returns.columns = ["returns"]
-        if not start:
-            start = returns.index.min()
-        if not end:
-            end = returns.index.max()
-        df.dropna()
-        return returns["returns"][start:end]
 
     @staticmethod
     def find_previous_quarter_end(dt: datetime):
@@ -221,14 +219,16 @@ class TSCalc(object):
         return ret ** (365 / (365 * years)) - 1
 
     def calculate_geometric_annualized_return(self, begin, through):
-        begin_iso = max(begin, self.end).date().isoformat()
+        begin_iso = (begin + timedelta(days=1)).date().isoformat()
+        # item at index for begin is outside of calculation range for this method, must instead take next item in index
+        begin_iloc_value = self.cumulative.index.get_loc(begin_iso, "backfill")
         through_iso = through.date().isoformat()
         print(
-            f"periodicity={self.periodicity}  len={len(self.cumulative[begin_iso:through_iso])}"
+            f"begin={begin_iso} through={through_iso}  periodicity={self.periodicity}  len={len(self.cumulative[begin_iso:through_iso])}"
         )
-        return self.cumulative.loc[through_iso] / self.cumulative.loc[begin_iso] ** (
-            self.periodicity / len(self.cumulative[begin_iso:through_iso])
-        )
+        return (
+            self.cumulative.loc[through_iso] / self.cumulative.iloc[begin_iloc_value]
+        ) ** (self.periodicity / len(self.cumulative[begin_iso:through_iso])) - 1
 
     def calculate_calendar_year_return(self, year: int):
         return (

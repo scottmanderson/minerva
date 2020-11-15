@@ -136,9 +136,7 @@ def delete_tsi(tsid):
 
 
 # Stat Routes
-@app.route(
-    "/stat/<foid>", methods=["GET"]
-)  # TODO must reimplement start/end for non-default in query string
+@app.route("/stat/<foid>", methods=["GET"])
 def get_returns_statistics(foid):
     freq_code = flask.request.args.get("freq_code") or "M"
     start = flask.request.args.get("start")

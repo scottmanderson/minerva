@@ -28,7 +28,18 @@ const initialState = {
     },
   ],
   activeFinObjID: 1,
-  statistics: {},
+  statistics: {
+    mtd_return: 0,
+    qtd_return: 0,
+    ytd_return: 0,
+    one_year_ret: 0,
+    two_year_return: 0,
+    three_year_return: 0,
+    four_year_return: 0,
+    five_year_return: 0,
+    itd_annualized_return: 0,
+    itd_annualized_volatility: 0,
+  },
 };
 
 const store = createStore(

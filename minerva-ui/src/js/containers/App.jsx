@@ -12,7 +12,7 @@ const App = () => {
         container
         direction="row"
         justify="space-between"
-        alignItems="center"
+        alignItems="flex-start"
       >
         <Grid item xs={2}>
           <ObjectPane />

@@ -16,7 +16,7 @@ const rootReducer = (state, action) => {
       });
     case STATISTICS_LOADED:
       return Object.assign({}, state, {
-        returnsChart: action.payload,
+        statistics: action.payload,
       });
     case SET_ACTIVE_FINANCIAL_OBJECT_ID:
       return Object.assign({}, state, {

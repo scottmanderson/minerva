@@ -28,6 +28,7 @@ const initialState = {
     },
   ],
   activeFinObjID: 1,
+  statistics: {},
 };
 
 const store = createStore(

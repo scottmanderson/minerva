@@ -4,12 +4,17 @@ import {
   SET_ACTIVE_FINANCIAL_OBJECT_ID,
   FIN_OBJS_LOADED,
   STATISTICS_LOADED,
+  BENCHMARK_DEFAULT_STATISTICS_LOADED,
   RETURN_PLOT_LOADED,
   GET_ACTIVE_FINANCIAL_OBJECT_ID,
 } from "./action-types";
 
 const rootReducer = (state, action) => {
   switch (action.type) {
+    case BENCHMARK_DEFAULT_STATISTICS_LOADED:
+      return Object.assign({}, state, {
+        benchmarkDefaultStatistics: action.payload,
+      });
     case FIN_OBJS_LOADED:
       return Object.assign({}, state, {
         finObjs: action.payload,

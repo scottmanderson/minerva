@@ -1,7 +1,7 @@
 import { takeLatest, call, put, putResolve } from "redux-saga/effects";
 import {
-  STATISTICS_LOADED,
-  STATISTICS_REQUESTED,
+  BENCHMARK_DEFAULT_STATISTICS_LOADED,
+  BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
   API_ERRORED,
 } from "../action-types";
 
@@ -9,7 +9,7 @@ const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
 
 export default function* watcherSaga() {
   console.log("statistics requested detected in watcher saga");
-  yield takeLatest(STATISTICS_REQUESTED, workerSaga);
+  yield takeLatest(BENCHMARK_DEFAULT_STATISTICS_REQUESTED, workerSaga);
 }
 
 function* workerSaga(action) {
@@ -20,7 +20,7 @@ function* workerSaga(action) {
   try {
     console.log(`before payload = yield call(getStatistics)`);
     const payload = yield call(getStatistics, foid, freq_code, start, end);
-    yield putResolve({ type: STATISTICS_LOADED, payload });
+    yield putResolve({ type: BENCHMARK_DEFAULT_STATISTICS_LOADED, payload });
   } catch (e) {
     yield put({ type: API_ERRORED, payload: e });
   }

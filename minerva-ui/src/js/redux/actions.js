@@ -1,4 +1,5 @@
 import {
+  BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
   FIN_OBJS_LOADED,
   FIN_OBJS_REQUESTED,
   STATISTICS_REQUESTED,
@@ -23,6 +24,21 @@ export function getStatistics(
   console.log(foid);
   return {
     type: STATISTICS_REQUESTED,
+    foid: foid,
+    freq_code: freq_code,
+    start: start,
+    end: end,
+  };
+}
+
+export function getBenchmarkDefaultStatistics(
+  foid = null,
+  freq_code = null,
+  start = null,
+  end = null
+) {
+  return {
+    type: BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
     foid: foid,
     freq_code: freq_code,
     start: start,

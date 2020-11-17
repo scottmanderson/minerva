@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getStatistics, getActiveFinObjID } from "../redux/actions";
+import {
+  getStatistics,
+  getActiveFinObjID,
+  getBenchmarkDefaultStatistics,
+} from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 
 const DisplayPane = () => {
@@ -10,7 +14,10 @@ const DisplayPane = () => {
 
   useEffect(() => {
     dispatch(getStatistics(activeFinObj.foid));
-  }, [dispatch, activeFinObj.foid]);
+    if (activeFinObj.benchmark) {
+      dispatch(getBenchmarkDefaultStatistics(activeFinObj.benchmark));
+    }
+  }, [dispatch, activeFinObj]);
 
   return (
     <StatisticsDisplay activeFinObj={activeFinObj} statistics={statistics} />

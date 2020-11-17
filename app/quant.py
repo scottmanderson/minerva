@@ -313,16 +313,6 @@ class TSCalcSchema(ma.Schema):
     class Meta:
         fields = (
             "foid",
-            "mtd_return",
-            "qtd_return",
-            "ytd_return",
-            "one_year_return",
-            "two_year_return",
-            "three_year_return",
-            "four_year_return",
-            "five_year_return",
             "calendar_year_returns",
             "time_window_returns",
-            "itd_annualized_return",
-            "itd_annualized_volatility",
         )

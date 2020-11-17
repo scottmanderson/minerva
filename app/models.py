@@ -7,6 +7,7 @@ class FinancialObject(db.Model):
     name = db.Column(db.String(100), unique=True)
     report_name = db.Column(db.String(100))
     ticker = db.Column(db.String(20))
+    benchmark = db.Column(db.Integer)
     ts_relationship = db.relationship(
         "TSData",
         backref="FinancialObject",

@@ -34,34 +34,38 @@ const TimeWindowReturns = (props) => {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  {percentFormat(props.statistics.mtd_return)}
+                  {percentFormat(props.time_window_returns.mtd_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.qtd_return)}
+                  {percentFormat(props.time_window_returns.qtd_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.ytd_return)}
+                  {percentFormat(props.time_window_returns.ytd_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.one_year_return)}
+                  {percentFormat(props.time_window_returns.one_year_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.two_year_return)}
+                  {percentFormat(props.time_window_returns.two_year_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.three_year_return)}
+                  {percentFormat(props.time_window_returns.three_year_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.four_year_return)}
+                  {percentFormat(props.time_window_returns.four_year_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.five_year_return)}
+                  {percentFormat(props.time_window_returns.five_year_return)}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.itd_annualized_return)}
+                  {percentFormat(
+                    props.time_window_returns.itd_annualized_return
+                  )}
                 </TableCell>
                 <TableCell>
-                  {percentFormat(props.statistics.itd_annualized_volatility)}
+                  {percentFormat(
+                    props.time_window_returns.itd_annualized_volatility
+                  )}
                 </TableCell>
               </TableRow>
             </TableBody>

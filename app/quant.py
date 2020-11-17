@@ -159,6 +159,53 @@ class TSCalc(object):
         )
         # Here begins time window returns (default ITD)
         self.itd_annualized_volatility = self.ts.std() * np.sqrt(self.periodicity)
+        self.time_window_returns = {
+            "mtd_return": self.ts[self.ts.index.max()],
+            "qtd_return": (
+                np.product(
+                    self.ts[
+                        (
+                            self.find_previous_quarter_end(self.end) + timedelta(days=1)
+                        ) : self.end
+                    ].apply(lambda x: x + 1)
+                )
+                - 1
+            ),
+            "ytd_return": (
+                np.product(
+                    self.ts[
+                        (
+                            self.find_previous_year_end(self.end) + timedelta(days=1)
+                        ) : self.end
+                    ].apply(lambda x: x + 1)
+                )
+                - 1
+            ),
+            "one_year_return": self.calculate_geometric_annualized_return(
+                begin=datetime(self.end.year - 1, self.end.month, self.end.day),
+                through=self.end,
+            ),
+            "two_year_return": self.calculate_geometric_annualized_return(
+                begin=datetime(self.end.year - 2, self.end.month, self.end.day),
+                through=self.end,
+            ),
+            "three_year_return": self.calculate_geometric_annualized_return(
+                begin=datetime(self.end.year - 3, self.end.month, self.end.day),
+                through=self.end,
+            ),
+            "four_year_return": self.calculate_geometric_annualized_return(
+                begin=datetime(self.end.year - 4, self.end.month, self.end.day),
+                through=self.end,
+            ),
+            "five_year_return": self.calculate_geometric_annualized_return(
+                begin=datetime(self.end.year - 5, self.end.month, self.end.day),
+                through=self.end,
+            ),
+            "itd_annualized_return": self.calculate_geometric_annualized_return(
+                begin=self.start, through=self.end
+            ),
+            "itd_annualized_volatility": self.ts.std() * np.sqrt(self.periodicity),
+        }
         self.calendar_year_returns = {
             self.end.year: self.cumulative.loc[self.cumulative.index.max()]
             / self.cumulative.loc[
@@ -275,6 +322,7 @@ class TSCalcSchema(ma.Schema):
             "four_year_return",
             "five_year_return",
             "calendar_year_returns",
+            "time_window_returns",
             "itd_annualized_return",
             "itd_annualized_volatility",
         )

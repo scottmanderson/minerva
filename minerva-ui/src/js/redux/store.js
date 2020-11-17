@@ -29,6 +29,10 @@ const initialState = {
   ],
   activeFinObjID: 1,
   statistics: {
+    calendar_year_returns: {
+      2019: 0,
+      2020: 0,
+    },
     mtd_return: 0,
     qtd_return: 0,
     ytd_return: 0,

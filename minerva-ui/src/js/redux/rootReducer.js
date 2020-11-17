@@ -1,12 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import {
-  SET_ACTIVE_FINANCIAL_OBJECT_ID,
+  SET_ACTIVE_FINANCIAL_OBJECT,
   FIN_OBJS_LOADED,
   STATISTICS_LOADED,
   BENCHMARK_DEFAULT_STATISTICS_LOADED,
   RETURN_PLOT_LOADED,
-  GET_ACTIVE_FINANCIAL_OBJECT_ID,
+  GET_ACTIVE_FINANCIAL_OBJECTD,
 } from "./action-types";
 
 const rootReducer = (state, action) => {
@@ -23,9 +23,9 @@ const rootReducer = (state, action) => {
       return Object.assign({}, state, {
         statistics: action.payload,
       });
-    case SET_ACTIVE_FINANCIAL_OBJECT_ID:
+    case SET_ACTIVE_FINANCIAL_OBJECT:
       return Object.assign({}, state, {
-        activeFinObjID: action.payload.activeFinObjID,
+        activeFinObj: action.payload.activeFinObj,
       });
     default:
       return state;

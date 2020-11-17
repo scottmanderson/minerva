@@ -3,7 +3,7 @@ import {
   FIN_OBJS_LOADED,
   FIN_OBJS_REQUESTED,
   STATISTICS_REQUESTED,
-  SET_ACTIVE_FINANCIAL_OBJECT_ID,
+  SET_ACTIVE_FINANCIAL_OBJECT,
 } from "./action-types";
 
 const apiRoot = process.env.API_ROOT;
@@ -46,9 +46,9 @@ export function getBenchmarkDefaultStatistics(
   };
 }
 
-export function setActiveFinObjID(foid) {
+export function setActiveFinObj(fo) {
   return {
-    type: SET_ACTIVE_FINANCIAL_OBJECT_ID,
-    payload: { activeFinObjID: foid },
+    type: SET_ACTIVE_FINANCIAL_OBJECT,
+    payload: { activeFinObj: fo },
   };
 }

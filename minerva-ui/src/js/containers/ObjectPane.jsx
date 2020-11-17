@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFinObjs, setActiveFinObjID } from "../redux/actions";
+import { getFinObjs, setActiveFinObj } from "../redux/actions";
 import ObjectList from "../components/ObjectList";
 
 const ObjectPane = () => {
   const finObjs = useSelector((state) => state.finObjs);
-  const activeFinObjID = useSelector((state) => state.activeFinObjID);
+  const activeFinObj = useSelector((state) => state.activeFinObj);
   const dispatch = useDispatch();
 
   const handleListItemClick = (e) => {
-    let foid = e.target.id.slice(4);
-    dispatch(setActiveFinObjID(foid));
+    let foid = Number(e.target.id.slice(4));
+    let new_fo = finObjs.find((obj) => obj.foid === foid);
+    dispatch(setActiveFinObj(new_fo));
   };
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const ObjectPane = () => {
   return (
     <ObjectList
       finObjs={finObjs}
-      activeFinObjID={activeFinObjID}
+      activeFinObj={activeFinObj}
       handleListItemClick={handleListItemClick}
     />
   );

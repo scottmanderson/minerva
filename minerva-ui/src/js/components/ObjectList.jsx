@@ -14,7 +14,7 @@ const ObjectList = (props) => {
               button
               key={el.foid}
               id={"foid" + el.foid}
-              selected={props.activeFinObjID === el.foid.toString()}
+              selected={props.activeFinObj === el.foid.toString()}
               onClick={(e) => props.handleListItemClick(e)}
             >
               {el.report_name}

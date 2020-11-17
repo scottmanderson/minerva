@@ -4,19 +4,16 @@ import { getStatistics, getActiveFinObjID } from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 
 const DisplayPane = () => {
-  const activeFinObjID = useSelector((state) => state.activeFinObjID);
+  const activeFinObj = useSelector((state) => state.activeFinObj);
   const statistics = useSelector((state) => state.statistics);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getStatistics(activeFinObjID));
-  }, [dispatch, activeFinObjID]);
+    dispatch(getStatistics(activeFinObj.foid));
+  }, [dispatch, activeFinObj.foid]);
 
   return (
-    <StatisticsDisplay
-      activeFinObjID={activeFinObjID}
-      statistics={statistics}
-    />
+    <StatisticsDisplay activeFinObj={activeFinObj} statistics={statistics} />
   );
 };
 

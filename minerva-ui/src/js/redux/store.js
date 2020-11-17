@@ -27,7 +27,12 @@ const initialState = {
       ticker: "VWO",
     },
   ],
-  activeFinObjID: 1,
+  activeFinObj: {
+    foid: 1,
+    name: "SPDR S&P 500 ETF",
+    report_name: "S&P 500 ETF",
+    ticker: "SPY",
+  },
   statistics: {
     calendar_year_returns: {
       2019: 0,

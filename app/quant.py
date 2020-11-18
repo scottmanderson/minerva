@@ -10,7 +10,8 @@ from app.models import (
 from shared_functions import fetch_all_data_sources
 from bokeh.embed import json_item
 from bokeh.io import output_file
-from bokeh.models import ColumnDataSource, LinearAxis, Range1d
+from bokeh.models import ColumnDataSource, LinearAxis, LinearColorMapper, Range1d
+from bokeh.palettes import brewer
 from bokeh.plotting import figure, show
 from config import basedir
 from calendar import leapdays, monthrange
@@ -177,7 +178,7 @@ class TSCalc(object):
             self.end.year - 10: self.calculate_calendar_year_return(self.end.year - 10),
         }
         # self.bokeh_ts_level_plot = self.generate_bokeh_ts_level_plot()
-        # self.bokeh_return_plot = self.generate_bokeh_return_plot()
+        self.bokeh_return_plot = self.generate_bokeh_return_plot()
 
     @staticmethod
     def find_previous_quarter_end(dt: datetime):
@@ -242,9 +243,15 @@ class TSCalc(object):
         p.line(self.level.index.values, self.level.values)
 
     def generate_bokeh_return_plot(self):
-        p = figure(x_axis_type="datetime")
-        p.line(self.cumulative.index.values, self.cumulative.values)
-        p.extra_y_ranges = {"returns": Range1d()}
+        conditional_returns_palette = brewer["RdBu"][7]
+        color_mapper = LinearColorMapper(palette=conditional_returns_palette)
+        p = figure(x_axis_type="datetime", toolbar_location=None)
+        p.background_fill_color = "#0a0a32"
+        p.border_fill_color = "#0a0a32"
+        p.line(
+            self.cumulative.index.values, self.cumulative.values, line_color="#FFD700"
+        )
+        p.extra_y_ranges = {"returns": Range1d(start=-0.2, end=0.2)}
         p.add_layout(
             LinearAxis(
                 y_range_name="returns",
@@ -257,7 +264,8 @@ class TSCalc(object):
             width=1,
             y_range_name="returns",
         )
-        return json_item(p, "bokehReturnPlot")
+        p.sizing_mode = "stretch_both"
+        return json.dumps(json_item(p, "bokehReturnPlot"))
 
 
 class TSCalcSchema(ma.Schema):
@@ -268,4 +276,5 @@ class TSCalcSchema(ma.Schema):
             "foid",
             "calendar_year_returns",
             "time_window_returns",
+            "bokeh_return_plot",
         )

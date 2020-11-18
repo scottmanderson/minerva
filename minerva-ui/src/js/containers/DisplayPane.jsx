@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getStatistics,
-  getActiveFinObjID,
-  getBenchmarkDefaultStatistics,
-} from "../redux/actions";
+import { getStatistics, getBenchmarkDefaultStatistics } from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 
 const DisplayPane = () => {

@@ -1,6 +1,7 @@
 import React from "react";
 import TimeWindowReturns from "./TimeWindowReturns";
 import CalendarYearReturns from "./CalendarYearReturns";
+import BokehReturnsChart from "./BokehReturnsChart";
 
 const StatisticsDisplay = (props) => {
   return (
@@ -12,6 +13,7 @@ const StatisticsDisplay = (props) => {
       <CalendarYearReturns
         calendar_year_returns={props.statistics.calendar_year_returns}
       />
+      <BokehReturnsChart bokehReturnPlot={props.statistics.bokeh_return_plot} />
     </>
   );
 };

@@ -7,8 +7,8 @@ const theme = createMuiTheme({
       default: "#0a0a32",
     },
     text: {
-      primary: "ivory",
-      secondary: "gold",
+      primary: "#FFFFF0", // "ivory"
+      secondary: "#FFD700", // "gold"
     },
   },
 });

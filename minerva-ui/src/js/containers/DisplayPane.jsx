@@ -10,6 +10,9 @@ import StatisticsDisplay from "../components/StatisticsDisplay";
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);
   const statistics = useSelector((state) => state.statistics);
+  const benchmarkDefaultStatistics = useSelector(
+    (state) => state.benchmarkDefaultStatistics
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +23,11 @@ const DisplayPane = () => {
   }, [dispatch, activeFinObj]);
 
   return (
-    <StatisticsDisplay activeFinObj={activeFinObj} statistics={statistics} />
+    <StatisticsDisplay
+      activeFinObj={activeFinObj}
+      statistics={statistics}
+      benchmarkDefultStatistics={benchmarkDefaultStatistics}
+    />
   );
 };
 

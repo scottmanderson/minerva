@@ -112,53 +112,6 @@ class TSCalc(object):
         )
 
     def calculate(self):
-        self.mtd_return = self.ts[self.ts.index.max()]
-        self.qtd_return = (
-            np.product(
-                self.ts[
-                    (
-                        self.find_previous_quarter_end(self.end) + timedelta(days=1)
-                    ) : self.end
-                ].apply(lambda x: x + 1)
-            )
-            - 1
-        )
-        self.ytd_return = (
-            np.product(
-                self.ts[
-                    (
-                        self.find_previous_year_end(self.end) + timedelta(days=1)
-                    ) : self.end
-                ].apply(lambda x: x + 1)
-            )
-            - 1
-        )
-        # must compensate for leap years, handled below by constructing a datetime
-        self.one_year_return = self.calculate_geometric_annualized_return(
-            begin=datetime(self.end.year - 1, self.end.month, self.end.day),
-            through=self.end,
-        )
-        self.two_year_return = self.calculate_geometric_annualized_return(
-            begin=datetime(self.end.year - 2, self.end.month, self.end.day),
-            through=self.end,
-        )
-        self.three_year_return = self.calculate_geometric_annualized_return(
-            begin=datetime(self.end.year - 3, self.end.month, self.end.day),
-            through=self.end,
-        )
-        self.four_year_return = self.calculate_geometric_annualized_return(
-            begin=datetime(self.end.year - 4, self.end.month, self.end.day),
-            through=self.end,
-        )
-        self.five_year_return = self.calculate_geometric_annualized_return(
-            begin=datetime(self.end.year - 5, self.end.month, self.end.day),
-            through=self.end,
-        )
-        self.itd_annualized_return = self.calculate_geometric_annualized_return(
-            begin=self.start, through=self.end
-        )
-        # Here begins time window returns (default ITD)
-        self.itd_annualized_volatility = self.ts.std() * np.sqrt(self.periodicity)
         self.time_window_returns = {
             "mtd_return": self.ts[self.ts.index.max()],
             "qtd_return": (

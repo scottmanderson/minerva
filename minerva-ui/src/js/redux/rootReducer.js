@@ -2,11 +2,10 @@
 import React from "react";
 import {
   SET_ACTIVE_FINANCIAL_OBJECT,
+  SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
   FIN_OBJS_LOADED,
   STATISTICS_LOADED,
   BENCHMARK_DEFAULT_STATISTICS_LOADED,
-  RETURN_PLOT_LOADED,
-  GET_ACTIVE_FINANCIAL_OBJECTD,
 } from "./action-types";
 
 const rootReducer = (state, action) => {
@@ -26,6 +25,11 @@ const rootReducer = (state, action) => {
     case SET_ACTIVE_FINANCIAL_OBJECT:
       return Object.assign({}, state, {
         activeFinObj: action.payload.activeFinObj,
+      });
+    case SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT:
+      return Object.assign({}, state, {
+        activeBenchmarkDefaultFinObj:
+          action.payload.activeBenchmarkDefaultFinObj,
       });
     default:
       return state;

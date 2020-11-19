@@ -3,6 +3,7 @@ import {
   FIN_OBJS_REQUESTED,
   STATISTICS_REQUESTED,
   SET_ACTIVE_FINANCIAL_OBJECT,
+  SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
 } from "./action-types";
 
 const apiRoot = process.env.API_ROOT;
@@ -49,5 +50,12 @@ export function setActiveFinObj(fo) {
   return {
     type: SET_ACTIVE_FINANCIAL_OBJECT,
     payload: { activeFinObj: fo },
+  };
+}
+
+export function setActiveBenchmarkDefaultFinObj(fo) {
+  return {
+    type: SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
+    payload: { activeBenchmarkDefaultFinObj: fo },
   };
 }

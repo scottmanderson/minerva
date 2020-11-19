@@ -13,6 +13,7 @@ const StatisticsDisplay = (props) => {
       <br />
       <CalendarYearReturns
         activeFinObj={props.activeFinObj}
+        activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
         calendar_year_returns={props.statistics.calendar_year_returns}
         benchmarkCalendarYearReturns={
           props.benchmarkDefaultStatistics.calendar_year_returns

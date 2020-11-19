@@ -5,6 +5,9 @@ import StatisticsDisplay from "../components/StatisticsDisplay";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);
+  const activeBenchmarkDefaultFinObj = useSelector(
+    (state) => state.activeBenchmarkDefaultFinObj
+  );
   const statistics = useSelector((state) => state.statistics);
   const benchmarkDefaultStatistics = useSelector(
     (state) => state.benchmarkDefaultStatistics
@@ -13,14 +16,13 @@ const DisplayPane = () => {
 
   useEffect(() => {
     dispatch(getStatistics(activeFinObj.foid));
-    if (activeFinObj.benchmark) {
-      dispatch(getBenchmarkDefaultStatistics(activeFinObj.benchmark));
-    }
-  }, [dispatch, activeFinObj]);
+    dispatch(getBenchmarkDefaultStatistics(activeBenchmarkDefaultFinObj.foid));
+  }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
 
   return (
     <StatisticsDisplay
       activeFinObj={activeFinObj}
+      activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
       statistics={statistics}
       benchmarkDefaultStatistics={benchmarkDefaultStatistics}
     />

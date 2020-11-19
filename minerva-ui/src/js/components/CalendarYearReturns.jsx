@@ -37,7 +37,9 @@ const CalendarYearReturns = (props) => {
                 ))}
               </TableRow>
               <TableRow>
-                <TableCell>Benchmark</TableCell>
+                <TableCell>
+                  {props.activeBenchmarkDefaultFinObj.ticker}
+                </TableCell>
                 {Object.keys(props.benchmarkCalendarYearReturns).map((el) => (
                   <TableCell key={"bmd" + el} id={"bmd" + el}>
                     {percentFormat(props.benchmarkCalendarYearReturns[el])}

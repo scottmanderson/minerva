@@ -22,7 +22,7 @@ const DisplayPane = () => {
     <StatisticsDisplay
       activeFinObj={activeFinObj}
       statistics={statistics}
-      benchmarkDefultStatistics={benchmarkDefaultStatistics}
+      benchmarkDefaultStatistics={benchmarkDefaultStatistics}
     />
   );
 };

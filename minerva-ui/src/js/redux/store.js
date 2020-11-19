@@ -64,6 +64,15 @@ const initialState = {
   },
   benchmarkDefaultStatistics: {
     calendar_year_returns: {
+      2010: "N/A",
+      2011: "N/A",
+      2012: "N/A",
+      2013: "N/A",
+      2014: "N/A",
+      2015: "N/A",
+      2016: "N/A",
+      2017: "N/A",
+      2018: "N/A",
       2019: "N/A",
       2020: "N/A",
     },

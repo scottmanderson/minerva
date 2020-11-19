@@ -19,6 +19,7 @@ const TimeWindowReturns = (props) => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Asset</TableCell>
                 <TableCell>MTD</TableCell>
                 <TableCell>QTD</TableCell>
                 <TableCell>YTD</TableCell>
@@ -33,6 +34,7 @@ const TimeWindowReturns = (props) => {
             </TableHead>
             <TableBody>
               <TableRow>
+                <TableCell>{props.activeFinObj.ticker}</TableCell>
                 <TableCell>
                   {percentFormat(props.time_window_returns.mtd_return)}
                 </TableCell>

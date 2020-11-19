@@ -34,7 +34,6 @@ class TSCalc(object):
         start=None,
         end=None,
         benchmark=None,
-        div_id_target=None,
     ):
         self.foid = foid
         self.freq_code = freq_code
@@ -42,9 +41,6 @@ class TSCalc(object):
         self.start: datetime = datetime.fromisoformat(start) if start else None
         self.end: datetime = datetime.fromisoformat(end) if end else None
         self.benchmark = benchmark
-
-        # div_id_target is a stub for mounting bokeh charts on the client side
-        self.div_id_target = None
 
         self.periodicity = None
         if self.freq_code == "A":
@@ -263,9 +259,10 @@ class TSCalc(object):
             top=self.ts.dropna().values,
             width=1,
             y_range_name="returns",
+            color="limegreen",
         )
         p.sizing_mode = "stretch_both"
-        return json.dumps(json_item(p, "bokehReturnPlot"))
+        return json.dumps(json_item(p, "bokeh_return_plot"))
 
 
 class TSCalcSchema(ma.Schema):

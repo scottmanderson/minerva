@@ -26,7 +26,6 @@ export const nullBenchmarkDefaultStatistics = {
   },
 };
 
-// TODO: Temporary value
 export const nullActiveBenchmarkDefaultFinObj = {
   foid: "",
   name: "Benchmark",

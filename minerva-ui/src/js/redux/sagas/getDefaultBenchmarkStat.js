@@ -4,6 +4,7 @@ import {
   BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
   API_ERRORED,
 } from "../action-types";
+import { nullBenchmarkDefaultStatistics } from "../nullStateStubs";
 
 const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
 
@@ -18,9 +19,13 @@ function* workerSaga(action) {
   let start = action.start;
   let end = action.end;
   try {
-    console.log(`before payload = yield call(getStatistics)`);
-    const payload = yield call(getStatistics, foid, freq_code, start, end);
-    yield putResolve({ type: BENCHMARK_DEFAULT_STATISTICS_LOADED, payload });
+    if (action.foid) {
+      const payload = yield call(getStatistics, foid, freq_code, start, end);
+      yield putResolve({ type: BENCHMARK_DEFAULT_STATISTICS_LOADED, payload });
+    } else {
+      const payload = nullBenchmarkDefaultStatistics;
+      yield put({ type: BENCHMARK_DEFAULT_STATISTICS_LOADED, payload });
+    }
   } catch (e) {
     yield put({ type: API_ERRORED, payload: e });
   }

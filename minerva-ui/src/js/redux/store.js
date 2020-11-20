@@ -34,10 +34,10 @@ const initialState = {
     ticker: "SPY",
   },
   activeBenchmarkDefaultFinObj: {
-    foid: 1,
-    name: "SPDR S&P 500 ETF",
-    report_name: "S&P 500 ETF",
-    ticker: "SPY",
+    foid: "",
+    name: "Benchmark",
+    report_name: "Benchmark",
+    ticker: "Benchmark",
   },
   statistics: {
     bokeh_return_plot:

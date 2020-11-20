@@ -8,13 +8,17 @@ const StatisticsDisplay = (props) => {
     <>
       <TimeWindowReturns
         activeFinObj={props.activeFinObj}
-        time_window_returns={props.statistics.time_window_returns}
+        activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
+        timeWindowReturns={props.statistics.time_window_returns}
+        benchmarkTimeWindowReturns={
+          props.benchmarkDefaultStatistics.time_window_returns
+        }
       />
       <br />
       <CalendarYearReturns
         activeFinObj={props.activeFinObj}
         activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
-        calendar_year_returns={props.statistics.calendar_year_returns}
+        calendarYearReturns={props.statistics.calendar_year_returns}
         benchmarkCalendarYearReturns={
           props.benchmarkDefaultStatistics.calendar_year_returns
         }

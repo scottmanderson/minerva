@@ -20,7 +20,7 @@ const CalendarYearReturns = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Asset</TableCell>
-                {Object.keys(props.calendar_year_returns).map((el) => (
+                {Object.keys(props.calendarYearReturns).map((el) => (
                   <TableCell key={"cy" + el} id={"cy" + el}>
                     {el}
                   </TableCell>
@@ -30,9 +30,9 @@ const CalendarYearReturns = (props) => {
             <TableBody>
               <TableRow>
                 <TableCell>{props.activeFinObj.ticker}</TableCell>
-                {Object.keys(props.calendar_year_returns).map((el) => (
+                {Object.keys(props.calendarYearReturns).map((el) => (
                   <TableCell key={"cyr" + el} id={"cyr" + el}>
-                    {percentFormat(props.calendar_year_returns[el])}
+                    {percentFormat(props.calendarYearReturns[el])}
                   </TableCell>
                 ))}
               </TableRow>
@@ -41,7 +41,7 @@ const CalendarYearReturns = (props) => {
                   {props.activeBenchmarkDefaultFinObj.ticker}
                 </TableCell>
                 {Object.keys(props.benchmarkCalendarYearReturns).map((el) => (
-                  <TableCell key={"bmd" + el} id={"bmd" + el}>
+                  <TableCell key={"cyrbd" + el} id={"cyrbd" + el}>
                     {percentFormat(props.benchmarkCalendarYearReturns[el])}
                   </TableCell>
                 ))}

@@ -149,7 +149,7 @@ def get_returns_statistics(foid):
     payload = ts_calc_schema.dump(calc)
     # if payload[1] == {}:  # result[1] is error group, adds layers to json if not removed
     #    payload = payload[0]
-    return flask.jsonify(payload)
+    return flask.json.dumps(payload, sort_keys=False)
 
 
 @app.route("/charts/returns/<foid>", methods=["GET"])

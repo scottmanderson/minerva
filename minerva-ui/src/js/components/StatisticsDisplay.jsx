@@ -2,6 +2,7 @@ import React from "react";
 import TimeWindowReturns from "./TimeWindowReturns";
 import CalendarYearReturns from "./CalendarYearReturns";
 import BokehReturnsChart from "./BokehReturnsChart";
+import ReturnsChart from "./ReturnsChart";
 
 const StatisticsDisplay = (props) => {
   return (
@@ -23,7 +24,7 @@ const StatisticsDisplay = (props) => {
           props.benchmarkDefaultStatistics.calendar_year_returns
         }
       />
-      <BokehReturnsChart bokehReturnPlot={props.statistics.bokeh_return_plot} />
+      <ReturnsChart statistics={props.statistics} />
     </>
   );
 };

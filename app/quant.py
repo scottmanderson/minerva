@@ -56,7 +56,14 @@ class TSCalc(object):
         self.cumulative: pd.DataFrame = (
             self.compute_cumulative_return(self.ts).resample(self.freq_code).ffill()
         )
-
+        self.cumulative_x = [x.date().isoformat() for x in self.cumulative.index]
+        self.cumulative_y = [x for x in self.cumulative]
+        self.cumulative_json = self.cumulative.to_json()
+        self.ts_json = self.ts.to_json()
+        self.cumulative_list = [
+            {"x": x[0].date().isoformat(), "y": x[1]}
+            for x in zip(self.cumulative.index, self.cumulative)
+        ]
         self.calculate()
 
     def generate_time_series(self):
@@ -273,5 +280,9 @@ class TSCalcSchema(ma.Schema):
             "foid",
             "calendar_year_returns",
             "time_window_returns",
-            "bokeh_return_plot",
+            "ts_json",
+            "cumulative_x",
+            "cumulative_y",
+            "cumulative_json",
+            "cumulative_list",
         )

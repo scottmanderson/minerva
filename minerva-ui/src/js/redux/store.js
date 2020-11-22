@@ -67,6 +67,9 @@ const initialState = {
       itd_annualized_return: "N/A",
       itd_annualized_volatility: "N/A",
     },
+    cumulative_json: "",
+    cumulative_x: [0],
+    cumulative_y: [0],
   },
   benchmarkDefaultStatistics: {
     calendar_year_returns: {

@@ -70,6 +70,7 @@ const initialState = {
     cumulative_json: "",
     cumulative_x: [0],
     cumulative_y: [0],
+    ts_y: [0],
   },
   benchmarkDefaultStatistics: {
     calendar_year_returns: {

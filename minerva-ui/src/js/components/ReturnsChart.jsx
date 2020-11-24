@@ -19,7 +19,7 @@ const ReturnsChart = (props) => {
         ]}
         layout={{
           plot_bgcolor: theme.palette.background.default,
-          paper_bgcolor: theme.palette.background.default,
+          paper_bgcolor: theme.palette.background.paper,
           xaxis: {
             title: "Date",
             color: theme.palette.text.primary,

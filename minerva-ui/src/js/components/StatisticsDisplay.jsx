@@ -1,30 +1,38 @@
 import React from "react";
+import Paper from "@material-ui/core/Paper";
 import TimeWindowReturns from "./TimeWindowReturns";
 import CalendarYearReturns from "./CalendarYearReturns";
-import BokehReturnsChart from "./BokehReturnsChart";
 import ReturnsChart from "./ReturnsChart";
 
 const StatisticsDisplay = (props) => {
   return (
     <>
-      <TimeWindowReturns
-        activeFinObj={props.activeFinObj}
-        activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
-        timeWindowReturns={props.statistics.time_window_returns}
-        benchmarkTimeWindowReturns={
-          props.benchmarkDefaultStatistics.time_window_returns
-        }
-      />
+      <Paper style={{ padding: 5 }} elevation={5}>
+        <TimeWindowReturns
+          activeFinObj={props.activeFinObj}
+          activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
+          timeWindowReturns={props.statistics.time_window_returns}
+          benchmarkTimeWindowReturns={
+            props.benchmarkDefaultStatistics.time_window_returns
+          }
+        />
+      </Paper>
       <br />
-      <CalendarYearReturns
-        activeFinObj={props.activeFinObj}
-        activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
-        calendarYearReturns={props.statistics.calendar_year_returns}
-        benchmarkCalendarYearReturns={
-          props.benchmarkDefaultStatistics.calendar_year_returns
-        }
-      />
-      <ReturnsChart statistics={props.statistics} />
+
+      <Paper style={{ padding: 5 }} elevation={5}>
+        <CalendarYearReturns
+          activeFinObj={props.activeFinObj}
+          activeBenchmarkDefaultFinObj={props.activeBenchmarkDefaultFinObj}
+          calendarYearReturns={props.statistics.calendar_year_returns}
+          benchmarkCalendarYearReturns={
+            props.benchmarkDefaultStatistics.calendar_year_returns
+          }
+        />
+      </Paper>
+      <br />
+      <Paper style={{ padding: 5 }} elevation={5}>
+        <ReturnsChart statistics={props.statistics} />
+      </Paper>
     </>
   );
 };

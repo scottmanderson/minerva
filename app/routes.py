@@ -5,6 +5,7 @@ from app.models import (
     TSData,
     TSDataSchema,
     DataSource,
+    DataSourceSchema,
 )
 from app.quant import TSCalc, TSCalcSchema
 from config import basedir
@@ -16,6 +17,7 @@ financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
 ts_data_schema = TSDataSchema()
 ts_calc_schema = TSCalcSchema()
+data_source_schema = DataSourceSchema(many=True)
 
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
@@ -171,3 +173,13 @@ def get_bokeh_return_plot(foid):
         div_id_target=div_id_target,
     )
     return json.dumps(calc.generate_bokeh_return_plot())
+
+
+# Data Source Management
+@app.route("/sources", methods=["GET"])
+def get_data_sources():
+    all_ds = fetch_all_data_sources()
+    result = data_source_schema.dump(all_ds)
+    if result[1] == {}:  # result[1] is error group, adds layers to json if not removed
+        result = result[0]
+    return flask.jsonify(result)

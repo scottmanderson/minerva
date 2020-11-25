@@ -52,6 +52,12 @@ class DataSourcePoll(db.Model):
     data_source_code = db.Column(db.String(50))
 
 
+class DataSourceSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = DataSource
+        load_instance = True
+
+
 class TSDataSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = TSData

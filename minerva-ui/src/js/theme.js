@@ -12,6 +12,7 @@ const theme = createMuiTheme({
       secondary: "#FFD700", // "gold"
     },
   },
+  spacing: [0, 2, 4, 6, 8],
 });
 
 export default theme;

@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
 import { Grid } from "@material-ui/core";
+import NavBar from "./NavBar";
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
         justify="space-between"
         alignItems="flex-start"
       >
+        <Grid item xs={12}>
+          <NavBar />
+        </Grid>
         <Grid item xs={2}>
           <ObjectPane />
         </Grid>

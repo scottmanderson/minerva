@@ -1,28 +1,61 @@
 import React from "react";
 import {
   Button,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormLabel,
+  Grid,
   TextField,
 } from "@material-ui/core";
+import { spacing } from "@material-ui/system";
 
 const DataSourcesDialog = (props) => {
   return (
     <div>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={props.open}
+        onClose={props.handleClose}
+      >
         <DialogTitle id="dataSourcesDialog">Data Source Management</DialogTitle>
         <DialogContent>
-          <DialogContentText>Data Source Ranking</DialogContentText>
-          <form noValidate autoComplete="off">
-            <DialogActions>
-              <Button onClick={props.handleClose} color="secondary">
-                Cancel
-              </Button>
-              <Button type="submit">Update</Button>
-            </DialogActions>
+          <form autoComplete="off">
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              {props.dataSources.map((el) => (
+                <>
+                  <Grid container item xs={12}>
+                    <Grid item xs={2} spacing={3}>
+                      <TextField key={"dsl" + el} defaultValue={el.name} />
+                    </Grid>
+                    <Grid item xs={2} spacing={3}>
+                      <TextField
+                        key={"dsr" + el}
+                        defaultValue={el.hierarchy_rank}
+                      />
+                    </Grid>
+                    <Grid item xs={2} spacing={3}>
+                      <TextField key={"dsk" + el} defaultValue={el.api_key} />
+                    </Grid>
+                  </Grid>
+                </>
+              ))}
+              <DialogActions>
+                <Button onClick={props.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button type="submit">Update</Button>
+              </DialogActions>
+            </Grid>
           </form>
         </DialogContent>
       </Dialog>

@@ -4,6 +4,7 @@ import {
   STATISTICS_REQUESTED,
   SET_ACTIVE_FINANCIAL_OBJECT,
   SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
+  DATA_SOURCES_REQUESTED,
 } from "./action-types";
 
 const apiRoot = process.env.API_ROOT;
@@ -12,16 +13,16 @@ export function getFinObjs() {
   return { type: FIN_OBJS_REQUESTED };
 }
 
+export function getDataSources() {
+  return { type: DATA_SOURCES_REQUESTED };
+}
+
 export function getStatistics(
   foid = null,
   freq_code = null,
   start = null,
   end = null
 ) {
-  console.log(
-    "getStatistics action creator acknowledges request, pre intercept.  passed with foid="
-  );
-  console.log(foid);
   return {
     type: STATISTICS_REQUESTED,
     foid: foid,

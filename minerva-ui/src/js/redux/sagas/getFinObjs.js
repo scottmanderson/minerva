@@ -1,5 +1,9 @@
 import { takeEvery, call, put, putResolve } from "redux-saga/effects";
-import { FIN_OBJS_REQUESTED, FIN_OBJS_LOADED } from "../action-types";
+import {
+  FIN_OBJS_REQUESTED,
+  FIN_OBJS_LOADED,
+  API_ERRORED,
+} from "../action-types";
 
 const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
 
@@ -16,6 +20,6 @@ function* workerSaga() {
     const payload = yield call(getFinObjs);
     yield putResolve({ type: FIN_OBJS_LOADED, payload });
   } catch (e) {
-    yield put({ type: "API_ERRORED", payload: e });
+    yield put({ type: API_ERRORED, payload: e });
   }
 }

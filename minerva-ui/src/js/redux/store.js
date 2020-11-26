@@ -99,6 +99,14 @@ const initialState = {
       itd_annualized_volatility: "N/A",
     },
   },
+  dataSources: [
+    {
+      source_id: 1,
+      name: "local-master",
+      hierarchy_rank: 1,
+      api_key: "",
+    },
+  ],
 };
 
 const store = createStore(

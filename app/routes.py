@@ -183,3 +183,29 @@ def get_data_sources():
     if result[1] == {}:  # result[1] is error group, adds layers to json if not removed
         result = result[0]
     return flask.jsonify(result)
+
+
+@app.route("/sources", methods=["POST"])
+def add_data_source():
+    name = flask.request.json["name"]
+    hierarchy_rank = flask.request.json["hierarchy_rank"]
+    api_key = flask.request.json["api_key"]
+
+    new_ds = DataSource(name=name, hierarchy_rank=hierarchy_rank, api_key=api_key)
+
+    db.session.add(new_ds)
+    db.session.commit()
+    return data_source_schema.jsonify(new_ds)
+
+
+@app.route("/sources/<dsid>", methods=["PUT"])
+def update_ds(dsid):
+    ds = DataSource.query.get(dsid)
+
+    ds.name = flask.request.json["name"]
+    ds.hierarchy_rank = flask.request.json["hierarchy_rank"]
+    ds.api_key = flask.request.json["api_key"]
+
+    db.session.commit()
+
+    return data_source_schema.jsonify(ds)

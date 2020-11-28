@@ -34,6 +34,7 @@ const NavBar = () => {
 
   const handleDataSourcesClose = () => {
     setDataSourcesOpen(false);
+    dispatch(getDataSources());
   };
 
   return (

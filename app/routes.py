@@ -17,7 +17,8 @@ financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
 ts_data_schema = TSDataSchema()
 ts_calc_schema = TSCalcSchema()
-data_source_schema = DataSourceSchema(many=True)
+data_source_schema = DataSourceSchema()
+data_sources_schema = DataSourceSchema(many=True)
 
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
@@ -179,7 +180,7 @@ def get_bokeh_return_plot(foid):
 @app.route("/sources", methods=["GET"])
 def get_data_sources():
     all_ds = fetch_all_data_sources()
-    result = data_source_schema.dump(all_ds)
+    result = data_sources_schema.dump(all_ds)
     if result[1] == {}:  # result[1] is error group, adds layers to json if not removed
         result = result[0]
     return flask.jsonify(result)
@@ -195,7 +196,7 @@ def add_data_source():
 
     db.session.add(new_ds)
     db.session.commit()
-    return data_source_schema.jsonify(new_ds)
+    return data_sources_schema.jsonify(new_ds)
 
 
 @app.route("/sources/<dsid>", methods=["PUT"])

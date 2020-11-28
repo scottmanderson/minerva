@@ -14,6 +14,29 @@ import {
 import { spacing } from "@material-ui/system";
 
 const DataSourcesDialog = (props) => {
+  const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    for (let source of props.dataSources) {
+      let sourceUpdate = {
+        name: event.target[`dsn${source.source_id}`].value,
+        hierarchy_rank: event.target[`dsr${source.source_id}`].value,
+        api_key: event.target[`dsk${source.source_id}`].value,
+      };
+      const request = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sourceUpdate),
+      };
+      fetch(
+        apiRoot + "/sources/" + source.source_id,
+        request
+      ).then((response) => response.json());
+    }
+    props.handleClose();
+  };
+
   return (
     <div>
       <Dialog
@@ -24,7 +47,7 @@ const DataSourcesDialog = (props) => {
       >
         <DialogTitle id="dataSourcesDialog">Data Source Management</DialogTitle>
         <DialogContent>
-          <form autoComplete="off">
+          <form onSubmit={handleSubmit} autoComplete="off">
             <Grid
               container
               direction="row"
@@ -47,16 +70,25 @@ const DataSourcesDialog = (props) => {
                 <>
                   <Grid container item xs={12}>
                     <Grid item xs={4} spacing={3}>
-                      <TextField key={"dsl" + el} defaultValue={el.name} />
+                      <TextField
+                        id={"dsn" + el.source_id}
+                        key={"dsn" + el.source_id}
+                        defaultValue={el.name}
+                      />
                     </Grid>
                     <Grid item xs={4} spacing={3}>
                       <TextField
-                        key={"dsr" + el}
+                        id={"dsr" + el.source_id}
+                        key={"dsr" + el.source_id}
                         defaultValue={el.hierarchy_rank}
                       />
                     </Grid>
                     <Grid item xs={4} spacing={3}>
-                      <TextField key={"dsk" + el} defaultValue={el.api_key} />
+                      <TextField
+                        id={"dsk" + el.source_id}
+                        key={"dsk" + el.source_id}
+                        defaultValue={el.api_key}
+                      />
                     </Grid>
                   </Grid>
                 </>

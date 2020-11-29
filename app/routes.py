@@ -6,6 +6,8 @@ from app.models import (
     TSDataSchema,
     DataSource,
     DataSourceSchema,
+    DataSourcePoll,
+    DataSourcePollSchema,
 )
 from app.quant import TSCalc, TSCalcSchema
 from config import basedir
@@ -19,6 +21,8 @@ ts_data_schema = TSDataSchema()
 ts_calc_schema = TSCalcSchema()
 data_source_schema = DataSourceSchema()
 data_sources_schema = DataSourceSchema(many=True)
+data_source_poll_schema = DataSourcePollSchema()
+data_source_polls_schema = DataSourcePollSchema(many=True)
 
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
@@ -189,3 +193,49 @@ def update_ds(dsid):
     db.session.commit()
 
     return data_source_schema.jsonify(ds)
+
+
+@app.route("/sources/polls", methods=["POST"])
+def add_feed():
+    source_id = flask.request.json["source_id"]
+    foid = flask.request.json["foid"]
+    data_source_code = flask.request.json["data_source_code"]
+
+    new_dsp = DataSourcePoll(
+        source_id=source_id, foid=foid, data_source_code=data_source_code
+    )
+
+    db.session.add(new_dsp)
+    db.session.commit()
+    return data_source_poll_schema.jsonify(new_dsp)
+
+
+@app.route("/sources/polls", methods=["GET"])
+def get_all_data_source_polls():
+    all_dsp = DataSourcePoll.query.all()
+    result = data_source_polls_schema.dump(all_dsp)
+    if result[1] == {}:  # result[1] is error group, adds layers to json if not removed
+        result = result[0]
+    return flask.jsonify(result)
+
+
+@app.route("/sources/polls/<dspid>", methods=["PUT"])
+def update_data_source_poll(dspid):
+    dsp = DataSourcePoll.query.get(dspid)
+
+    dsp.source_id = flask.request.json["source_id"]
+    dsp.foid = flask.request.json["foid"]
+    dsp.data_source_code = flask.request.json["data_source_code"]
+
+    db.session.commit()
+
+    return data_source_schema.jsonify(dsp)
+
+
+@app.route("/sources/polls/<dspid>", methods=["DELETE"])
+def delete_data_source_poll(dspid):
+    dsp = DataSourcePoll.query.get(dspid)
+    db.session.delete(dsp)
+    db.session.commit()
+
+    return data_source_poll_schema.jsonify(dsp)

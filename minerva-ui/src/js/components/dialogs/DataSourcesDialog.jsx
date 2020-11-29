@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -15,7 +15,35 @@ import { spacing } from "@material-ui/system";
 
 const DataSourcesDialog = (props) => {
   const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
-  const handleSubmit = (event) => {
+  const [dataSourceAddOpen, setDataSourceAddOpen] = useState(false);
+
+  const handleSourceAddOpen = () => {
+    setDataSourceAddOpen(true);
+  };
+  const handleSourceAddClose = () => {
+    setDataSourceAddOpen(false);
+    window.location.reload(false);
+  };
+
+  const handleSubmitAdd = (event) => {
+    event.preventDefault();
+    let newSource = {
+      name: event.target["dsnNew"].value,
+      hierarchy_rank: props.dataSources.length + 1,
+      api_key: "",
+    };
+    const request = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newSource),
+    };
+    fetch(apiRoot + "/sources", request)
+      .then((response) => response.json())
+      .then(props.refreshDataSources());
+    handleSourceAddClose();
+  };
+
+  const handleSubmitAll = (event) => {
     event.preventDefault();
 
     for (let source of props.dataSources) {
@@ -34,6 +62,7 @@ const DataSourcesDialog = (props) => {
         request
       ).then((response) => response.json());
     }
+    props.refreshDataSources();
     props.handleClose();
   };
 
@@ -41,13 +70,14 @@ const DataSourcesDialog = (props) => {
     <div>
       <Dialog
         fullWidth
-        maxWidth="md"
+        maxWidth="lg"
         open={props.open}
         onClose={props.handleClose}
       >
         <DialogTitle id="dataSourcesDialog">Data Source Management</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <h3>Manage Data Sources</h3>
+          <form onSubmit={handleSubmitAll} autoComplete="off">
             <Grid
               container
               direction="row"
@@ -94,6 +124,7 @@ const DataSourcesDialog = (props) => {
                 </>
               ))}
               <DialogActions>
+                <br />
                 <Button onClick={props.handleClose} color="secondary">
                   Cancel
                 </Button>
@@ -101,6 +132,20 @@ const DataSourcesDialog = (props) => {
               </DialogActions>
             </Grid>
           </form>
+          <br />
+          <h3>Add New Data Source</h3>
+          <Dialog open={dataSourceAddOpen} onClose={handleSourceAddClose}>
+            {
+              <form onSubmit={handleSubmitAdd}>
+                <TextField id={"dsnNew"} key={"dsnNew"} />
+                <Button type="submit">Add</Button>
+              </form>
+            }
+          </Dialog>
+
+          <Button variant="outlined" onClick={handleSourceAddOpen}>
+            Add
+          </Button>
         </DialogContent>
       </Dialog>
     </div>

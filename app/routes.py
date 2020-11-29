@@ -169,13 +169,14 @@ def get_data_sources():
 def add_data_source():
     name = flask.request.json["name"]
     hierarchy_rank = flask.request.json["hierarchy_rank"]
-    api_key = flask.request.json["api_key"]
+    api_key = flask.request.json["api_key"] or ""
 
     new_ds = DataSource(name=name, hierarchy_rank=hierarchy_rank, api_key=api_key)
 
+    print(new_ds)
     db.session.add(new_ds)
     db.session.commit()
-    return data_sources_schema.jsonify(new_ds)
+    return data_source_schema.jsonify(new_ds)
 
 
 @app.route("/sources/<dsid>", methods=["PUT"])

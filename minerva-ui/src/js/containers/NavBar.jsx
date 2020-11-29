@@ -34,6 +34,9 @@ const NavBar = () => {
 
   const handleDataSourcesClose = () => {
     setDataSourcesOpen(false);
+  };
+
+  const refreshDataSources = () => {
     dispatch(getDataSources());
   };
 
@@ -62,6 +65,7 @@ const NavBar = () => {
           open={dataSourcesOpen}
           handleOpen={handleDataSourcesOpen}
           handleClose={handleDataSourcesClose}
+          refreshDataSources={refreshDataSources}
         />
       </Toolbar>
     </div>

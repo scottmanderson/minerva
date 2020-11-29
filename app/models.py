@@ -43,6 +43,11 @@ class DataSource(db.Model):
     api_key = db.Column(db.String(100))
     poll_relationship = db.relationship("DataSourcePoll", backref="DataSource")
 
+    def __init__(self, name, hierarchy_rank, api_key):
+        self.name = name
+        self.hierarchy_rank = hierarchy_rank
+        self.api_key = api_key
+
 
 class DataSourcePoll(db.Model):
     __tablename__ = "data_source_polls"

@@ -8,11 +8,6 @@ from app.models import (
     DataSourcePoll,
 )
 from shared_functions import fetch_all_data_sources
-from bokeh.embed import json_item
-from bokeh.io import output_file
-from bokeh.models import ColumnDataSource, LinearAxis, LinearColorMapper, Range1d
-from bokeh.palettes import brewer
-from bokeh.plotting import figure, show
 from config import basedir
 from calendar import leapdays, monthrange
 from datetime import datetime, timedelta
@@ -240,36 +235,6 @@ class TSCalc(object):
             / self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
             - 1
         )
-
-    def generate_bokeh_ts_level_plot(self):
-        p = figure(x_axis_type="datetime")
-        p.line(self.level.index.values, self.level.values)
-
-    def generate_bokeh_return_plot(self):
-        conditional_returns_palette = brewer["RdBu"][7]
-        color_mapper = LinearColorMapper(palette=conditional_returns_palette)
-        p = figure(x_axis_type="datetime", toolbar_location=None)
-        p.background_fill_color = "#0a0a32"
-        p.border_fill_color = "#0a0a32"
-        p.line(
-            self.cumulative.index.values, self.cumulative.values, line_color="#FFD700"
-        )
-        p.extra_y_ranges = {"returns": Range1d(start=-0.2, end=0.2)}
-        p.add_layout(
-            LinearAxis(
-                y_range_name="returns",
-            ),
-            "right",
-        )
-        p.vbar(
-            x=self.ts.dropna().index.values,
-            top=self.ts.dropna().values,
-            width=1,
-            y_range_name="returns",
-            color="limegreen",
-        )
-        p.sizing_mode = "stretch_both"
-        return json.dumps(json_item(p, "bokeh_return_plot"))
 
 
 class TSCalcSchema(ma.Schema):

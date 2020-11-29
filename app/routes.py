@@ -155,27 +155,6 @@ def get_returns_statistics(foid):
     return flask.jsonify(payload)
 
 
-@app.route("/charts/returns/<foid>", methods=["GET"])
-def get_bokeh_return_plot(foid):
-    freq_code = flask.request.args.get("freq_code")
-    start = flask.request.args.get("start")
-    end = flask.request.args.get("end")
-    benchmark = flask.request.args.get("benchmark")
-    div_id_target = flask.request.args.get("div_id_target")
-    print(
-        f"foid={foid} freq_code={freq_code} start={start} end={end} benchmark={benchmark} div_id_target={div_id_target}"
-    )
-    calc = TSCalc(
-        foid=foid,
-        freq_code=freq_code,
-        start=start,
-        end=end,
-        benchmark=benchmark,
-        div_id_target=div_id_target,
-    )
-    return json.dumps(calc.generate_bokeh_return_plot())
-
-
 # Data Source Management
 @app.route("/sources", methods=["GET"])
 def get_data_sources():

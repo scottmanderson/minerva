@@ -107,6 +107,7 @@ const initialState = {
       api_key: "",
     },
   ],
+  dataSourcePolls: [],
 };
 
 const store = createStore(

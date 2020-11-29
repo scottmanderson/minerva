@@ -5,6 +5,7 @@ import {
   SET_ACTIVE_FINANCIAL_OBJECT,
   SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
   DATA_SOURCES_REQUESTED,
+  DATA_SOURCE_POLLS_REQUESTED,
 } from "./action-types";
 
 const apiRoot = process.env.API_ROOT;
@@ -15,6 +16,10 @@ export function getFinObjs() {
 
 export function getDataSources() {
   return { type: DATA_SOURCES_REQUESTED };
+}
+
+export function getDataSourcePolls() {
+  return { type: DATA_SOURCE_POLLS_REQUESTED };
 }
 
 export function getStatistics(

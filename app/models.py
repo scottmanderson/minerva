@@ -57,8 +57,7 @@ class DataSourcePoll(db.Model):
     foid = db.Column(db.Integer, db.ForeignKey("financial_objects.foid"))
     data_source_code = db.Column(db.String(50))
 
-    def __init__(self, name, source_id, foid, data_source_code):
-        self.name = name
+    def __init__(self, source_id, foid, data_source_code):
         self.source_id = source_id
         self.foid = foid
         self.data_source_code = data_source_code

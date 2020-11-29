@@ -173,7 +173,6 @@ def add_data_source():
 
     new_ds = DataSource(name=name, hierarchy_rank=hierarchy_rank, api_key=api_key)
 
-    print(new_ds)
     db.session.add(new_ds)
     db.session.commit()
     return data_source_schema.jsonify(new_ds)

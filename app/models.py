@@ -20,10 +20,11 @@ class FinancialObject(db.Model):
         "DataSourcePoll", backref="FinancialObject"
     )
 
-    def __init__(self, name, report_name, ticker=None):
+    def __init__(self, name, report_name, ticker=None, benchmark=None):
         self.name = name
         self.report_name = report_name or name
         self.ticker = ticker
+        self.benchmark = benchmark
 
 
 class TSData(db.Model):

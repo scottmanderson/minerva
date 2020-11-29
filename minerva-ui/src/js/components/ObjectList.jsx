@@ -7,7 +7,6 @@ const ObjectList = (props) => {
   return (
     <>
       <Typography color="textPrimary">
-        <h3>Database Objects</h3>
         <List>
           {props.finObjs.map((el) => (
             <ListItem

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@material-ui/core";
 import {
   getFinObjs,
   setActiveFinObj,
@@ -7,8 +8,11 @@ import {
 } from "../redux/actions";
 import ObjectList from "../components/ObjectList";
 import { nullActiveBenchmarkDefaultFinObj } from "../redux/nullStateStubs";
+import Typography from "@material-ui/core/Typography";
+import AddFinancialObjectDialog from "../components/AddFinancialObjectDialog";
 
 const ObjectPane = () => {
+  const [addOpen, setAddOpen] = useState(false);
   const finObjs = useSelector((state) => state.finObjs);
   const activeFinObj = useSelector((state) => state.activeFinObj);
   const activeBenchmarkDefaultFinObj = useSelector(
@@ -16,8 +20,17 @@ const ObjectPane = () => {
   );
   const dispatch = useDispatch();
 
-  const handleListItemClick = (e) => {
-    let foid = Number(e.target.id.slice(4));
+  const handleAddOpen = () => {
+    setAddOpen(true);
+  };
+
+  const handleAddClose = () => {
+    dispatch(getFinObjs());
+    setAddOpen(false);
+  };
+
+  const handleListItemClick = (event) => {
+    let foid = Number(event.target.id.slice(4));
     let newFo = finObjs.find((obj) => obj.foid === foid);
     dispatch(setActiveFinObj(newFo));
     if (newFo.benchmark) {
@@ -32,14 +45,21 @@ const ObjectPane = () => {
 
   useEffect(() => {
     dispatch(getFinObjs());
-  }, [dispatch]);
+  }, [dispatch, addOpen]);
 
   return (
-    <ObjectList
-      finObjs={finObjs}
-      activeFinObj={activeFinObj}
-      handleListItemClick={handleListItemClick}
-    />
+    <>
+      <h3>Database Objects</h3>
+      <Button onClick={handleAddOpen} variant="outlined">
+        Add New
+      </Button>
+      <AddFinancialObjectDialog open={addOpen} handleClose={handleAddClose} />
+      <ObjectList
+        finObjs={finObjs}
+        activeFinObj={activeFinObj}
+        handleListItemClick={handleListItemClick}
+      />
+    </>
   );
 };
 

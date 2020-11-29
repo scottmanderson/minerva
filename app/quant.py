@@ -175,8 +175,6 @@ class TSCalc(object):
             self.end.year - 9: self.calculate_calendar_year_return(self.end.year - 9),
             self.end.year - 10: self.calculate_calendar_year_return(self.end.year - 10),
         }
-        # self.bokeh_ts_level_plot = self.generate_bokeh_ts_level_plot()
-        self.bokeh_return_plot = self.generate_bokeh_return_plot()
 
     @staticmethod
     def find_previous_quarter_end(dt: datetime):

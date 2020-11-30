@@ -5,7 +5,7 @@ import {
   API_ERRORED,
 } from "../action-types";
 
-const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
+const apiRoot = process.env.REACT_APP_API_ROOT || "http://127.0.0.1:5000";
 
 function getFinObjs() {
   return fetch(apiRoot + "/fo").then((response) => response.json());

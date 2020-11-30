@@ -5,9 +5,7 @@ import {
   DATA_SOURCE_POLLS_REQUESTED,
 } from "../action-types";
 
-// const apiRoot = process.env.REACT_APP_API_ROOT; // || "http://127.0.0.1:5000"
-const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
-console.log(`apiRoot in getDataSourcePolls: ${apiRoot}`);
+const apiRoot = process.env.REACT_APP_API_ROOT || "http://127.0.0.1:5000";
 
 function getDataSourcePolls() {
   return fetch(apiRoot + "/sources/polls").then((response) => response.json());
@@ -17,7 +15,6 @@ function* workerSaga() {
   try {
     const payload = yield call(getDataSourcePolls);
     yield putResolve({ type: DATA_SOURCE_POLLS_LOADED, payload });
-    console.log(payload);
   } catch (e) {
     yield put({ type: API_ERRORED });
   }

@@ -5,7 +5,7 @@ import {
   API_ERRORED,
 } from "../action-types";
 
-const apiRoot = process.env.REACT_APP_API_ROOT || "http://127.0.0.1:5000";
+import { apiRoot } from "../../helpers";
 
 export default function* watcherSaga() {
   console.log("statistics requested detected in watcher saga");

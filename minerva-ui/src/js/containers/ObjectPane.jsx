@@ -9,7 +9,7 @@ import {
 import ObjectList from "../components/ObjectList";
 import { nullActiveBenchmarkDefaultFinObj } from "../redux/nullStateStubs";
 import Typography from "@material-ui/core/Typography";
-import AddFinancialObjectDialog from "../components/AddFinancialObjectDialog";
+import AddFinancialObjectDialog from "../components/dialogs/AddFinancialObjectDialog";
 
 const ObjectPane = () => {
   const [addOpen, setAddOpen] = useState(false);

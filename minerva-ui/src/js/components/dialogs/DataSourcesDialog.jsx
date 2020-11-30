@@ -13,8 +13,9 @@ import {
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 
+import { apiRoot } from "../../helpers";
+
 const DataSourcesDialog = (props) => {
-  const apiRoot = process.env.API_ROOT || "http://127.0.0.1:5000";
   const [dataSourceAddOpen, setDataSourceAddOpen] = useState(false);
 
   const handleSourceAddOpen = () => {

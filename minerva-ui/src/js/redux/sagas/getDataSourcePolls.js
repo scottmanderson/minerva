@@ -4,8 +4,7 @@ import {
   DATA_SOURCE_POLLS_LOADED,
   DATA_SOURCE_POLLS_REQUESTED,
 } from "../action-types";
-
-const apiRoot = process.env.REACT_APP_API_ROOT || "http://127.0.0.1:5000";
+import { apiRoot } from "../../helpers";
 
 function getDataSourcePolls() {
   return fetch(apiRoot + "/sources/polls").then((response) => response.json());

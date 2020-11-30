@@ -4,7 +4,7 @@ import getFinObjs from "./getFinObjs";
 import getStat from "./getStat";
 import getDefaultBenchmarkStat from "./getDefaultBenchmarkStat";
 import getDataSources from "./getDataSources";
-import { getDataSourcePolls } from "../actions";
+import getDataSourcePolls from "./getDataSourcePolls";
 
 export default function* rootSaga() {
   yield all([

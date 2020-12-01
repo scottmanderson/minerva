@@ -15,6 +15,7 @@ const DisplayPane = () => {
   const benchmarkDefaultStatistics = useSelector(
     (state) => state.benchmarkDefaultStatistics
   );
+  const dataSources = useSelector((state) => state.dataSources);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +37,10 @@ const DisplayPane = () => {
           <Tab label="Statistics" value="2" />
         </TabList>
         <TabPanel value="1">
-          <GeneralDisplay />
+          <GeneralDisplay
+            activeFinObj={activeFinObj}
+            dataSources={dataSources}
+          />
         </TabPanel>
         <TabPanel value="2">
           <StatisticsDisplay

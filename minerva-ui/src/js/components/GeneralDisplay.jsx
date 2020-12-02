@@ -13,9 +13,13 @@ import { apiRoot } from "../helpers";
 const GeneralDisplay = (props) => {
   const handleSubmitAddFeed = (event) => {
     event.preventDefault();
+    console.log(event.target);
+    let sourceMatch = props.dataSources.find(
+      (obj) => obj.name === event.target["dataSourceName"].value
+    );
     let newDSP = {
-      source_id: event.target["source_id"].value,
-      foid: event.target["foid"].value,
+      source_id: sourceMatch.source_id,
+      foid: props.activeFinObj.foid,
       data_source_code: event.target["data_source_code"].value,
     };
     const request = {
@@ -23,9 +27,8 @@ const GeneralDisplay = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newDSP),
     };
-    fetch(
-      apiRoot + "/sources/polls",
-      request.then((response) => response.json())
+    fetch(apiRoot + "/sources/polls", request).then((response) =>
+      response.json()
     );
   };
   return (
@@ -39,7 +42,8 @@ const GeneralDisplay = (props) => {
           <form onSubmit={handleSubmitAddFeed}>
             <Select
               labelId="Data Source"
-              id="dataSource"
+              id="dataSourceName"
+              name="dataSourceName"
               defaultValue="--Select One--"
             >
               <MenuItem id={"dsDefault"} value="--Select One--">

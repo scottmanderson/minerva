@@ -31,7 +31,10 @@ const StatisticsDisplay = (props) => {
       </Paper>
       <br />
       <Paper style={{ padding: 5 }} elevation={5}>
-        <ReturnsChart statistics={props.statistics} />
+        <ReturnsChart
+          statistics={props.statistics}
+          benchmarkDefaultStatistics={props.benchmarkDefaultStatistics}
+        />
       </Paper>
     </>
   );

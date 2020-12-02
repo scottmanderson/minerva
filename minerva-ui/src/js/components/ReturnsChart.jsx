@@ -8,6 +8,9 @@ const ReturnsChart = (props) => {
   let y = props.statistics.cumulative_y;
   let yReturns = props.statistics.ts_y;
 
+  let xBench = props.benchmarkDefaultStatistics.cumulative_x;
+  let yBench = props.benchmarkDefaultStatistics.cumulative_y;
+
   return (
     <div>
       <Plot
@@ -19,6 +22,12 @@ const ReturnsChart = (props) => {
             y: y,
             type: "scatter",
             line: { color: theme.palette.text.secondary },
+          },
+          {
+            name: "Benchmark",
+            x: xBench,
+            y: yBench,
+            type: "scatter",
           },
           {
             name: "Returns",

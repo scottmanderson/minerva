@@ -285,24 +285,14 @@ class TSCalc(object):
 
     def calculate_calendar_year_return(self, year: int):
         return (
-            (
-                (
-                    self.cumulative.loc[datetime(year, 12, 31).date().isoformat()]
-                    if datetime(year, 12, 31).date().isoformat()
-                    in self.cumulative.index
-                    else np.nan
-                )
-                / (
-                    self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
-                    if datetime(year - 1, 12, 31).date().isoformat()
-                    in self.cumulative.index
-                    else np.nan
-                )
-                - 1
-            )
-            if not np.nan
-            else None
-        )
+            self.cumulative.loc[datetime(year, 12, 31).date().isoformat()]
+            if datetime(year, 12, 31).date().isoformat() in self.cumulative.index
+            else np.nan
+        ) / (
+            self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
+            if datetime(year - 1, 12, 31).date().isoformat() in self.cumulative.index
+            else np.nan
+        ) - 1
 
 
 class TSCalcSchema(ma.Schema):

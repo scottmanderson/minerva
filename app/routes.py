@@ -101,12 +101,12 @@ def add_tsi():
 
 @app.route("/ts_level/<foid>", methods=["GET"])
 def get_ts_level(foid):
-    TSCalc.compute_ts_level(foid)  # Todo: not done
+    TSCalc.compute_ts_level(foid)
 
 
 @app.route("/ts_returns/<foid>/<freq>", methods=["GET"])
 def get_ts_returns(foid, freq):
-    TSCalc.compute_ts_returns(foid, freq)  # Todo: not done
+    TSCalc.compute_ts_returns(foid, freq)
 
 
 @app.route("/tsi/<tsid>", methods=["GET"])

@@ -30,6 +30,7 @@ class TSCalc(object):
         end=None,
         benchmark=None,
     ):
+        self.has_data = False  # Will be set to true in return in self.generate_time_series if data exists
         self.foid = foid
         self.freq_code = freq_code
         # self.start and self.end will be set by generate_time_series function if not set here
@@ -50,6 +51,8 @@ class TSCalc(object):
         self.level, self.ts = self.generate_time_series()
         self.cumulative: pd.DataFrame = (
             self.compute_cumulative_return(self.ts).resample(self.freq_code).ffill()
+            if self.has_data
+            else self.level
         )
         self.cumulative_x = [x.date().isoformat() for x in self.cumulative.index]
         self.ts_y = [x for x in self.ts.fillna(0)]
@@ -67,6 +70,12 @@ class TSCalc(object):
         all_tsi_fo = TSData.query.filter(TSData.foid == self.foid)
         df = pd.read_sql(all_tsi_fo.statement, all_tsi_fo.session.bind)
 
+        if df.empty:
+            self.end = datetime.now()
+            self.start = datetime.now()
+            return (df, df)
+
+        self.has_data = True
         sources = set([source for source in df["source"]])
         df["rank"] = df.apply(lambda x: ts_hierarchy[x["source"]], axis=1)
 
@@ -112,7 +121,7 @@ class TSCalc(object):
 
     def calculate(self):
         self.time_window_returns = {
-            "mtd_return": self.ts[self.ts.index.max()],
+            "mtd_return": self.ts[self.ts.index.max()] if self.has_data else None,
             "qtd_return": (
                 np.product(
                     self.ts[
@@ -122,6 +131,8 @@ class TSCalc(object):
                     ].apply(lambda x: x + 1)
                 )
                 - 1
+                if self.has_data
+                else None
             ),
             "ytd_return": (
                 np.product(
@@ -132,48 +143,93 @@ class TSCalc(object):
                     ].apply(lambda x: x + 1)
                 )
                 - 1
+                if self.has_data
+                else None
             ),
             "one_year_return": self.calculate_geometric_annualized_return(
                 begin=datetime(self.end.year - 1, self.end.month, self.end.day),
                 through=self.end,
-            ),
+            )
+            if self.has_data
+            else None,
             "two_year_return": self.calculate_geometric_annualized_return(
                 begin=datetime(self.end.year - 2, self.end.month, self.end.day),
                 through=self.end,
-            ),
+            )
+            if self.has_data
+            else None,
             "three_year_return": self.calculate_geometric_annualized_return(
                 begin=datetime(self.end.year - 3, self.end.month, self.end.day),
                 through=self.end,
-            ),
+            )
+            if self.has_data
+            else None,
             "four_year_return": self.calculate_geometric_annualized_return(
                 begin=datetime(self.end.year - 4, self.end.month, self.end.day),
                 through=self.end,
-            ),
+            )
+            if self.has_data
+            else None,
             "five_year_return": self.calculate_geometric_annualized_return(
                 begin=datetime(self.end.year - 5, self.end.month, self.end.day),
                 through=self.end,
-            ),
+            )
+            if self.has_data
+            else None,
             "itd_annualized_return": self.calculate_geometric_annualized_return(
                 begin=self.start, through=self.end
-            ),
-            "itd_annualized_volatility": self.ts.std() * np.sqrt(self.periodicity),
+            )
+            if self.has_data
+            else None,
+            "itd_annualized_volatility": self.ts.std() * np.sqrt(self.periodicity)
+            if self.has_data
+            else None,
         }
         self.calendar_year_returns = {
-            self.end.year: self.cumulative.loc[self.cumulative.index.max()]
-            / self.cumulative.loc[
-                datetime(self.end.year - 1, 12, 31).date().isoformat()
-            ]
-            - 1,
-            self.end.year - 1: self.calculate_calendar_year_return(self.end.year - 1),
-            self.end.year - 2: self.calculate_calendar_year_return(self.end.year - 2),
-            self.end.year - 3: self.calculate_calendar_year_return(self.end.year - 3),
-            self.end.year - 4: self.calculate_calendar_year_return(self.end.year - 4),
-            self.end.year - 5: self.calculate_calendar_year_return(self.end.year - 5),
-            self.end.year - 6: self.calculate_calendar_year_return(self.end.year - 6),
-            self.end.year - 7: self.calculate_calendar_year_return(self.end.year - 7),
-            self.end.year - 8: self.calculate_calendar_year_return(self.end.year - 8),
-            self.end.year - 9: self.calculate_calendar_year_return(self.end.year - 9),
-            self.end.year - 10: self.calculate_calendar_year_return(self.end.year - 10),
+            self.end.year: (
+                (
+                    self.cumulative.loc[self.cumulative.index.max()]
+                    / self.cumulative.iloc[
+                        self.cumulative.index.get_loc(
+                            datetime(self.end.year - 1, 12, 31).date().isoformat(),
+                            "backfill",
+                        )
+                    ]
+                )
+                - 1
+            )
+            if self.has_data
+            else None,
+            self.end.year - 1: self.calculate_calendar_year_return(self.end.year - 1)
+            if self.has_data
+            else None,
+            self.end.year - 2: self.calculate_calendar_year_return(self.end.year - 2)
+            if self.has_data
+            else None,
+            self.end.year - 3: self.calculate_calendar_year_return(self.end.year - 3)
+            if self.has_data
+            else None,
+            self.end.year - 4: self.calculate_calendar_year_return(self.end.year - 4)
+            if self.has_data
+            else None,
+            self.end.year - 5: self.calculate_calendar_year_return(self.end.year - 5)
+            if self.has_data
+            else None,
+            self.end.year - 6: self.calculate_calendar_year_return(self.end.year - 6)
+            if self.has_data
+            else None,
+            self.end.year - 7: self.calculate_calendar_year_return(self.end.year - 7)
+            if self.has_data
+            else None,
+            self.end.year - 8: self.calculate_calendar_year_return(self.end.year - 8)
+            if self.has_data
+            else None,
+            self.end.year - 9: self.calculate_calendar_year_return(self.end.year - 9)
+            if self.has_data
+            else None,
+            self.end.year - 10: self.calculate_calendar_year_return(self.end.year - 10)
+            if self.has_data
+            else None,
         }
 
     @staticmethod
@@ -221,7 +277,7 @@ class TSCalc(object):
         begin_iloc_value = self.cumulative.index.get_loc(begin_iso, "backfill")
         through_iso = through.date().isoformat()
         print(
-            f"begin={begin_iso} through={through_iso}  periodicity={self.periodicity}  len={len(self.cumulative[begin_iso:through_iso])}"
+            f"begin={begin_iso} through={through_iso} periodicity={self.periodicity}  len={len(self.cumulative[begin_iso:through_iso])}"
         )
         return (
             self.cumulative.loc[through_iso] / self.cumulative.iloc[begin_iloc_value]
@@ -229,9 +285,23 @@ class TSCalc(object):
 
     def calculate_calendar_year_return(self, year: int):
         return (
-            self.cumulative.loc[datetime(year, 12, 31).date().isoformat()]
-            / self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
-            - 1
+            (
+                (
+                    self.cumulative.loc[datetime(year, 12, 31).date().isoformat()]
+                    if datetime(year, 12, 31).date().isoformat()
+                    in self.cumulative.index
+                    else np.nan
+                )
+                / (
+                    self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
+                    if datetime(year - 1, 12, 31).date().isoformat()
+                    in self.cumulative.index
+                    else np.nan
+                )
+                - 1
+            )
+            if not np.nan
+            else None
         )
 
 

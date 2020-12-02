@@ -60,7 +60,7 @@ class TSExtraction(object):
                 db.session.commit()
 
     def update_av_daily_data(self, api_key=api_keys["av-daily-adjusted"]):
-        av_code = self.ticker  # TODO: Add lookup for unorthodox references
+        av_code = self.ticker
         source_code = "av-daily-adjusted"
         try:
             new_data = pdr.DataReader(
@@ -74,7 +74,7 @@ class TSExtraction(object):
         self.ts_update(new_data, source_code)
 
     def update_fred(self):
-        fred_code = self.ticker  # TODO: expand to support divergent ticker names
+        fred_code = self.ticker
         source_code = "fred"
         try:
             new_data = pdr.DataReader(

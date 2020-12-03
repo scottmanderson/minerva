@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { getStatistics, getBenchmarkDefaultStatistics } from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 import GeneralDisplay from "../components/GeneralDisplay";
+import { nullBenchmarkDefaultStatistics } from "../redux/nullStateStubs";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);
@@ -20,10 +21,19 @@ const DisplayPane = () => {
 
   useEffect(() => {
     dispatch(getStatistics(activeFinObj.foid));
-    dispatch(getBenchmarkDefaultStatistics(activeBenchmarkDefaultFinObj.foid));
-  }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
+  }, [dispatch, activeFinObj]);
 
-  const [value, setValue] = React.useState("1");
+  useEffect(() => {
+    dispatch(
+      getBenchmarkDefaultStatistics(
+        activeBenchmarkDefaultFinObj.foid,
+        null,
+        statistics.cumulative_x[0]
+      )
+    );
+  }, [dispatch, activeBenchmarkDefaultFinObj, statistics.cumulative_x]);
+
+  const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

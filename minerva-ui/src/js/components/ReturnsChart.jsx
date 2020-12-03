@@ -57,6 +57,8 @@ const ReturnsChart = (props) => {
             side: "right",
           },
           legend: {
+            x: 1.1,
+            y: 1.0,
             font: {
               color: theme.palette.text.primary,
             },

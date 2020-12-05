@@ -148,10 +148,14 @@ def get_returns_statistics(foid):
     freq_code = flask.request.args.get("freq_code") or "M"
     start = flask.request.args.get("start")
     end = flask.request.args.get("end")
-    benchmark = flask.request.args.get("benchmark")
+    benchmark_foid = flask.request.args.get("benchmark_foid")
 
     calc = TSCalc(
-        foid=foid, freq_code=freq_code, start=start, end=end, benchmark=benchmark
+        foid=foid,
+        freq_code=freq_code,
+        start=start,
+        end=end,
+        benchmark_foid=benchmark_foid,
     )
     payload = ts_calc_schema.dump(calc)
     # if payload[1] == {}:  # result[1] is error group, adds layers to json if not removed

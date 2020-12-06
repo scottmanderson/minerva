@@ -30,6 +30,7 @@ class TSCalc(object):
         benchmark_foid=None,
     ):
         self.has_data = False  # Will be set to true in return in self.generate_time_series if data exists
+        self.has_benchmark_data = False
         self.foid = foid
         self.freq_code = freq_code
         # self.start and self.end will be set by generate_time_series function if not set here
@@ -83,6 +84,10 @@ class TSCalc(object):
                     "2010": None,
                 },
             }
+        if self.has_benchmark_data:
+            self.rel_ts = self.generate_benchmark_relative_ts()
+            self.rel_cumulative = self.compute_cumulative_return(self.rel_ts)
+            self.relative_statistics = self.calculate(self.rel_ts, self.rel_cumulative)
 
     def set_periodicity(self):
         if self.freq_code == "A":
@@ -93,6 +98,11 @@ class TSCalc(object):
             return 12
         elif self.freq_code == "D":
             return 365
+
+    def generate_benchmark_relative_ts(self):
+        df = pd.concat([self.ts, self.bm_ts], axis=1)
+        df["relative"] = df.apply(lambda x: x[0] - x[1], axis=1)
+        return df["relative"]
 
     def generate_time_series(self, foid):
         """return a time series of levels of ts data (appropriate for graphing economic indicators and growth of a
@@ -108,6 +118,8 @@ class TSCalc(object):
 
         if foid == self.foid:
             self.has_data = True
+        elif foid == self.benchmark_foid:
+            self.has_benchmark_data = True
 
         sources = set([source for source in df["source"]])
         df["rank"] = df.apply(lambda x: ts_hierarchy[x["source"]], axis=1)
@@ -360,6 +372,7 @@ class TSCalcSchema(ma.Schema):
             "foid",
             "absolute_statistics",
             "benchmark_statistics",
+            "relative_statistics",
             "cumulative_x",
             "ts_y",
             "cumulative_y",

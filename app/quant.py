@@ -55,6 +55,34 @@ class TSCalc(object):
             self.bm_ts_y = [x for x in self.bm_ts.fillna(0)]
             self.bm_cumulative_y = [x for x in self.bm_cumulative]
             self.benchmark_statistics = self.calculate(self.bm_ts, self.bm_cumulative)
+        else:
+            self.benchmark_statistics = {
+                "time_window_returns": {
+                    "mtd_return": None,
+                    "qtd_return": None,
+                    "ytd_return": None,
+                    "one_year_return": None,
+                    "two_year_return": None,
+                    "three_year_return": None,
+                    "four_year_return": None,
+                    "five_year_return": None,
+                    "itd_annualized_return": None,
+                    "itd_annualized_volatility": None,
+                },
+                "calendar_year_returns": {
+                    "2020": None,
+                    "2019": None,
+                    "2018": None,
+                    "2017": None,
+                    "2016": None,
+                    "2015": None,
+                    "2014": None,
+                    "2013": None,
+                    "2012": None,
+                    "2011": None,
+                    "2010": None,
+                },
+            }
 
     def set_periodicity(self):
         if self.freq_code == "A":

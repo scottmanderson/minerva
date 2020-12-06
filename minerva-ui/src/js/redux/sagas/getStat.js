@@ -34,20 +34,24 @@ function* workerSaga(action) {
 }
 
 function getStatistics(foid, freq_code, start, end, benchmark_foid) {
-  let query_string = "";
+  let queryString = freq_code || start || end || benchmark_foid ? "?" : "";
   if (freq_code) {
-    query_string += "?freq_code=" + freq_code;
+    queryString += "freq_code=" + freq_code + "&";
   }
   if (start) {
-    query_string += "?start=" + start;
+    queryString += "start=" + start + "&";
   }
   if (end) {
-    query_string += "?end=" + end;
+    queryString += "end=" + end + "&";
   }
   if (benchmark_foid) {
-    query_string += "?benchmark_foid=" + benchmark_foid;
+    queryString += "benchmark_foid=" + benchmark_foid + "&";
   }
-  return fetch(apiRoot + "/stat/" + foid + query_string).then((response) =>
+  // trim trailing ampersand from queryString
+  queryString = queryString.endsWith("&")
+    ? queryString.slice(0, queryString.length - 1)
+    : queryString;
+  return fetch(apiRoot + "/stat/" + foid + queryString).then((response) =>
     response.json()
   );
 }

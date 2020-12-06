@@ -224,7 +224,7 @@ class TSCalc(object):
                 )
                 if self.has_data
                 else None,
-                "itd_annualized_volatility": self.ts.std() * np.sqrt(self.periodicity)
+                "itd_annualized_volatility": ts.std() * np.sqrt(self.periodicity)
                 if self.has_data
                 else None,
             },
@@ -244,43 +244,45 @@ class TSCalc(object):
                 if self.has_data
                 else None,
                 self.end.year
-                - 1: self.calculate_calendar_year_return(self.end.year - 1)
+                - 1: self.calculate_calendar_year_return(self.end.year - 1, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 2: self.calculate_calendar_year_return(self.end.year - 2)
+                - 2: self.calculate_calendar_year_return(self.end.year - 2, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 3: self.calculate_calendar_year_return(self.end.year - 3)
+                - 3: self.calculate_calendar_year_return(self.end.year - 3, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 4: self.calculate_calendar_year_return(self.end.year - 4)
+                - 4: self.calculate_calendar_year_return(self.end.year - 4, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 5: self.calculate_calendar_year_return(self.end.year - 5)
+                - 5: self.calculate_calendar_year_return(self.end.year - 5, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 6: self.calculate_calendar_year_return(self.end.year - 6)
+                - 6: self.calculate_calendar_year_return(self.end.year - 6, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 7: self.calculate_calendar_year_return(self.end.year - 7)
+                - 7: self.calculate_calendar_year_return(self.end.year - 7, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 8: self.calculate_calendar_year_return(self.end.year - 8)
+                - 8: self.calculate_calendar_year_return(self.end.year - 8, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 9: self.calculate_calendar_year_return(self.end.year - 9)
+                - 9: self.calculate_calendar_year_return(self.end.year - 9, cumulative)
                 if self.has_data
                 else None,
                 self.end.year
-                - 10: self.calculate_calendar_year_return(self.end.year - 10)
+                - 10: self.calculate_calendar_year_return(
+                    self.end.year - 10, cumulative
+                )
                 if self.has_data
                 else None,
             },
@@ -328,23 +330,24 @@ class TSCalc(object):
     def calculate_geometric_annualized_return(self, begin, through, cumulative):
         begin_iso = (begin + timedelta(days=1)).date().isoformat()
         # item at index for begin is outside of calculation range for this method, must instead take next item in index
-        begin_iloc_value = self.cumulative.index.get_loc(begin_iso, "backfill")
+        begin_iloc_value = cumulative.index.get_loc(begin_iso, "backfill")
         through_iso = through.date().isoformat()
         print(
-            f"begin={begin_iso} through={through_iso} periodicity={self.periodicity}  len={len(self.cumulative[begin_iso:through_iso])}"
+            f"begin={begin_iso} through={through_iso} periodicity={self.periodicity}  len={len(cumulative[begin_iso:through_iso])}"
         )
-        return (
-            self.cumulative.loc[through_iso] / self.cumulative.iloc[begin_iloc_value]
-        ) ** (self.periodicity / len(self.cumulative[begin_iso:through_iso])) - 1
+        return (cumulative.loc[through_iso] / cumulative.iloc[begin_iloc_value]) ** (
+            self.periodicity / len(cumulative[begin_iso:through_iso])
+        ) - 1
 
-    def calculate_calendar_year_return(self, year: int):
+    @staticmethod
+    def calculate_calendar_year_return(year: int, cumulative):
         return (
-            self.cumulative.loc[datetime(year, 12, 31).date().isoformat()]
-            if datetime(year, 12, 31).date().isoformat() in self.cumulative.index
+            cumulative.loc[datetime(year, 12, 31).date().isoformat()]
+            if datetime(year, 12, 31).date().isoformat() in cumulative.index
             else np.nan
         ) / (
-            self.cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
-            if datetime(year - 1, 12, 31).date().isoformat() in self.cumulative.index
+            cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
+            if datetime(year - 1, 12, 31).date().isoformat() in cumulative.index
             else np.nan
         ) - 1
 

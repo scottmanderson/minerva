@@ -17,16 +17,23 @@ function* workerSaga(action) {
   let freq_code = action.freq_code;
   let start = action.start;
   let end = action.end;
+  let benchmark_foid = action.benchmark_foid;
   try {
-    console.log(`before payload = yield call(getStatistics)`);
-    const payload = yield call(getStatistics, foid, freq_code, start, end);
+    const payload = yield call(
+      getStatistics,
+      foid,
+      freq_code,
+      start,
+      end,
+      benchmark_foid
+    );
     yield putResolve({ type: STATISTICS_LOADED, payload });
   } catch (e) {
     yield put({ type: API_ERRORED, payload: e });
   }
 }
 
-function getStatistics(foid, freq_code, start, end) {
+function getStatistics(foid, freq_code, start, end, benchmark_foid) {
   let query_string = "";
   if (freq_code) {
     query_string += "?freq_code=" + freq_code;
@@ -36,6 +43,9 @@ function getStatistics(foid, freq_code, start, end) {
   }
   if (end) {
     query_string += "?end=" + end;
+  }
+  if (benchmark_foid) {
+    query_string += "?benchmark_foid=" + benchmark_foid;
   }
   return fetch(apiRoot + "/stat/" + foid + query_string).then((response) =>
     response.json()

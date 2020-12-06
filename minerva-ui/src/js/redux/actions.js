@@ -26,7 +26,8 @@ export function getStatistics(
   foid = null,
   freq_code = null,
   start = null,
-  end = null
+  end = null,
+  benchmark_foid = null
 ) {
   return {
     type: STATISTICS_REQUESTED,
@@ -34,6 +35,7 @@ export function getStatistics(
     freq_code: freq_code,
     start: start,
     end: end,
+    benchmark_foid: benchmark_foid,
   };
 }
 

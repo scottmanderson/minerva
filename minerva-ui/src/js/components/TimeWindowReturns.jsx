@@ -33,7 +33,9 @@ const TimeWindowReturns = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Asset</TableCell>
-                {Object.keys(props.timeWindowReturns).map((el) => (
+                {Object.keys(
+                  props.statistics.absolute_statistics.time_window_returns
+                ).map((el) => (
                   <TableCell key={"tw" + el} id={"el" + el}>
                     {headingLookup[el]}
                   </TableCell>
@@ -43,9 +45,15 @@ const TimeWindowReturns = (props) => {
             <TableBody>
               <TableRow>
                 <TableCell>{props.activeFinObj.ticker}</TableCell>
-                {Object.keys(props.timeWindowReturns).map((el) => (
+                {Object.keys(
+                  props.statistics.absolute_statistics.time_window_returns
+                ).map((el) => (
                   <TableCell key={"twr" + el} id={"twr" + el}>
-                    {percentFormat(props.timeWindowReturns[el])}
+                    {percentFormat(
+                      props.statistics.absolute_statistics.time_window_returns[
+                        el
+                      ]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -53,9 +61,15 @@ const TimeWindowReturns = (props) => {
                 <TableCell>
                   {props.activeBenchmarkDefaultFinObj.ticker}
                 </TableCell>
-                {Object.keys(props.benchmarkTimeWindowReturns).map((el) => (
+                {Object.keys(
+                  props.statistics.benchmark_statistics.time_window_returns
+                ).map((el) => (
                   <TableCell key={"twrbd" + el} id={"twrbd" + el}>
-                    {percentFormat(props.benchmarkTimeWindowReturns[el])}
+                    {percentFormat(
+                      props.statistics.benchmark_statistics.time_window_returns[
+                        el
+                      ]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

@@ -20,8 +20,16 @@ const DisplayPane = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getStatistics(activeFinObj.foid));
-  }, [dispatch, activeFinObj]);
+    dispatch(
+      getStatistics(
+        activeFinObj.foid,
+        "M",
+        null,
+        null,
+        activeBenchmarkDefaultFinObj.foid
+      )
+    );
+  }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
 
   useEffect(() => {
     dispatch(

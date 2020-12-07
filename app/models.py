@@ -63,6 +63,19 @@ class DataSourcePoll(db.Model):
         self.data_source_code = data_source_code
 
 
+class Settings(db.Model):
+    __tablename__ = "settings"
+    setting_id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(50))
+    value = db.Column(db.String(50))
+
+
+class SettingsSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Settings
+        load_instance = True
+
+
 class DataSourcePollSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = DataSourcePoll

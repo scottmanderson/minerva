@@ -8,6 +8,8 @@ from app.models import (
     DataSourceSchema,
     DataSourcePoll,
     DataSourcePollSchema,
+    Settings,
+    SettingsSchema,
 )
 from app.quant import TSCalc, TSCalcSchema
 from config import basedir
@@ -23,6 +25,8 @@ data_source_schema = DataSourceSchema()
 data_sources_schema = DataSourceSchema(many=True)
 data_source_poll_schema = DataSourcePollSchema()
 data_source_polls_schema = DataSourcePollSchema(many=True)
+setting_schema = SettingsSchema()
+settings_schema = SettingsSchema(many=True)
 
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
@@ -243,3 +247,39 @@ def delete_data_source_poll(dspid):
     db.session.commit()
 
     return data_source_poll_schema.jsonify(dsp)
+
+
+@app.route("/settings", methods=["POST"])
+def add_setting():
+    key = flask.request.json["key"]
+    value = flask.request.json["value"]
+
+    new_setting = Settings(key=key, value=value)
+
+    db.session.add(new_setting)
+    db.session.commit()
+    return setting_schema.jsonify(new_setting)
+
+
+@app.route("/settings", methods=["GET"])
+def get_all_settings():
+    all_settings = Settings.query.all()
+    result = settings_schema.dump(all_settings)
+    if result[1] == {}:  # result[1] == error group
+        result = result[0]
+    return flask.jsonify(result)
+
+
+@app.route("/settings/<key>", methods=["GET"])
+def get_setting(key):
+    setting = Settings.query.filter(Settings.key == key)
+    return setting_schema.jsonify(setting)
+
+
+@app.route("/settings/<key>", methods=["PUT"])
+def update_setting(key):
+    setting = Settings.query.filter(Settings.key == key)
+    setting.value = flask.request.json["value"]
+
+    db.session.commit()
+    return setting_schema.jsonify(setting)

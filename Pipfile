@@ -19,6 +19,7 @@ pandas-datareader = "*"
 psycopg2 = "*"
 gunicorn = "*"
 python-dotenv = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.8"

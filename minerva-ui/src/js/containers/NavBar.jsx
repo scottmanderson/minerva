@@ -3,6 +3,7 @@ import { AppBar, Button, Modal, Toolbar } from "@material-ui/core";
 import DataSourcesDialog from "../components/dialogs/DataSourcesDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataSources } from "../redux/actions";
+import SettingsDialog from "../components/dialogs/SettingsDialog";
 
 const NavBar = () => {
   const [settingsOpen, setSettingsOpen] = React.useState(false);
@@ -21,12 +22,6 @@ const NavBar = () => {
   const handleSettingsClose = () => {
     setSettingsOpen(false);
   };
-
-  const settingsBody = (
-    <div>
-      <h2>Settings</h2>
-    </div>
-  );
 
   const handleDataSourcesOpen = () => {
     setDataSourcesOpen(true);
@@ -50,9 +45,7 @@ const NavBar = () => {
         >
           Settings
         </Button>
-        <Modal open={settingsOpen} onClose={handleSettingsClose}>
-          {settingsBody}
-        </Modal>
+        <SettingsDialog open={settingsOpen} handleClose={handleSettingsClose} />
         <Button
           style={{ marginLeft: 32 }}
           variant="outlined"

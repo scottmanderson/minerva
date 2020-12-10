@@ -1,10 +1,10 @@
 import { all } from "redux-saga/effects";
 
-import getFinObjs from "./getFinObjs";
-import getStat from "./getStat";
-import getDefaultBenchmarkStat from "./getDefaultBenchmarkStat";
-import getDataSources from "./getDataSources";
-import getDataSourcePolls from "./getDataSourcePolls";
+import getFinObjs from "./getFinObjsSaga";
+import getStat from "./getStatSaga";
+import getDefaultBenchmarkStat from "./getDefaultBenchmarkStatSaga";
+import getDataSources from "./getDataSourcesSaga";
+import getDataSourcePolls from "./getDataSourcePollsSaga";
 
 export default function* rootSaga() {
   yield all([

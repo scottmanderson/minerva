@@ -8,6 +8,7 @@ import {
   BENCHMARK_DEFAULT_STATISTICS_LOADED,
   DATA_SOURCES_LOADED,
   DATA_SOURCE_POLLS_LOADED,
+  SETTINGS_LOADED,
 } from "./action-types";
 
 const rootReducer = (state, action) => {
@@ -23,6 +24,10 @@ const rootReducer = (state, action) => {
     case DATA_SOURCE_POLLS_LOADED:
       return Object.assign({}, state, {
         dataSources: action.payload,
+      });
+    case SETTINGS_LOADED:
+      return Object.assign({}, state, {
+        settings: action.payload,
       });
     case FIN_OBJS_LOADED:
       return Object.assign({}, state, {

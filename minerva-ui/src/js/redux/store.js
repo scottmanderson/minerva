@@ -60,6 +60,7 @@ const initialState = {
     },
   ],
   dataSourcePolls: [],
+  settings: [],
 };
 
 const store = createStore(

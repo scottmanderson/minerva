@@ -27,8 +27,8 @@ const SettingsDialog = (props) => {
         <DialogTitle id="Settings">Settings</DialogTitle>
         <DialogContent>
           <form>
-            <FormLabel>Database URI</FormLabel>
-            <TextField id="dbURI" />
+            <FormLabel>Default Benchmark</FormLabel>
+            <TextField id="defaultBenchmark" />
           </form>
         </DialogContent>
         <DialogActions>

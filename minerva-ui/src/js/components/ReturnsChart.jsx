@@ -55,6 +55,7 @@ const ReturnsChart = (props) => {
             tickformat: ",.0%",
             overlaying: "y",
             side: "right",
+            hoverformat: ".2%",
           },
           legend: {
             x: 1.1,

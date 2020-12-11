@@ -52,6 +52,7 @@ def get_all_fo():
     result = financial_objects_schema.dump(all_fo)
     if result[1] == {}:  # result[1] is error group, adds layers to json if not removed
         result = result[0]
+    result.sort(key=lambda x: x["report_name"])
     return flask.jsonify(result)
 
 

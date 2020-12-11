@@ -8,8 +8,8 @@ const ReturnsChart = (props) => {
   let y = props.statistics.cumulative_y;
   let yReturns = props.statistics.ts_y;
 
-  let xBench = props.benchmarkDefaultStatistics.cumulative_x;
-  let yBench = props.benchmarkDefaultStatistics.cumulative_y;
+  let xBench = props.statistics.bm_cumulative_x;
+  let yBench = props.statistics.bm_cumulative_y;
 
   return (
     <div>

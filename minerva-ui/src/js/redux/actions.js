@@ -44,21 +44,6 @@ export function getStatistics(
   };
 }
 
-export function getBenchmarkDefaultStatistics(
-  foid = null,
-  freq_code = null,
-  start = null,
-  end = null
-) {
-  return {
-    type: BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
-    foid: foid,
-    freq_code: freq_code,
-    start: start,
-    end: end,
-  };
-}
-
 export function setActiveFinObj(fo) {
   return {
     type: SET_ACTIVE_FINANCIAL_OBJECT,

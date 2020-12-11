@@ -7,9 +7,27 @@ import {
 
 import { apiRoot } from "../../helpers";
 
-export default function* watcherSaga() {
-  console.log("statistics requested detected in watcher saga");
-  yield takeLatest(STATISTICS_REQUESTED, workerSaga);
+function getStatistics(foid, freq_code, start, end, benchmark_foid) {
+  let queryString = freq_code || start || end || benchmark_foid ? "?" : "";
+  if (freq_code) {
+    queryString += "freq_code=" + freq_code + "&";
+  }
+  if (start) {
+    queryString += "start=" + start + "&";
+  }
+  if (end) {
+    queryString += "end=" + end + "&";
+  }
+  if (benchmark_foid) {
+    queryString += "benchmark_foid=" + benchmark_foid + "&";
+  }
+  // trim trailing ampersand from queryString
+  queryString = queryString.endsWith("&")
+    ? queryString.slice(0, queryString.length - 1)
+    : queryString;
+  return fetch(apiRoot + "/stat/" + foid + queryString).then((response) =>
+    response.json()
+  );
 }
 
 function* workerSaga(action) {
@@ -33,25 +51,7 @@ function* workerSaga(action) {
   }
 }
 
-function getStatistics(foid, freq_code, start, end, benchmark_foid) {
-  let queryString = freq_code || start || end || benchmark_foid ? "?" : "";
-  if (freq_code) {
-    queryString += "freq_code=" + freq_code + "&";
-  }
-  if (start) {
-    queryString += "start=" + start + "&";
-  }
-  if (end) {
-    queryString += "end=" + end + "&";
-  }
-  if (benchmark_foid) {
-    queryString += "benchmark_foid=" + benchmark_foid + "&";
-  }
-  // trim trailing ampersand from queryString
-  queryString = queryString.endsWith("&")
-    ? queryString.slice(0, queryString.length - 1)
-    : queryString;
-  return fetch(apiRoot + "/stat/" + foid + queryString).then((response) =>
-    response.json()
-  );
+export default function* watcherSaga() {
+  console.log("statistics requested detected in watcher saga");
+  yield takeLatest(STATISTICS_REQUESTED, workerSaga);
 }

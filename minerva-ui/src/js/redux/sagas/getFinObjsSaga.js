@@ -11,10 +11,6 @@ function getFinObjs() {
   return fetch(apiRoot + "/fo").then((response) => response.json());
 }
 
-export default function* watcherSaga() {
-  yield takeEvery(FIN_OBJS_REQUESTED, workerSaga);
-}
-
 function* workerSaga() {
   try {
     const payload = yield call(getFinObjs);
@@ -22,4 +18,8 @@ function* workerSaga() {
   } catch (e) {
     yield put({ type: API_ERRORED, payload: e });
   }
+}
+
+export default function* watcherSaga() {
+  yield takeEvery(FIN_OBJS_REQUESTED, workerSaga);
 }

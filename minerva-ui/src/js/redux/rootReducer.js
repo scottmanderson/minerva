@@ -13,10 +13,6 @@ import {
 
 const rootReducer = (state, action) => {
   switch (action.type) {
-    case BENCHMARK_DEFAULT_STATISTICS_LOADED:
-      return Object.assign({}, state, {
-        benchmarkDefaultStatistics: action.payload,
-      });
     case DATA_SOURCES_LOADED:
       return Object.assign({}, state, {
         dataSources: action.payload,

@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { percentFormat } from "../helpers";
+import TableContext from "@material-ui/core/Table/TableContext";
 
 const CalendarYearReturns = (props) => {
   return (
@@ -53,6 +54,19 @@ const CalendarYearReturns = (props) => {
                   <TableCell key={"cyrbd" + el} id={"cyrbd" + el}>
                     {percentFormat(
                       props.statistics.benchmark_statistics
+                        .calendar_year_returns[el]
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell>Difference</TableCell>
+                {Object.keys(
+                  props.statistics.relative_statistics.calendar_year_returns
+                ).map((el) => (
+                  <TableCell key={"cyrap" + el} id={"cyrap" + el}>
+                    {percentFormat(
+                      props.statistics.relative_statistics
                         .calendar_year_returns[el]
                     )}
                   </TableCell>

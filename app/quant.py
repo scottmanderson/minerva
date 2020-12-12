@@ -19,6 +19,34 @@ import pandas as pd
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
+null_stat = {
+    "time_window_returns": {
+        "mtd_return": None,
+        "qtd_return": None,
+        "ytd_return": None,
+        "one_year_return": None,
+        "two_year_return": None,
+        "three_year_return": None,
+        "four_year_return": None,
+        "five_year_return": None,
+        "itd_annualized_return": None,
+        "itd_annualized_volatility": None,
+    },
+    "calendar_year_returns": {
+        "2020": None,
+        "2019": None,
+        "2018": None,
+        "2017": None,
+        "2016": None,
+        "2015": None,
+        "2014": None,
+        "2013": None,
+        "2012": None,
+        "2011": None,
+        "2010": None,
+    },
+}
+
 
 class TSCalc(object):
     def __init__(
@@ -57,37 +85,13 @@ class TSCalc(object):
             self.bm_cumulative_y = [x for x in self.bm_cumulative]
             self.benchmark_statistics = self.calculate(self.bm_ts, self.bm_cumulative)
         else:
-            self.benchmark_statistics = {
-                "time_window_returns": {
-                    "mtd_return": None,
-                    "qtd_return": None,
-                    "ytd_return": None,
-                    "one_year_return": None,
-                    "two_year_return": None,
-                    "three_year_return": None,
-                    "four_year_return": None,
-                    "five_year_return": None,
-                    "itd_annualized_return": None,
-                    "itd_annualized_volatility": None,
-                },
-                "calendar_year_returns": {
-                    "2020": None,
-                    "2019": None,
-                    "2018": None,
-                    "2017": None,
-                    "2016": None,
-                    "2015": None,
-                    "2014": None,
-                    "2013": None,
-                    "2012": None,
-                    "2011": None,
-                    "2010": None,
-                },
-            }
+            self.benchmark_statistics = null_stat
         if self.has_benchmark_data:
             self.rel_ts = self.generate_benchmark_relative_ts()
             self.rel_cumulative = self.compute_cumulative_return(self.rel_ts)
             self.relative_statistics = self.calculate(self.rel_ts, self.rel_cumulative)
+        else:
+            self.relative_statistics = null_stat
 
     def set_periodicity(self):
         if self.freq_code == "A":

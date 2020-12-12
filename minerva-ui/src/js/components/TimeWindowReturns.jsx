@@ -73,6 +73,20 @@ const TimeWindowReturns = (props) => {
                   </TableCell>
                 ))}
               </TableRow>
+              <TableRow>
+                <TableCell>Difference</TableCell>
+                {Object.keys(
+                  props.statistics.relative_statistics.time_window_returns
+                ).map((el) => (
+                  <TableCell key={"twrap" + el} id={"twrap" + el}>
+                    {percentFormat(
+                      props.statistics.relative_statistics.time_window_returns[
+                        el
+                      ]
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

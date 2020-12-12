@@ -43,15 +43,13 @@ const initialState = {
   statistics: {
     absolute_statistics: nullStatStub,
     benchmark_statistics: nullStatStub,
+    relative_statistics: nullStatStub,
     cumulative_json: "",
     cumulative_x: ["2019-12-31", "2020-01-01"],
     cumulative_y: [1, 1.005],
     ts_y: [0],
     bm_cumulative_x: [],
     bm_cumulative_y: [],
-  },
-  benchmarkDefaultStatistics: {
-    absolute_statistics: nullStatStub,
   },
   dataSources: [
     {

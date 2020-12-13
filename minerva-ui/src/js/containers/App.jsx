@@ -1,12 +1,16 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import { useSelector } from "react-redux";
 import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
 import { Grid } from "@material-ui/core";
 import NavBar from "./NavBar";
 
 const App = () => {
+  // force rerender on any of these changing:
+  const dataSources = useSelector((state) => state.dataSources);
+  const dataSourcePolls = useSelector((state) => state.dataSourcePolls);
   return (
     <Container maxWidth="lg">
       <Grid

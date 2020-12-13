@@ -23,7 +23,6 @@ const DataSourcesDialog = (props) => {
   };
   const handleSourceAddClose = () => {
     setDataSourceAddOpen(false);
-    window.location.reload(false);
   };
 
   const handleSubmitAdd = (event) => {
@@ -99,26 +98,29 @@ const DataSourcesDialog = (props) => {
               <br />
               {props.dataSources.map((el) => (
                 <>
-                  <Grid container item xs={12}>
-                    <Grid item xs={4} spacing={3}>
+                  <Grid container item xs={12} spacing={3}>
+                    <Grid item xs={4}>
                       <TextField
                         id={"dsn" + el.source_id}
                         key={"dsn" + el.source_id}
                         defaultValue={el.name}
+                        fullWidth
                       />
                     </Grid>
-                    <Grid item xs={4} spacing={3}>
+                    <Grid item xs={2}>
                       <TextField
                         id={"dsr" + el.source_id}
                         key={"dsr" + el.source_id}
                         defaultValue={el.hierarchy_rank}
+                        fullwidth
                       />
                     </Grid>
-                    <Grid item xs={4} spacing={3}>
+                    <Grid item xs={5}>
                       <TextField
                         id={"dsk" + el.source_id}
                         key={"dsk" + el.source_id}
                         defaultValue={el.api_key}
+                        fullWidth
                       />
                     </Grid>
                   </Grid>
@@ -126,10 +128,10 @@ const DataSourcesDialog = (props) => {
               ))}
               <DialogActions>
                 <br />
+                <Button type="submit">Update</Button>
                 <Button onClick={props.handleClose} color="secondary">
                   Cancel
                 </Button>
-                <Button type="submit">Update</Button>
               </DialogActions>
             </Grid>
           </form>

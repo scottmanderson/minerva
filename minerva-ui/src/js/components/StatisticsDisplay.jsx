@@ -25,7 +25,7 @@ const StatisticsDisplay = (props) => {
       </Paper>
       <br />
       <Paper style={{ padding: 5 }} elevation={5}>
-        <ReturnsChart statistics={props.statistics} />
+        <ReturnsChart justify="center" statistics={props.statistics} />
       </Paper>
     </>
   );

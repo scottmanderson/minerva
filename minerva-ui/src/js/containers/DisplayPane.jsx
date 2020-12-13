@@ -5,7 +5,6 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { getStatistics } from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 import GeneralDisplay from "../components/GeneralDisplay";
-import { nullBenchmarkDefaultStatistics } from "../redux/nullStateStubs";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);

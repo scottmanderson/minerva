@@ -14,7 +14,7 @@ const ReturnsChart = (props) => {
   return (
     <div>
       <Plot
-        style={{ width: "100%" }}
+        style={{ width: "95%" }}
         data={[
           {
             name: "Growth of a Dollar",

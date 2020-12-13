@@ -43,7 +43,6 @@ null_stat = {
         "2013": None,
         "2012": None,
         "2011": None,
-        "2010": None,
     },
 }
 
@@ -293,12 +292,6 @@ class TSCalc(object):
                 else None,
                 self.end.year
                 - 9: self.calculate_calendar_year_return(self.end.year - 9, cumulative)
-                if self.has_data
-                else None,
-                self.end.year
-                - 10: self.calculate_calendar_year_return(
-                    self.end.year - 10, cumulative
-                )
                 if self.has_data
                 else None,
             },

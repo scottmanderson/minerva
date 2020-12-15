@@ -51,7 +51,7 @@ const NavBar = () => {
           variant="outlined"
           onClick={handleDataSourcesOpen}
         >
-          Data Feeds
+          Data Sources
         </Button>
         <DataSourcesDialog
           dataSources={dataSources}

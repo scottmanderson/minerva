@@ -16,6 +16,7 @@ from config import basedir
 from shared_functions import fetch_all_data_sources
 import flask
 import json
+import os
 
 financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
@@ -30,6 +31,23 @@ settings_schema = SettingsSchema(many=True)
 
 all_data_sources = fetch_all_data_sources()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
+
+
+# Serve React App
+@app.route("/", methods=["GET"])
+def serve_react_app():
+    if os.path.exists(app.static_folder + "/index.html"):
+        return flask.send_from_directory(app.static_folder, "index.html")
+    else:
+        return f"No Valid App To Serve; expected a react index.html file at {app.static_folder}"
+
+
+@app.route("/<path:path>")
+def static_proxy(path):
+    """static folder serve"""
+    file_name = path.split("/")[-1]
+    dir_name = os.path.join(app.static_folder, "/".join(path.split("/")[:-1]))
+    return flask.send_from_directory(dir_name, file_name)
 
 
 # Basic Object Manipulation Routes

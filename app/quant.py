@@ -172,29 +172,44 @@ class TSCalc(object):
     def calculate(self, ts, cumulative):
         statistics = {
             "time_window_returns": {
-                "mtd_return": ts[ts.index.max()] if self.has_data else None,
+                "mtd_return": (
+                    cumulative[-1]
+                    / cumulative[
+                        cumulative.index.get_loc(
+                            self.find_previous_month_end(cumulative.index.max())
+                            .date()
+                            .isoformat(),
+                            "backfill",
+                        )
+                    ]
+                )
+                - 1
+                if self.has_data
+                else None,
                 "qtd_return": (
-                    np.product(
-                        ts[
-                            (
-                                self.find_previous_quarter_end(self.end)
-                                + timedelta(days=1)
-                            ) : self.end
-                        ].apply(lambda x: x + 1)
-                    )
-                    - 1
-                    if self.has_data
-                    else None
-                ),
+                    cumulative[-1]
+                    / cumulative[
+                        cumulative.index.get_loc(
+                            self.find_previous_quarter_end(cumulative.index.max())
+                            .date()
+                            .isoformat(),
+                            "backfill",
+                        )
+                    ]
+                )
+                - 1
+                if self.has_data
+                else None,
                 "ytd_return": (
-                    np.product(
-                        ts[
-                            (
-                                self.find_previous_year_end(self.end)
-                                + timedelta(days=1)
-                            ) : self.end
-                        ].apply(lambda x: x + 1)
-                    )
+                    cumulative[-1]
+                    / cumulative[
+                        cumulative.index.get_loc(
+                            self.find_previous_year_end(cumulative.index.max())
+                            .date()
+                            .isoformat(),
+                            "backfill",
+                        )
+                    ]
                     - 1
                     if self.has_data
                     else None
@@ -297,6 +312,10 @@ class TSCalc(object):
             },
         }
         return statistics
+
+    @staticmethod
+    def find_previous_month_end(dt: datetime):
+        return datetime(dt.year, dt.month, 1) - timedelta(days=1)
 
     @staticmethod
     def find_previous_quarter_end(dt: datetime):

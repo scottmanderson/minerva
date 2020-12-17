@@ -38,8 +38,6 @@ const AddFinancialObjectDialog = (props) => {
           <TextField id="report_name" label="Report Name" />
           <br />
           <TextField id="ticker" label="Ticker" />
-          <br />
-          <TextField id="benchmark" label="Benchmark" />
         </DialogContent>
         <DialogActions>
           <Button type="submit">Add</Button>

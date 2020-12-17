@@ -25,7 +25,7 @@ const ObjectPane = () => {
   };
 
   const handleAddClose = () => {
-    dispatch(getFinObjs());
+    setTimeout(dispatch(getFinObjs()), 500);
     setAddOpen(false);
   };
 

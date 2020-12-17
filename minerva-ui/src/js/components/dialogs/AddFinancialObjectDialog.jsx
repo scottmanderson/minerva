@@ -17,7 +17,6 @@ const AddFinancialObjectDialog = (props) => {
       name: event.target["name"].value,
       report_name: event.target["report_name"].value,
       ticker: event.target["ticker"].value,
-      benchmark: event.target["benchmark"].value,
     };
     const request = {
       method: "POST",

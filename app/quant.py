@@ -193,7 +193,6 @@ class TSCalc(object):
                             self.find_previous_quarter_end(cumulative.index.max())
                             .date()
                             .isoformat(),
-                            "backfill",
                         )
                     ]
                 )

@@ -84,14 +84,14 @@ const DataSourcesDialog = (props) => {
               justify="space-evenly"
               alignItems="baseline"
             >
-              <Grid container item xs={12}>
+              <Grid container item xs={12} spacing={3}>
                 <Grid item xs={4}>
                   Data Source Name
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={2}>
                   Source Rank
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5}>
                   API Key
                 </Grid>
               </Grid>

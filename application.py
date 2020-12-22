@@ -14,3 +14,7 @@ def make_shell_context():
         "np": np,
         "pd": pd,
     }
+
+
+if __name__ == "__main__":
+    application.run()

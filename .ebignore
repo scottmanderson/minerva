@@ -150,9 +150,6 @@ dmypy.json
 # testing
 /minerva-ui/coverage
 
-# production
-/minerva-ui/build
-
 # misc .DS_Store
 .env.local
 .env.development.local

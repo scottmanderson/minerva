@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from app import app, application, db
 from app.models import FinancialObject, TSData
 

@@ -10,9 +10,6 @@ import pandas as pd
 import pandas_datareader as pdr
 
 
-auto_update_ts_file = open(basedir + "/auto_update_ts.json")
-auto_update_ts_old = json.loads(auto_update_ts_file.read())
-
 all_data_sources = fetch_all_data_sources()
 ds_lookup = {ds.source_id: ds.name for ds in all_data_sources}
 api_keys = {source.name: source.api_key for source in all_data_sources}
@@ -88,14 +85,6 @@ class TSExtraction(object):
 
 
 class TSAutoUpdater:
-    @staticmethod
-    def add_symbol(foid, code, source):
-        if source not in auto_update_ts:
-            auto_update_ts[source] = []
-        auto_update_ts[source].append({"foid": int(foid), "code": code})
-        with open(basedir + "/auto_update_ts.json", "w") as outfile:
-            json.dump(auto_update_ts, outfile)
-
     @staticmethod
     def update_all():
         # av-daily-adjusted

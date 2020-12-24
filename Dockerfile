@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.7
 
 RUN useradd -ms /bin/bash -p athena minerva
 WORKDIR /home/minerva_app
@@ -11,7 +11,7 @@ RUN python3 -m pip install -r requirements.txt
 
 COPY . .
 
-RUN chmod +x boot.sh
+# RUN chmod +x boot.sh
 # RUN chown -R minverva:minverva ./
 
 USER minerva

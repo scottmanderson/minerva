@@ -10,8 +10,7 @@ class Config(object):
     # since dictionaries are ordered starting in python 3.6 there is no penalty to disabling this
     JSON_SORT_KEYS = False
     SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DATABASE_URI")
-        # or "postgresql://localhost/minervaDB"
+        os.environ.get("DATABASE_URI") or "postgresql://localhost/minervaDB"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY")

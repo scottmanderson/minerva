@@ -16,7 +16,7 @@ import json
 import numpy as np
 import pandas as pd
 
-all_data_sources = fetch_all_data_sources()
+all_data_sources = fetch_all_data_sources() or DataSource.query.all()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
 
 null_stat = {

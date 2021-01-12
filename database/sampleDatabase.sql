@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.4
--- Dumped by pg_dump version 12.4
+-- Dumped from database version 12.5
+-- Dumped by pg_dump version 13.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -291,11 +291,11 @@ COPY public.data_sources (source_id, name, hierarchy_rank, api_key) FROM stdin;
 COPY public.financial_objects (foid, name, report_name, ticker, benchmark) FROM stdin;
 3	US Gross Domestic Product (SA)	US GDP (SA)	GDP	\N
 4	US Consumer Price Index (CPI) (SA)	US CPI (SA)	CPIAUCSL	\N
-1	SPDR S&P 500 Index ETF	S&P 500 ETF	SPY	\N
 2	Vanguard Emerging Markets ETF	Vanguard EM ETF	VWO	1
-8	SPDR Gold ETF	SPDR Gold	GLD	\N
-11	MSCI ACWI ETF	MSCI ACWI ETF	ACWI	\N
-12	3 Month T-Bills ETF (SPDR)	3 Month T-Bills ETF	BIL	\N
+8	SPDR Gold ETF	SPDR Gold	GLD	1
+1	SPDR S&P 500 Index ETF	S&P 500 ETF	SPY	11
+11	MSCI ACWI ETF	MSCI ACWI ETF	ACWI	1
+12	3 Month T-Bills ETF (SPDR)	3 Month T-Bills ETF	BIL	1
 \.
 
 
@@ -21592,6 +21592,86 @@ COPY public.ts_data (tsid, foid, dt, level, source) FROM stdin;
 21416	12	2020-12-09 00:00:00	91.51	av-daily-adjusted
 21418	12	2020-12-11 00:00:00	91.52	av-daily-adjusted
 21420	12	2020-12-15 00:00:00	91.51	av-daily-adjusted
+21422	1	2020-12-17 00:00:00	370.653692955	av-daily-adjusted
+21423	1	2020-12-18 00:00:00	369.18	av-daily-adjusted
+21424	1	2020-12-21 00:00:00	367.86	av-daily-adjusted
+21425	1	2020-12-22 00:00:00	367.24	av-daily-adjusted
+21426	1	2020-12-23 00:00:00	367.57	av-daily-adjusted
+21427	2	2020-12-17 00:00:00	49.8741068335	av-daily-adjusted
+21428	2	2020-12-18 00:00:00	49.7250212213	av-daily-adjusted
+21429	2	2020-12-21 00:00:00	49.06	av-daily-adjusted
+21430	2	2020-12-22 00:00:00	48.7	av-daily-adjusted
+21431	2	2020-12-23 00:00:00	49.2	av-daily-adjusted
+21432	8	2020-12-17 00:00:00	176.74	av-daily-adjusted
+21433	8	2020-12-18 00:00:00	176.44	av-daily-adjusted
+21434	8	2020-12-21 00:00:00	175.88	av-daily-adjusted
+21435	8	2020-12-22 00:00:00	174.49	av-daily-adjusted
+21436	8	2020-12-23 00:00:00	175.65	av-daily-adjusted
+21437	11	2020-12-17 00:00:00	90.19	av-daily-adjusted
+21438	11	2020-12-18 00:00:00	89.78	av-daily-adjusted
+21439	11	2020-12-21 00:00:00	89.21	av-daily-adjusted
+21440	11	2020-12-22 00:00:00	89.06	av-daily-adjusted
+21441	11	2020-12-23 00:00:00	89.48	av-daily-adjusted
+21442	12	2020-12-17 00:00:00	91.52	av-daily-adjusted
+21443	12	2020-12-18 00:00:00	91.52	av-daily-adjusted
+21444	12	2020-12-21 00:00:00	91.52	av-daily-adjusted
+21445	12	2020-12-22 00:00:00	91.52	av-daily-adjusted
+21446	12	2020-12-23 00:00:00	91.51	av-daily-adjusted
+21447	1	2020-12-24 00:00:00	369	av-daily-adjusted
+21448	1	2020-12-28 00:00:00	372.17	av-daily-adjusted
+21449	1	2020-12-29 00:00:00	371.46	av-daily-adjusted
+21450	1	2020-12-30 00:00:00	371.99	av-daily-adjusted
+21451	1	2020-12-31 00:00:00	373.88	av-daily-adjusted
+21452	1	2021-01-04 00:00:00	368.79	av-daily-adjusted
+21453	1	2021-01-05 00:00:00	371.33	av-daily-adjusted
+21454	1	2021-01-06 00:00:00	373.55	av-daily-adjusted
+21456	1	2021-01-08 00:00:00	381.26	av-daily-adjusted
+21458	2	2020-12-24 00:00:00	48.92	av-daily-adjusted
+21460	2	2020-12-29 00:00:00	49.55	av-daily-adjusted
+21462	2	2020-12-31 00:00:00	50.11	av-daily-adjusted
+21464	2	2021-01-05 00:00:00	51.51	av-daily-adjusted
+21466	2	2021-01-07 00:00:00	51.42	av-daily-adjusted
+21468	2	2021-01-11 00:00:00	51.85	av-daily-adjusted
+21470	8	2020-12-28 00:00:00	175.71	av-daily-adjusted
+21472	8	2020-12-30 00:00:00	177.7	av-daily-adjusted
+21474	8	2021-01-04 00:00:00	182.33	av-daily-adjusted
+21476	8	2021-01-06 00:00:00	179.9	av-daily-adjusted
+21478	8	2021-01-08 00:00:00	173.34	av-daily-adjusted
+21480	11	2020-12-24 00:00:00	89.59	av-daily-adjusted
+21482	11	2020-12-29 00:00:00	90.36	av-daily-adjusted
+21484	11	2020-12-31 00:00:00	90.72	av-daily-adjusted
+21486	11	2021-01-05 00:00:00	91.15	av-daily-adjusted
+21488	11	2021-01-07 00:00:00	92.62	av-daily-adjusted
+21490	11	2021-01-11 00:00:00	92.62	av-daily-adjusted
+21492	12	2020-12-28 00:00:00	91.52	av-daily-adjusted
+21494	12	2020-12-30 00:00:00	91.51	av-daily-adjusted
+21496	12	2021-01-04 00:00:00	91.52	av-daily-adjusted
+21498	12	2021-01-06 00:00:00	91.52	av-daily-adjusted
+21500	12	2021-01-08 00:00:00	91.51	av-daily-adjusted
+21455	1	2021-01-07 00:00:00	379.1	av-daily-adjusted
+21457	1	2021-01-11 00:00:00	378.69	av-daily-adjusted
+21459	2	2020-12-28 00:00:00	49.02	av-daily-adjusted
+21461	2	2020-12-30 00:00:00	50.24	av-daily-adjusted
+21463	2	2021-01-04 00:00:00	50.34	av-daily-adjusted
+21465	2	2021-01-06 00:00:00	51.02	av-daily-adjusted
+21467	2	2021-01-08 00:00:00	52.46	av-daily-adjusted
+21469	8	2020-12-24 00:00:00	176.35	av-daily-adjusted
+21471	8	2020-12-29 00:00:00	176.35	av-daily-adjusted
+21473	8	2020-12-31 00:00:00	178.36	av-daily-adjusted
+21475	8	2021-01-05 00:00:00	182.87	av-daily-adjusted
+21477	8	2021-01-07 00:00:00	179.48	av-daily-adjusted
+21479	8	2021-01-11 00:00:00	173	av-daily-adjusted
+21481	11	2020-12-28 00:00:00	90.18	av-daily-adjusted
+21483	11	2020-12-30 00:00:00	90.66	av-daily-adjusted
+21485	11	2021-01-04 00:00:00	90.22	av-daily-adjusted
+21487	11	2021-01-06 00:00:00	91.66	av-daily-adjusted
+21489	11	2021-01-08 00:00:00	93.44	av-daily-adjusted
+21491	12	2020-12-24 00:00:00	91.52	av-daily-adjusted
+21493	12	2020-12-29 00:00:00	91.52	av-daily-adjusted
+21495	12	2020-12-31 00:00:00	91.52	av-daily-adjusted
+21497	12	2021-01-05 00:00:00	91.51	av-daily-adjusted
+21499	12	2021-01-07 00:00:00	91.52	av-daily-adjusted
+21501	12	2021-01-11 00:00:00	91.52	av-daily-adjusted
 \.
 
 
@@ -21613,7 +21693,7 @@ SELECT pg_catalog.setval('public.data_sources_source_id_seq', 9, true);
 -- Name: financial_objects_foid_seq; Type: SEQUENCE SET; Schema: public; Owner: minerva
 --
 
-SELECT pg_catalog.setval('public.financial_objects_foid_seq', 12, true);
+SELECT pg_catalog.setval('public.financial_objects_foid_seq', 13, true);
 
 
 --
@@ -21627,7 +21707,7 @@ SELECT pg_catalog.setval('public.settings_setting_id_seq', 1, false);
 -- Name: ts_data_tsid_seq; Type: SEQUENCE SET; Schema: public; Owner: minerva
 --
 
-SELECT pg_catalog.setval('public.ts_data_tsid_seq', 21421, true);
+SELECT pg_catalog.setval('public.ts_data_tsid_seq', 21501, true);
 
 
 --

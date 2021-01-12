@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
-import { Grid } from "@material-ui/core";
+import { AppBar, Box, Grid } from "@material-ui/core";
 import NavBar from "./NavBar";
 
 const App = () => {
@@ -13,16 +13,17 @@ const App = () => {
   const dataSourcePolls = useSelector((state) => state.dataSourcePolls);
   const finObjs = useSelector((state) => state.finObjs);
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="xl">
+      <AppBar position="sticky">
+        <NavBar />
+      </AppBar>
       <Grid
         container
         direction="row"
         justify="space-between"
         alignItems="flex-start"
+        style={{ marginTop: 25 }}
       >
-        <Grid item xs={12}>
-          <NavBar />
-        </Grid>
         <Grid item xs={2}>
           <ObjectPane />
         </Grid>

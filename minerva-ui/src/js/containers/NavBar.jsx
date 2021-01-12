@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AppBar, Button, Modal, Toolbar } from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/Settings";
+import Shuffle from "@material-ui/icons/Shuffle";
 import DataSourcesDialog from "../components/dialogs/DataSourcesDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataSources } from "../redux/actions";
@@ -41,6 +43,7 @@ const NavBar = () => {
         <Button
           style={{ marginLeft: 32 }}
           variant="outlined"
+          startIcon={<SettingsIcon />}
           onClick={handleSettingsOpen}
         >
           Settings
@@ -49,6 +52,7 @@ const NavBar = () => {
         <Button
           style={{ marginLeft: 32 }}
           variant="outlined"
+          startIcon={<Shuffle />}
           onClick={handleDataSourcesOpen}
         >
           Data Sources

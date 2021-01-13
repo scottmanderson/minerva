@@ -48,6 +48,7 @@ function* workerSaga(action) {
     yield putResolve({ type: STATISTICS_LOADED, payload });
   } catch (e) {
     yield put({ type: API_ERRORED, payload: e });
+    console.log(e);
   }
 }
 

@@ -33,6 +33,7 @@ const initialState = {
     name: "SPDR S&P 500 ETF",
     report_name: "S&P 500 ETF",
     ticker: "SPY",
+    benchmark: null,
   },
   activeBenchmarkDefaultFinObj: {
     foid: "",

@@ -15,7 +15,7 @@ export const nullStatStub = {
     mtd_return: "N/A",
     qtd_return: "N/A",
     ytd_return: "N/A",
-    one_year_ret: "N/A",
+    one_year_return: "N/A",
     two_year_return: "N/A",
     three_year_return: "N/A",
     four_year_return: "N/A",

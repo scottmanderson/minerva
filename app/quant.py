@@ -355,15 +355,12 @@ class TSCalc(object):
         return ret ** (365 / (365 * years)) - 1
 
     def calculate_geometric_annualized_return(self, begin, through, cumulative):
-        begin_iso = (begin + timedelta(days=1)).date().isoformat()
+        begin_iso = begin.date().isoformat()
         # item at index for begin is outside of calculation range for this method, must instead take next item in index
         begin_iloc_value = cumulative.index.get_loc(begin_iso, "backfill")
-        through_iso = through.date().isoformat()
-        print(
-            f"begin={begin_iso} through={through_iso} periodicity={self.periodicity}  len={len(cumulative[begin_iso:through_iso])}"
-        )
+        through_iso = (through).date().isoformat()
         return (cumulative.loc[through_iso] / cumulative.iloc[begin_iloc_value]) ** (
-            self.periodicity / len(cumulative[begin_iso:through_iso])
+            self.periodicity / (len(cumulative[begin_iso:through_iso]) - 1)
         ) - 1
 
     @staticmethod

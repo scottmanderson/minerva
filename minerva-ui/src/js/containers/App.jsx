@@ -11,6 +11,7 @@ const App = () => {
   // force rerender on any of these changing:
   const dataSources = useSelector((state) => state.dataSources);
   const dataSourcePolls = useSelector((state) => state.dataSourcePolls);
+  const activeFinObj = useSelector((state) => state.activeFinObj);
   const finObjs = useSelector((state) => state.finObjs);
   return (
     <Container maxWidth="xl">

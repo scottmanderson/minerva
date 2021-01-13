@@ -14,7 +14,7 @@ const ReturnsChart = (props) => {
   return (
     <div>
       <Plot
-        style={{ width: "95%" }}
+        style={{ width: "95%", marginTop: "30px" }}
         data={[
           {
             name: "Growth of a Dollar",
@@ -38,6 +38,7 @@ const ReturnsChart = (props) => {
           },
         ]}
         layout={{
+          height: 650,
           plot_bgcolor: theme.palette.background.default,
           paper_bgcolor: theme.palette.background.paper,
           xaxis: {
@@ -58,13 +59,14 @@ const ReturnsChart = (props) => {
             hoverformat: ".2%",
           },
           legend: {
-            x: 1.1,
-            y: 1.0,
+            x: 0.45,
+            y: -0.3,
             font: {
               color: theme.palette.text.primary,
             },
           },
           title: {
+            text: "Growth of a Dollar",
             font: {
               color: theme.palette.text.primary,
             },

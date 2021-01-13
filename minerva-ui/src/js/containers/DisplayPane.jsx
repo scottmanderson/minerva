@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { getStatistics } from "../redux/actions";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 import GeneralDisplay from "../components/GeneralDisplay";
+import GraphDisplay from "../components/GraphDisplay";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);
@@ -17,13 +18,7 @@ const DisplayPane = () => {
 
   useEffect(() => {
     dispatch(
-      getStatistics(
-        activeFinObj.foid,
-        "M",
-        null,
-        null,
-        activeBenchmarkDefaultFinObj.foid
-      )
+      getStatistics(activeFinObj.foid, "M", null, null, activeFinObj.benchmark)
     );
   }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
 
@@ -39,6 +34,7 @@ const DisplayPane = () => {
         <TabList onChange={handleChange}>
           <Tab label="General" value="1" />
           <Tab label="Statistics" value="2" />
+          <Tab label="Graph" value="3" />
         </TabList>
         <TabPanel value="1">
           <GeneralDisplay
@@ -48,6 +44,13 @@ const DisplayPane = () => {
         </TabPanel>
         <TabPanel value="2">
           <StatisticsDisplay
+            activeFinObj={activeFinObj}
+            activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
+            statistics={statistics}
+          />
+        </TabPanel>
+        <TabPanel value="3">
+          <GraphDisplay
             activeFinObj={activeFinObj}
             activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
             statistics={statistics}

@@ -30,10 +30,10 @@ const initialState = {
   ],
   activeFinObj: {
     foid: 1,
-    name: "SPDR S&P 500 ETF",
+    name: "SPDR S&P 500 Index ETF",
     report_name: "S&P 500 ETF",
     ticker: "SPY",
-    benchmark: null,
+    benchmark: 11,
   },
   activeBenchmarkDefaultFinObj: {
     foid: "",

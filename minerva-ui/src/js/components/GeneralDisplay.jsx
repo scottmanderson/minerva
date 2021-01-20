@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Button,
+  makeStyles,
   MenuItem,
   Paper,
   Select,
@@ -10,10 +11,17 @@ import {
 } from "@material-ui/core";
 import { apiRoot } from "../helpers";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    margin: 10,
+    padding: 10,
+  },
+}));
+
 const GeneralDisplay = (props) => {
+  const styles = useStyles();
   const handleSubmitAddFeed = (event) => {
     event.preventDefault();
-    console.log(event.target);
     let sourceMatch = props.dataSources.find(
       (obj) => obj.name === event.target["dataSourceName"].value
     );
@@ -34,10 +42,15 @@ const GeneralDisplay = (props) => {
   return (
     <div>
       <Typography>
-        <h3>{props.activeFinObj.name}</h3>
-        <p>Ticker: {props.activeFinObj.ticker}</p>
-        <p>Default Benchmark: {props.activeFinObj.benchmark}</p>
-        <Paper>
+        <Paper className={styles.paper}>
+          <h3>{props.activeFinObj.name}</h3>
+          <p>Ticker: {props.activeFinObj.ticker}</p>
+          <p>
+            Default Benchmark:{" "}
+            {props.finObjsLookup[props.activeFinObj.benchmark]}
+          </p>
+        </Paper>
+        <Paper className={styles.paper}>
           <h4>Add Feed</h4>
           <form onSubmit={handleSubmitAddFeed}>
             <Select

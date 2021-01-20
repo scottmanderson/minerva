@@ -12,6 +12,7 @@ const DisplayPane = () => {
   const activeBenchmarkDefaultFinObj = useSelector(
     (state) => state.activeBenchmarkDefaultFinObj
   );
+  const finObjs = useSelector((state) => state.finObjs);
   const statistics = useSelector((state) => state.statistics);
   const dataSources = useSelector((state) => state.dataSources);
   const dispatch = useDispatch();
@@ -23,6 +24,10 @@ const DisplayPane = () => {
   }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
 
   const [value, setValue] = React.useState("2");
+
+  const finObjLookup = Object.fromEntries(
+    finObjs.map((fo) => [fo.foid, fo.name])
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -40,6 +45,7 @@ const DisplayPane = () => {
           <GeneralDisplay
             activeFinObj={activeFinObj}
             dataSources={dataSources}
+            finObjsLookup={finObjLookup}
           />
         </TabPanel>
         <TabPanel value="2">

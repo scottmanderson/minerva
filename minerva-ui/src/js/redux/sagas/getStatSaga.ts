@@ -3,11 +3,18 @@ import {
   STATISTICS_LOADED,
   STATISTICS_REQUESTED,
   API_ERRORED,
+  IStatisticsRequested,
 } from "../actions/action-types";
 
 import { apiRoot } from "../../helpers";
 
-function getStatistics(foid, freq_code, start, end, benchmark_foid) {
+function getStatistics(
+  foid: number,
+  freq_code?: string,
+  start?: string,
+  end?: string,
+  benchmark_foid?: number
+) {
   let queryString = freq_code || start || end || benchmark_foid ? "?" : "";
   if (freq_code) {
     queryString += "freq_code=" + freq_code + "&";
@@ -30,7 +37,7 @@ function getStatistics(foid, freq_code, start, end, benchmark_foid) {
   );
 }
 
-function* workerSaga(action) {
+function* workerSaga(action: IStatisticsRequested) {
   let foid = action.foid;
   let freq_code = action.freq_code;
   let start = action.start;
@@ -38,6 +45,7 @@ function* workerSaga(action) {
   let benchmark_foid = action.benchmark_foid;
   try {
     const payload = yield call(
+      // @ts-ignore
       getStatistics,
       foid,
       freq_code,

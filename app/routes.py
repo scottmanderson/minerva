@@ -284,7 +284,7 @@ def add_setting():
 def get_all_settings():
     all_settings = Settings.query.all()
     result = settings_schema.dump(all_settings)
-    if len(result) > 0 and result[1] == {}:  # result[1] == error group
+    if result:
         result = result[0]
     return flask.jsonify(result)
 

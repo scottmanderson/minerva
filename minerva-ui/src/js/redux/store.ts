@@ -16,7 +16,7 @@ const sagaMiddleware = createSagaMiddleware();
 // @ts-ignore
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const initialState: IState = {
+export const initialState: IState = {
   finObjs: [
     {
       foid: 1,

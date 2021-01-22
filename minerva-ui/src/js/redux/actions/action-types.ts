@@ -58,11 +58,7 @@ export interface IStatisticsRequested {
 export const STATISTICS_LOADED = "STATISTICS_LOADED";
 export interface IStatisticsLoaded {
   type: typeof STATISTICS_LOADED;
-  foid?: number;
-  freq_code?: string;
-  start?: string;
-  end?: string;
-  benchmark_foid?: number;
+  payload: IStatistics;
 }
 
 export const SET_ACTIVE_FINANCIAL_OBJECT = "SET_ACTIVE_FINANCIAL_OBJECT";
@@ -82,3 +78,22 @@ export interface ISetActiveBenchmarkDefault_Finanical_Object {
 }
 
 export const API_ERRORED = "API_ERRORED";
+export interface IApiErrored {
+  type: typeof API_ERRORED;
+  payload: any;
+}
+
+export type ActionTypesMain =
+  | IFinObjsRequested
+  | IFinObjsLoaded
+  | IDataSourcesRequested
+  | IDataSourcesLoaded
+  | IDataSourcePollsRequested
+  | IDataSourcePollsLoaded
+  | ISettingsRequested
+  | ISettingsLoaded
+  | IStatisticsRequested
+  | IStatisticsLoaded
+  | ISetActiveFinancialObject
+  | ISetActiveBenchmarkDefault_Finanical_Object
+  | IApiErrored;

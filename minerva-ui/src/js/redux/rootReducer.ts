@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import {
   SET_ACTIVE_FINANCIAL_OBJECT,
@@ -8,9 +7,12 @@ import {
   DATA_SOURCES_LOADED,
   DATA_SOURCE_POLLS_LOADED,
   SETTINGS_LOADED,
+  ActionTypesMain,
 } from "./actions/action-types";
+import { IState } from "./storeTypes";
+import { initialState } from "./store";
 
-const rootReducer = (state, action) => {
+const rootReducer = (state = initialState, action: ActionTypesMain): IState => {
   switch (action.type) {
     case DATA_SOURCES_LOADED:
       return Object.assign({}, state, {

@@ -27,8 +27,8 @@ const SettingsDialog = (props) => {
         <DialogTitle id="Settings">Settings</DialogTitle>
         <DialogContent>
           <form>
-            <FormLabel>Default Benchmark</FormLabel>
-            <TextField id="defaultBenchmark" />
+            <FormLabel>Default Risk Free Asset</FormLabel>
+            <TextField id="defaultRiskFree" />
           </form>
         </DialogContent>
         <DialogActions>

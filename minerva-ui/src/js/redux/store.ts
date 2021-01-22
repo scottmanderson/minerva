@@ -6,14 +6,17 @@ import logger from "redux-logger";
 import rootReducer from "./rootReducer";
 import rootSaga from "./sagas/rootSaga";
 import { nullStatStub } from "./nullStateStubs";
+import { IState } from "./storeTypes";
 
 const reduxDevTools =
+  // @ts-ignore
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
 const sagaMiddleware = createSagaMiddleware();
+// @ts-ignore
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const initialState = {
+const initialState: IState = {
   finObjs: [
     {
       foid: 1,
@@ -42,10 +45,10 @@ const initialState = {
     ticker: "Benchmark",
   },
   statistics: {
+    foid: "1",
     absolute_statistics: nullStatStub,
     benchmark_statistics: nullStatStub,
     relative_statistics: nullStatStub,
-    cumulative_json: "",
     cumulative_x: ["2019-12-31", "2020-01-01"],
     cumulative_y: [1, 1.005],
     ts_y: [0],

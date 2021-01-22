@@ -5,11 +5,10 @@ import {
   SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
   FIN_OBJS_LOADED,
   STATISTICS_LOADED,
-  BENCHMARK_DEFAULT_STATISTICS_LOADED,
   DATA_SOURCES_LOADED,
   DATA_SOURCE_POLLS_LOADED,
   SETTINGS_LOADED,
-} from "./action-types";
+} from "./actions/action-types";
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -36,11 +35,6 @@ const rootReducer = (state, action) => {
     case SET_ACTIVE_FINANCIAL_OBJECT:
       return Object.assign({}, state, {
         activeFinObj: action.payload.activeFinObj,
-      });
-    case SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT:
-      return Object.assign({}, state, {
-        activeBenchmarkDefaultFinObj:
-          action.payload.activeBenchmarkDefaultFinObj,
       });
     default:
       return state;

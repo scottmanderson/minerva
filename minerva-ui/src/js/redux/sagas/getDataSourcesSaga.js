@@ -3,7 +3,7 @@ import {
   API_ERRORED,
   DATA_SOURCES_LOADED,
   DATA_SOURCES_REQUESTED,
-} from "../action-types";
+} from "../actions/action-types";
 
 import { apiRoot } from "../../helpers";
 

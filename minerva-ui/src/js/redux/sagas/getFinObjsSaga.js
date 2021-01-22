@@ -3,7 +3,7 @@ import {
   FIN_OBJS_REQUESTED,
   FIN_OBJS_LOADED,
   API_ERRORED,
-} from "../action-types";
+} from "../actions/action-types";
 
 import { apiRoot } from "../../helpers";
 

@@ -3,7 +3,7 @@ import {
   API_ERRORED,
   DATA_SOURCE_POLLS_LOADED,
   DATA_SOURCE_POLLS_REQUESTED,
-} from "../action-types";
+} from "../actions/action-types";
 import { apiRoot } from "../../helpers";
 
 function getDataSourcePolls() {

@@ -1,5 +1,4 @@
 import {
-  BENCHMARK_DEFAULT_STATISTICS_REQUESTED,
   FIN_OBJS_REQUESTED,
   STATISTICS_REQUESTED,
   SET_ACTIVE_FINANCIAL_OBJECT,
@@ -7,23 +6,29 @@ import {
   DATA_SOURCES_REQUESTED,
   DATA_SOURCE_POLLS_REQUESTED,
   SETTINGS_REQUESTED,
+  IFinObjsRequested,
+  IDataSourcesRequested,
+  IDataSourcePollsRequested,
+  ISettingsRequested,
+  IStatisticsRequested,
 } from "./action-types";
+import { IFinObj } from "../storeTypes";
 
 const apiRoot = process.env.API_ROOT;
 
-export function getFinObjs() {
+export function getFinObjs(): IFinObjsRequested {
   return { type: FIN_OBJS_REQUESTED };
 }
 
-export function getDataSources() {
+export function getDataSources(): IDataSourcesRequested {
   return { type: DATA_SOURCES_REQUESTED };
 }
 
-export function getDataSourcePolls() {
+export function getDataSourcePolls(): IDataSourcePollsRequested {
   return { type: DATA_SOURCE_POLLS_REQUESTED };
 }
 
-export function getSettings() {
+export function getSettings(): ISettingsRequested {
   return { type: SETTINGS_REQUESTED };
 }
 
@@ -33,7 +38,7 @@ export function getStatistics(
   start = null,
   end = null,
   benchmark_foid = null
-) {
+): IStatisticsRequested {
   return {
     type: STATISTICS_REQUESTED,
     foid: foid,
@@ -44,14 +49,14 @@ export function getStatistics(
   };
 }
 
-export function setActiveFinObj(fo) {
+export function setActiveFinObj(fo: IFinObj) {
   return {
     type: SET_ACTIVE_FINANCIAL_OBJECT,
     payload: { activeFinObj: fo },
   };
 }
 
-export function setActiveBenchmarkDefaultFinObj(fo) {
+export function setActiveBenchmarkDefaultFinObj(fo: IFinObj) {
   return {
     type: SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
     payload: { activeBenchmarkDefaultFinObj: fo },

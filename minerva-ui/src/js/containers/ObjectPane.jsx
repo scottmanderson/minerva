@@ -5,7 +5,7 @@ import {
   getFinObjs,
   setActiveFinObj,
   setActiveBenchmarkDefaultFinObj,
-} from "../redux/actions";
+} from "../redux/actions/actionCreators";
 import ObjectList from "../components/displays/ObjectList";
 import { nullActiveBenchmarkDefaultFinObj } from "../redux/nullStateStubs";
 import Typography from "@material-ui/core/Typography";

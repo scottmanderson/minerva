@@ -5,7 +5,7 @@ import {
   DATA_SOURCES_REQUESTED,
   SETTINGS_LOADED,
   SETTINGS_REQUESTED,
-} from "../action-types";
+} from "../actions/action-types";
 
 import { apiRoot } from "../../helpers";
 

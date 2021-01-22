@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
-import { getStatistics } from "../redux/actions";
+import { getStatistics } from "../redux/actions/actionCreators";
 import StatisticsDisplay from "../components/displays/StatisticsDisplay";
 import GeneralDisplay from "../components/displays/GeneralDisplay";
 import GraphDisplay from "../components/displays/GraphDisplay";

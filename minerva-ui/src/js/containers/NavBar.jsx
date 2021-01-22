@@ -4,7 +4,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import Shuffle from "@material-ui/icons/Shuffle";
 import DataSourcesDialog from "../components/dialogs/DataSourcesDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataSources } from "../redux/actions";
+import { getDataSources } from "../redux/actions/actionCreators";
 import SettingsDialog from "../components/dialogs/SettingsDialog";
 
 const NavBar = () => {

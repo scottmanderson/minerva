@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { getStatistics } from "../redux/actions";
-import StatisticsDisplay from "../components/StatisticsDisplay";
-import GeneralDisplay from "../components/GeneralDisplay";
-import GraphDisplay from "../components/GraphDisplay";
+import StatisticsDisplay from "../components/displays/StatisticsDisplay";
+import GeneralDisplay from "../components/displays/GeneralDisplay";
+import GraphDisplay from "../components/displays/GraphDisplay";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state) => state.activeFinObj);

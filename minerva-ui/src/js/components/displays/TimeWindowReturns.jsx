@@ -8,7 +8,7 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
-import { percentFormat } from "../helpers";
+import { percentFormat } from "../../helpers";
 
 const TimeWindowReturns = (props) => {
   const headingLookup = {

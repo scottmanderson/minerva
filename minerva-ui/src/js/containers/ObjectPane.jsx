@@ -6,7 +6,7 @@ import {
   setActiveFinObj,
   setActiveBenchmarkDefaultFinObj,
 } from "../redux/actions";
-import ObjectList from "../components/ObjectList";
+import ObjectList from "../components/displays/ObjectList";
 import { nullActiveBenchmarkDefaultFinObj } from "../redux/nullStateStubs";
 import Typography from "@material-ui/core/Typography";
 import AddFinancialObjectDialog from "../components/dialogs/AddFinancialObjectDialog";

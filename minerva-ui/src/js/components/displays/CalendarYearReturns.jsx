@@ -8,7 +8,7 @@ import {
   TableCell,
   Typography,
 } from "@material-ui/core";
-import { percentFormat } from "../helpers";
+import { percentFormat } from "../../helpers";
 import TableContext from "@material-ui/core/Table/TableContext";
 
 const CalendarYearReturns = (props) => {

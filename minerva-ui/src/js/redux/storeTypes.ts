@@ -31,8 +31,8 @@ export interface ISubStatistics {
 export interface IStatistics {
   foid: string;
   absolute_statistics: ISubStatistics;
-  benchmark_statistics?: ISubStatistics;
-  relative_statistics?: ISubStatistics;
+  benchmark_statistics: ISubStatistics;
+  relative_statistics: ISubStatistics;
   cumulative_x: string[];
   cumulative_y: number[];
   ts_y: number[];

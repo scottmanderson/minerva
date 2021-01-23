@@ -6,20 +6,27 @@ import { getStatistics } from "../redux/actions/actionCreators";
 import StatisticsDisplay from "../components/displays/StatisticsDisplay";
 import GeneralDisplay from "../components/displays/GeneralDisplay";
 import GraphDisplay from "../components/displays/GraphDisplay";
+import { IState } from "../redux/storeTypes";
 
 const DisplayPane = () => {
-  const activeFinObj = useSelector((state) => state.activeFinObj);
+  const activeFinObj = useSelector((state: IState) => state.activeFinObj);
   const activeBenchmarkDefaultFinObj = useSelector(
-    (state) => state.activeBenchmarkDefaultFinObj
+    (state: IState) => state.activeBenchmarkDefaultFinObj
   );
-  const finObjs = useSelector((state) => state.finObjs);
-  const statistics = useSelector((state) => state.statistics);
-  const dataSources = useSelector((state) => state.dataSources);
+  const finObjs = useSelector((state: IState) => state.finObjs);
+  const statistics = useSelector((state: IState) => state.statistics);
+  const dataSources = useSelector((state: IState) => state.dataSources);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
-      getStatistics(activeFinObj.foid, "M", null, null, activeFinObj.benchmark)
+      getStatistics(
+        activeFinObj.foid as number,
+        "M",
+        undefined,
+        undefined,
+        activeFinObj.benchmark
+      )
     );
   }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
 
@@ -29,7 +36,7 @@ const DisplayPane = () => {
     finObjs.map((fo) => [fo.foid, fo.name])
   );
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
 

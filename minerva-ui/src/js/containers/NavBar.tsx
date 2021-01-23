@@ -6,11 +6,12 @@ import DataSourcesDialog from "../components/dialogs/DataSourcesDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataSources } from "../redux/actions/actionCreators";
 import SettingsDialog from "../components/dialogs/SettingsDialog";
+import { IState } from "../redux/storeTypes";
 
 const NavBar = () => {
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
-  const dataSources = useSelector((state) => state.dataSources);
+  const dataSources = useSelector((state: IState) => state.dataSources);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -6,13 +6,14 @@ import ObjectPane from "./ObjectPane";
 import DisplayPane from "./DisplayPane";
 import { AppBar, Box, Grid } from "@material-ui/core";
 import NavBar from "./NavBar";
+import { IState } from "../redux/storeTypes";
 
 const App = () => {
   // force rerender on any of these changing:
-  const dataSources = useSelector((state) => state.dataSources);
-  const dataSourcePolls = useSelector((state) => state.dataSourcePolls);
-  const activeFinObj = useSelector((state) => state.activeFinObj);
-  const finObjs = useSelector((state) => state.finObjs);
+  const dataSources = useSelector((state: IState) => state.dataSources);
+  const dataSourcePolls = useSelector((state: IState) => state.dataSourcePolls);
+  const activeFinObj = useSelector((state: IState) => state.activeFinObj);
+  const finObjs = useSelector((state: IState) => state.finObjs);
   return (
     <Container maxWidth="xl">
       <AppBar position="sticky">

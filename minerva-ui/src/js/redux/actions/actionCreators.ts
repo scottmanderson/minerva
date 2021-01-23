@@ -33,19 +33,19 @@ export function getSettings(): ISettingsRequested {
 }
 
 export function getStatistics(
-  foid = null,
-  freq_code = null,
-  start = null,
-  end = null,
-  benchmark_foid = null
+  foid: number,
+  freq_code?: string,
+  start?: string,
+  end?: string,
+  benchmark_foid?: number
 ): IStatisticsRequested {
   return {
     type: STATISTICS_REQUESTED,
     foid: foid,
-    freq_code: freq_code,
-    start: start,
-    end: end,
-    benchmark_foid: benchmark_foid,
+    freq_code: freq_code || null,
+    start: start || null,
+    end: end || null,
+    benchmark_foid: benchmark_foid || null,
   };
 }
 

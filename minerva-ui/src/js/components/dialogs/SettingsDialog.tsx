@@ -12,18 +12,18 @@ import {
 
 import { apiRoot } from "../../helpers";
 
-const SettingsDialog = (props) => {
-  const handleSubmit = (event) => {
+interface Props {
+  handleClose: () => void;
+  open: boolean;
+}
+
+const SettingsDialog: React.FC<Props> = ({ handleClose, open }) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
   };
   return (
     <div>
-      <Dialog
-        fullWidth
-        maxWidth="lg"
-        open={props.open}
-        onClose={props.handleClose}
-      >
+      <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose}>
         <DialogTitle id="Settings">Settings</DialogTitle>
         <DialogContent>
           <form>
@@ -33,7 +33,7 @@ const SettingsDialog = (props) => {
         </DialogContent>
         <DialogActions>
           <Button type="submit">Update</Button>
-          <Button onClick={props.handleClose} color="secondary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
         </DialogActions>

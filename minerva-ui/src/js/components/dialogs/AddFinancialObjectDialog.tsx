@@ -10,8 +10,13 @@ import {
 
 import { apiRoot } from "../../helpers";
 
-const AddFinancialObjectDialog = (props) => {
-  const handleSubmit = (event) => {
+interface Props {
+  handleClose: () => void;
+  open: boolean;
+}
+
+const AddFinancialObjectDialog: React.FC<Props> = ({ handleClose, open }) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     let newFO = {
       name: event.target["name"].value,
@@ -24,11 +29,11 @@ const AddFinancialObjectDialog = (props) => {
       body: JSON.stringify(newFO),
     };
     fetch(apiRoot + "/fo", request).then((response) => response.json());
-    props.handleClose();
+    handleClose();
   };
 
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Add Financial Object</DialogTitle>
       <form onSubmit={handleSubmit} autoComplete="off">
         <DialogContent>

@@ -61,7 +61,6 @@ const NavBar = () => {
         <DataSourcesDialog
           dataSources={dataSources}
           open={dataSourcesOpen}
-          handleOpen={handleDataSourcesOpen}
           handleClose={handleDataSourcesClose}
           refreshDataSources={refreshDataSources}
         />

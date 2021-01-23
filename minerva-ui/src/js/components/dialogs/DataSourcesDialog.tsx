@@ -14,8 +14,21 @@ import {
 import { spacing } from "@material-ui/system";
 
 import { apiRoot } from "../../helpers";
+import { IDataSource } from "../../redux/storeTypes";
 
-const DataSourcesDialog = (props) => {
+interface Props {
+  dataSources: IDataSource[];
+  handleClose: () => void;
+  open: boolean;
+  refreshDataSources: () => any;
+}
+
+const DataSourcesDialog: React.FC<Props> = ({
+  dataSources,
+  handleClose,
+  open,
+  refreshDataSources,
+}) => {
   const [dataSourceAddOpen, setDataSourceAddOpen] = useState(false);
 
   const handleSourceAddOpen = () => {
@@ -25,11 +38,11 @@ const DataSourcesDialog = (props) => {
     setDataSourceAddOpen(false);
   };
 
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = (event: any) => {
     event.preventDefault();
     let newSource = {
       name: event.target["dsnNew"].value,
-      hierarchy_rank: props.dataSources.length + 1,
+      hierarchy_rank: dataSources.length + 1,
       api_key: "",
     };
     const request = {
@@ -39,14 +52,14 @@ const DataSourcesDialog = (props) => {
     };
     fetch(apiRoot + "/sources", request)
       .then((response) => response.json())
-      .then(props.refreshDataSources());
+      .then(refreshDataSources());
     handleSourceAddClose();
   };
 
-  const handleSubmitAll = (event) => {
+  const handleSubmitAll = (event: any) => {
     event.preventDefault();
 
-    for (let source of props.dataSources) {
+    for (let source of dataSources) {
       let sourceUpdate = {
         name: event.target[`dsn${source.source_id}`].value,
         hierarchy_rank: event.target[`dsr${source.source_id}`].value,
@@ -62,18 +75,13 @@ const DataSourcesDialog = (props) => {
         request
       ).then((response) => response.json());
     }
-    props.refreshDataSources();
-    props.handleClose();
+    refreshDataSources();
+    handleClose();
   };
 
   return (
     <div>
-      <Dialog
-        fullWidth
-        maxWidth="lg"
-        open={props.open}
-        onClose={props.handleClose}
-      >
+      <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose}>
         <DialogTitle id="dataSourcesDialog">Data Source Management</DialogTitle>
         <DialogContent>
           <h3>Manage Data Sources</h3>
@@ -96,7 +104,7 @@ const DataSourcesDialog = (props) => {
                 </Grid>
               </Grid>
               <br />
-              {props.dataSources.map((el) => (
+              {dataSources.map((el) => (
                 <>
                   <Grid container item xs={12} spacing={3}>
                     <Grid item xs={4}>
@@ -112,7 +120,7 @@ const DataSourcesDialog = (props) => {
                         id={"dsr" + el.source_id}
                         key={"dsr" + el.source_id}
                         defaultValue={el.hierarchy_rank}
-                        fullwidth
+                        fullWidth
                       />
                     </Grid>
                     <Grid item xs={5}>
@@ -129,7 +137,7 @@ const DataSourcesDialog = (props) => {
               <DialogActions>
                 <br />
                 <Button type="submit">Update</Button>
-                <Button onClick={props.handleClose} color="secondary">
+                <Button onClick={handleClose} color="secondary">
                   Cancel
                 </Button>
               </DialogActions>

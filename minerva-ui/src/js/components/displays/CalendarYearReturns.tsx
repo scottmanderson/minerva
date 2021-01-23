@@ -10,74 +10,86 @@ import {
 } from "@material-ui/core";
 import { percentFormat } from "../../helpers";
 import TableContext from "@material-ui/core/Table/TableContext";
+import { IFinObj, IStatistics } from "../../redux/storeTypes";
 
-const CalendarYearReturns = (props) => {
-  return (
-    <>
-      <Typography color="textPrimary">
-        <h5>Calendar Year Returns</h5>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Asset</TableCell>
-                {Object.keys(
-                  props.statistics.absolute_statistics.calendar_year_returns
-                ).map((el) => (
-                  <TableCell key={"cy" + el} id={"cy" + el}>
-                    {el}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>{props.activeFinObj.ticker}</TableCell>
-                {Object.keys(
-                  props.statistics.absolute_statistics.calendar_year_returns
-                ).map((el) => (
-                  <TableCell key={"cyr" + el} id={"cyr" + el}>
-                    {percentFormat(
-                      props.statistics.absolute_statistics
-                        .calendar_year_returns[el]
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  {props.activeBenchmarkDefaultFinObj.ticker}
+interface Props {
+  activeFinObj: IFinObj;
+  activeBenchmarkDefaultFinObj: IFinObj;
+  statistics: IStatistics;
+}
+
+const CalendarYearReturns: React.FC<Props> = ({
+  activeFinObj,
+  activeBenchmarkDefaultFinObj,
+  statistics,
+}) => (
+  <>
+    <Typography color="textPrimary">
+      <h5>Calendar Year Returns</h5>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Asset</TableCell>
+              {Object.keys(
+                statistics.absolute_statistics.calendar_year_returns
+              ).map((el) => (
+                <TableCell key={"cy" + el} id={"cy" + el}>
+                  {el}
                 </TableCell>
-                {Object.keys(
-                  props.statistics.benchmark_statistics.calendar_year_returns
-                ).map((el) => (
-                  <TableCell key={"cyrbd" + el} id={"cyrbd" + el}>
-                    {percentFormat(
-                      props.statistics.benchmark_statistics
-                        .calendar_year_returns[el]
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                <TableCell>Difference</TableCell>
-                {Object.keys(
-                  props.statistics.relative_statistics.calendar_year_returns
-                ).map((el) => (
-                  <TableCell key={"cyrap" + el} id={"cyrap" + el}>
-                    {percentFormat(
-                      props.statistics.relative_statistics
-                        .calendar_year_returns[el]
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Typography>
-    </>
-  );
-};
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>{activeFinObj.ticker}</TableCell>
+              {Object.keys(
+                statistics.absolute_statistics.calendar_year_returns
+              ).map((el) => (
+                <TableCell key={"cyr" + el} id={"cyr" + el}>
+                  {percentFormat(
+                    statistics.absolute_statistics.calendar_year_returns[
+                      el
+                    ] as number
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell>{activeBenchmarkDefaultFinObj.ticker}</TableCell>
+              {Object.keys(
+                statistics.benchmark_statistics.calendar_year_returns
+              ).map((el) => (
+                <TableCell key={"cyrbd" + el} id={"cyrbd" + el}>
+                  {percentFormat(
+                    statistics.benchmark_statistics.calendar_year_returns[
+                      el
+                    ] as number
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell>Difference</TableCell>
+              {Object.keys(
+                statistics.relative_statistics.calendar_year_returns
+              ).map((el) => (
+                <TableCell key={"cyrap" + el} id={"cyrap" + el}>
+                  {percentFormat(
+                    statistics.relative_statistics.calendar_year_returns[
+                      el
+                    ] as number
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Typography>
+  </>
+);
+
+CalendarYearReturns.propTypes = {};
 
 export default CalendarYearReturns;

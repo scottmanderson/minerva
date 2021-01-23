@@ -1,15 +1,20 @@
 import React from "react";
-import Plot from "../../../../node_modules/react-plotly.js/react-plotly";
+import Plot from "react-plotly.js";
 import { useTheme } from "@material-ui/core";
+import { IStatistics } from "../../redux/storeTypes";
 
-const ReturnsChart = (props) => {
+interface Props {
+  statistics: IStatistics;
+}
+
+const ReturnsChart: React.FC<Props> = ({ statistics }) => {
   const theme = useTheme();
-  let x = props.statistics.cumulative_x;
-  let y = props.statistics.cumulative_y;
-  let yReturns = props.statistics.ts_y;
+  let x = statistics.cumulative_x;
+  let y = statistics.cumulative_y;
+  let yReturns = statistics.ts_y;
 
-  let xBench = props.statistics.bm_cumulative_x;
-  let yBench = props.statistics.bm_cumulative_y;
+  let xBench = statistics.bm_cumulative_x;
+  let yBench = statistics.bm_cumulative_y;
 
   return (
     <div>

@@ -11,16 +11,7 @@ export interface ICalendarYearReturns {
 }
 
 export interface ITimeWindowReturns {
-  mtd_return: number | string | null;
-  qtd_return: number | string | null;
-  ytd_return: number | string | null;
-  one_year_return: number | string | null;
-  two_year_return: number | string | null;
-  three_year_return: number | string | null;
-  four_year_return: number | string | null;
-  five_year_return: number | string | null;
-  itd_annualized_return: number | string | null;
-  itd_annualized_volatility: number | string | null;
+  [key: string]: number | string | null;
 }
 
 export interface ISubStatistics {

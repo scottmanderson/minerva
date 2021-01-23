@@ -10,6 +10,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { apiRoot } from "../../helpers";
+import { IFinObj, IDataSource } from "../../redux/storeTypes";
+import { IFinObjsLookup } from "../../globalTypes";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,16 +20,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GeneralDisplay = (props) => {
+interface Props {
+  activeFinObj: IFinObj;
+  dataSources: IDataSource[];
+  finObjsLookup: IFinObjsLookup;
+}
+
+const GeneralDisplay: React.FC<Props> = ({
+  activeFinObj,
+  dataSources,
+  finObjsLookup,
+}) => {
   const styles = useStyles();
-  const handleSubmitAddFeed = (event) => {
+  const handleSubmitAddFeed = (event: any) => {
     event.preventDefault();
-    let sourceMatch = props.dataSources.find(
-      (obj) => obj.name === event.target["dataSourceName"].value
+    let sourceMatch = dataSources.find(
+      (obj: IDataSource) => obj.name === event.target["dataSourceName"].value
     );
     let newDSP = {
-      source_id: sourceMatch.source_id,
-      foid: props.activeFinObj.foid,
+      source_id: sourceMatch ? sourceMatch.source_id : null,
+      foid: activeFinObj.foid,
       data_source_code: event.target["data_source_code"].value,
     };
     const request = {
@@ -43,11 +55,13 @@ const GeneralDisplay = (props) => {
     <div>
       <Typography>
         <Paper className={styles.paper}>
-          <h3>{props.activeFinObj.name}</h3>
-          <p>Ticker: {props.activeFinObj.ticker}</p>
+          <h3>{activeFinObj.name}</h3>
+          <p>Ticker: {activeFinObj.ticker}</p>
           <p>
             Default Benchmark:{" "}
-            {props.finObjsLookup[props.activeFinObj.benchmark]}
+            {activeFinObj.benchmark
+              ? finObjsLookup[activeFinObj.benchmark]
+              : "None"}
           </p>
         </Paper>
         <Paper className={styles.paper}>
@@ -62,7 +76,7 @@ const GeneralDisplay = (props) => {
               <MenuItem id={"dsDefault"} value="--Select One--">
                 --Select One--
               </MenuItem>
-              {props.dataSources.map((ds) => (
+              {dataSources.map((ds) => (
                 <MenuItem
                   key={"ds" + ds.source_id}
                   id={"ds" + ds.source_id}
@@ -76,7 +90,7 @@ const GeneralDisplay = (props) => {
             <TextField
               id="data_source_code"
               label="Code"
-              defaultValue={props.activeFinObj.ticker}
+              defaultValue={activeFinObj.ticker}
             />
             <Button type="submit">Add Feed</Button>
           </form>

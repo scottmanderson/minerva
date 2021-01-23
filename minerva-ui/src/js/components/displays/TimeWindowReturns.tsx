@@ -9,9 +9,24 @@ import {
   Typography,
 } from "@material-ui/core";
 import { percentFormat } from "../../helpers";
+import { IFinObj, IStatistics } from "../../redux/storeTypes";
 
-const TimeWindowReturns = (props) => {
-  const headingLookup = {
+interface Props {
+  activeBenchmarkDefaultFinObj: IFinObj;
+  activeFinObj: IFinObj;
+  statistics: IStatistics;
+}
+
+interface IHeadingLookup {
+  [key: string]: string;
+}
+
+const TimeWindowReturns: React.FC<Props> = ({
+  activeBenchmarkDefaultFinObj,
+  activeFinObj,
+  statistics,
+}) => {
+  const headingLookup: IHeadingLookup = {
     mtd_return: "MTD",
     qtd_return: "QTD",
     ytd_return: "YTD",
@@ -34,7 +49,7 @@ const TimeWindowReturns = (props) => {
               <TableRow>
                 <TableCell>Asset</TableCell>
                 {Object.keys(
-                  props.statistics.absolute_statistics.time_window_returns
+                  statistics.absolute_statistics.time_window_returns
                 ).map((el) => (
                   <TableCell key={"tw" + el} id={"el" + el}>
                     {headingLookup[el]}
@@ -44,31 +59,29 @@ const TimeWindowReturns = (props) => {
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>{props.activeFinObj.ticker}</TableCell>
+                <TableCell>{activeFinObj.ticker}</TableCell>
                 {Object.keys(
-                  props.statistics.absolute_statistics.time_window_returns
+                  statistics.absolute_statistics.time_window_returns
                 ).map((el) => (
                   <TableCell key={"twr" + el} id={"twr" + el}>
                     {percentFormat(
-                      props.statistics.absolute_statistics.time_window_returns[
+                      statistics.absolute_statistics.time_window_returns[
                         el
-                      ]
+                      ] as number
                     )}
                   </TableCell>
                 ))}
               </TableRow>
               <TableRow>
-                <TableCell>
-                  {props.activeBenchmarkDefaultFinObj.ticker}
-                </TableCell>
+                <TableCell>{activeBenchmarkDefaultFinObj.ticker}</TableCell>
                 {Object.keys(
-                  props.statistics.benchmark_statistics.time_window_returns
+                  statistics.benchmark_statistics.time_window_returns
                 ).map((el) => (
                   <TableCell key={"twrbd" + el} id={"twrbd" + el}>
                     {percentFormat(
-                      props.statistics.benchmark_statistics.time_window_returns[
+                      statistics.benchmark_statistics.time_window_returns[
                         el
-                      ]
+                      ] as number
                     )}
                   </TableCell>
                 ))}
@@ -76,13 +89,13 @@ const TimeWindowReturns = (props) => {
               <TableRow>
                 <TableCell>Difference</TableCell>
                 {Object.keys(
-                  props.statistics.relative_statistics.time_window_returns
+                  statistics.relative_statistics.time_window_returns
                 ).map((el) => (
                   <TableCell key={"twrap" + el} id={"twrap" + el}>
                     {percentFormat(
-                      props.statistics.relative_statistics.time_window_returns[
+                      statistics.relative_statistics.time_window_returns[
                         el
-                      ]
+                      ] as number
                     )}
                   </TableCell>
                 ))}

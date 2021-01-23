@@ -7,6 +7,7 @@ import StatisticsDisplay from "../components/displays/StatisticsDisplay";
 import GeneralDisplay from "../components/displays/GeneralDisplay";
 import GraphDisplay from "../components/displays/GraphDisplay";
 import { IState } from "../redux/storeTypes";
+import { IFinObjsLookup } from "../globalTypes";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state: IState) => state.activeFinObj);
@@ -32,7 +33,7 @@ const DisplayPane = () => {
 
   const [value, setValue] = React.useState("2");
 
-  const finObjLookup = Object.fromEntries(
+  const finObjLookup: IFinObjsLookup = Object.fromEntries(
     finObjs.map((fo) => [fo.foid, fo.name])
   );
 

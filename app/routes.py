@@ -302,3 +302,11 @@ def update_setting(key):
 
     db.session.commit()
     return setting_schema.jsonify(setting)
+
+
+@app.route("/settings/<key>", methods=["DELETE"])
+def delete_setting(key):
+    setting = Settings.query.filter(Settings.key == key)
+    db.session.delete(setting)
+    db.session.commit()
+    return setting_schema.jsonify(setting)

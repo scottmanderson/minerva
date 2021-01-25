@@ -19,6 +19,9 @@ pandas-datareader = "*"
 python-dotenv = "*"
 pytest = "*"
 psycopg2 = "*"
+passlib = "*"
+itsdangerous = "*"
+flask-httpauth = "*"
 
 [requires]
 python_version = "3.7"

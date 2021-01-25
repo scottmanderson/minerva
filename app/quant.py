@@ -1,23 +1,21 @@
-from app import app, db, ma
+from app import ma
 from app.models import (
-    FinancialObject,
-    FinancialObjectSchema,
     TSData,
-    TSDataSchema,
     DataSource,
-    DataSourcePoll,
+    Settings,
 )
+from json_manipulations import json_nan_to_none
 from shared_functions import fetch_all_data_sources
-from config import basedir
-from calendar import leapdays, monthrange
+from calendar import monthrange
 from datetime import datetime, timedelta
-import flask
-import json
 import numpy as np
 import pandas as pd
 
 all_data_sources = fetch_all_data_sources() or DataSource.query.all()
 ts_hierarchy = {source.name: source.hierarchy_rank for source in all_data_sources}
+default_risk_free_rate_id = Settings.query.filter(Settings.key == "default_risk_free")[
+    0
+].value
 
 null_stat = {
     "time_window_returns": {
@@ -55,6 +53,8 @@ class TSCalc(object):
         start=None,
         end=None,
         benchmark_foid=None,
+        risk_free_rate_id=None,
+        roll_window=None,
     ):
         self.has_data = False  # Will be set to true in return in self.generate_time_series if data exists
         self.has_benchmark_data = False
@@ -64,15 +64,20 @@ class TSCalc(object):
         self.start: datetime = datetime.fromisoformat(start) if start else None
         self.end: datetime = datetime.fromisoformat(end) if end else None
         self.benchmark_foid = benchmark_foid
+        self.risk_free_rate_foid = (
+            risk_free_rate_id or default_risk_free_rate_id or None
+        )
 
         self.periodicity = self.set_periodicity()
+        self.roll_window = roll_window or 36
 
         self.level, self.ts, self.cumulative = self.generate_time_series(self.foid)
 
         self.cumulative_x = [x.date().isoformat() for x in self.cumulative.index]
         self.ts_y = [x for x in self.ts.fillna(0)]
         self.cumulative_y = [x for x in self.cumulative]
-        self.absolute_statistics = self.calculate(self.ts, self.cumulative)
+        self.roll_stat = self.generate_rolling_statistics(self.ts, self.roll_window)
+        self.absolute_statistics = self.generate_statistics(self.ts, self.cumulative)
         if self.benchmark_foid:
             self.bm_level, self.bm_ts, self.bm_cumulative = self.generate_time_series(
                 self.benchmark_foid
@@ -82,13 +87,20 @@ class TSCalc(object):
             ]
             self.bm_ts_y = [x for x in self.bm_ts.fillna(0)]
             self.bm_cumulative_y = [x for x in self.bm_cumulative]
-            self.benchmark_statistics = self.calculate(self.bm_ts, self.bm_cumulative)
+            self.benchmark_statistics = self.generate_statistics(
+                self.bm_ts, self.bm_cumulative
+            )
         else:
             self.benchmark_statistics = null_stat
         if self.has_benchmark_data:
             self.rel_ts = self.generate_benchmark_relative_ts()
             self.rel_cumulative = self.compute_cumulative_return(self.rel_ts)
-            self.relative_statistics = self.calculate(self.rel_ts, self.rel_cumulative)
+            self.relative_statistics = self.generate_statistics(
+                self.rel_ts, self.rel_cumulative
+            )
+            self.bm_roll_stat = self.generate_rolling_statistics(
+                self.ts, self.roll_window
+            )
         else:
             self.relative_statistics = null_stat
 
@@ -169,7 +181,7 @@ class TSCalc(object):
         )
         return df["level"], returns["returns"][self.start : self.end], cumulative
 
-    def calculate(self, ts, cumulative):
+    def generate_statistics(self, ts, cumulative):
         statistics = {
             "time_window_returns": {
                 "mtd_return": (
@@ -312,6 +324,16 @@ class TSCalc(object):
         }
         return statistics
 
+    def generate_rolling_statistics(self, ts, roll_window):
+        rolling_vol = self.calculate_rolling_annualized_volatility(
+            self.ts, self.roll_window
+        )
+        roll_dict = {
+            "rolling_vol_x": [x.date().isoformat() for x in rolling_vol.index],
+            "rolling_vol_y": [x for x in rolling_vol],
+        }
+        return json_nan_to_none(roll_dict)
+
     @staticmethod
     def find_previous_month_end(dt: datetime):
         return datetime(dt.year, dt.month, 1) - timedelta(days=1)
@@ -358,7 +380,7 @@ class TSCalc(object):
         begin_iso = begin.date().isoformat()
         # item at index for begin is outside of calculation range for this method, must instead take next item in index
         begin_iloc_value = cumulative.index.get_loc(begin_iso, "backfill")
-        through_iso = (through).date().isoformat()
+        through_iso = through.date().isoformat()
         return (cumulative.loc[through_iso] / cumulative.iloc[begin_iloc_value]) ** (
             self.periodicity / (len(cumulative[begin_iso:through_iso]) - 1)
         ) - 1
@@ -375,6 +397,17 @@ class TSCalc(object):
             else np.nan
         ) - 1
 
+    def calculate_rolling_annualized_volatility(self, ts, lookback_window):
+        return (
+            ts.rolling(lookback_window)
+            .std()
+            .apply(lambda x: x * np.sqrt(self.periodicity))
+        )
+
+    @staticmethod
+    def calculate_sharp_ratio(asset_ts, risk_free_rate_ts):
+        pd.concat(asset_ts, risk_free_rate_ts)
+
 
 class TSCalcSchema(ma.Schema):
     """Serialize calculations for a time series"""
@@ -382,13 +415,16 @@ class TSCalcSchema(ma.Schema):
     class Meta:
         fields = (
             "foid",
+            "roll_window",
             "absolute_statistics",
             "benchmark_statistics",
             "relative_statistics",
             "cumulative_x",
+            "roll_stat",
             "ts_y",
             "cumulative_y",
             "bm_ts_y",
             "bm_cumulative_x",
             "bm_cumulative_y",
+            "bm_roll_stat",
         )

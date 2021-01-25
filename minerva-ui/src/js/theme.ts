@@ -9,7 +9,7 @@ const theme = createMuiTheme({
     },
     text: {
       primary: "#FFFFF0", // "ivory"
-      secondary: "#FFD700", // "gold"
+      secondary: "#ff8400",
     },
   },
 });

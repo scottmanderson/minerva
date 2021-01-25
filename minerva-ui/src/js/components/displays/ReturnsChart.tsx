@@ -26,7 +26,7 @@ const ReturnsChart: React.FC<Props> = ({ statistics }) => {
             x: x,
             y: y,
             type: "scatter",
-            line: { color: theme.palette.text.secondary },
+            line: { color: theme.palette.secondary.main },
           },
           {
             name: "Benchmark",

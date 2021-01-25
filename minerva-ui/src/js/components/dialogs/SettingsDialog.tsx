@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   FormLabel,
+  Grid,
   TextField,
 } from "@material-ui/core";
 
@@ -25,10 +26,23 @@ const SettingsDialog: React.FC<Props> = ({ handleClose, open }) => {
     <div>
       <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose}>
         <DialogTitle id="Settings">Settings</DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ overflow: "hidden" }}>
           <form>
-            <FormLabel>Default Risk Free Asset</FormLabel>
-            <TextField id="defaultRiskFree" />
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="baseline"
+            >
+              <Grid item container xs={12} spacing={3}>
+                <Grid item xs={3}>
+                  <FormLabel>Default Risk Free Asset</FormLabel>
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField id="defaultRiskFree" />
+                </Grid>
+              </Grid>
+            </Grid>
           </form>
         </DialogContent>
         <DialogActions>

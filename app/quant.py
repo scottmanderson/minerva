@@ -103,7 +103,7 @@ class TSCalc(object):
                 self.rel_ts, self.rel_cumulative
             )
             self.bm_roll_stat = self.generate_rolling_statistics(
-                self.ts, self.rf_ts, self.roll_window
+                self.bm_ts, self.rf_ts, self.roll_window
             )
         else:
             self.relative_statistics = null_stat

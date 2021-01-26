@@ -69,15 +69,19 @@ class TSCalc(object):
         )
 
         self.periodicity = self.set_periodicity()
-        self.roll_window = roll_window or 36
+        self.roll_window = roll_window or 3 * self.periodicity
 
         self.level, self.ts, self.cumulative = self.generate_time_series(self.foid)
 
         self.cumulative_x = [x.date().isoformat() for x in self.cumulative.index]
         self.ts_y = [x for x in self.ts.fillna(0)]
         self.cumulative_y = [x for x in self.cumulative]
-        self.roll_stat = self.generate_rolling_statistics(self.ts, self.roll_window)
+        self.rf_ts = self.generate_time_series(self.risk_free_rate_foid)[1]
+        self.roll_stat = self.generate_rolling_statistics(
+            self.ts, self.rf_ts, self.roll_window
+        )
         self.absolute_statistics = self.generate_statistics(self.ts, self.cumulative)
+
         if self.benchmark_foid:
             self.bm_level, self.bm_ts, self.bm_cumulative = self.generate_time_series(
                 self.benchmark_foid
@@ -99,7 +103,7 @@ class TSCalc(object):
                 self.rel_ts, self.rel_cumulative
             )
             self.bm_roll_stat = self.generate_rolling_statistics(
-                self.ts, self.roll_window
+                self.ts, self.rf_ts, self.roll_window
             )
         else:
             self.relative_statistics = null_stat
@@ -324,13 +328,14 @@ class TSCalc(object):
         }
         return statistics
 
-    def generate_rolling_statistics(self, ts, roll_window):
-        rolling_vol = self.calculate_rolling_annualized_volatility(
-            self.ts, self.roll_window
-        )
+    def generate_rolling_statistics(self, ts, rf_ts, roll_window):
+        rolling_vol = self.calculate_rolling_annualized_volatility(ts, roll_window)
+        rolling_sharpe = self.calculate_rolling_sharpe_ratio(ts, rf_ts, roll_window)
         roll_dict = {
             "rolling_vol_x": [x.date().isoformat() for x in rolling_vol.index],
             "rolling_vol_y": [x for x in rolling_vol],
+            "rolling_sharpe_x": [x.date().isoformat() for x in rolling_sharpe.index],
+            "rolling_sharpe_y": [x for x in rolling_sharpe],
         }
         return json_nan_to_none(roll_dict)
 
@@ -398,15 +403,26 @@ class TSCalc(object):
         ) - 1
 
     def calculate_rolling_annualized_volatility(self, ts, lookback_window):
+        ts.dropna(inplace=True)
         return (
             ts.rolling(lookback_window)
             .std()
             .apply(lambda x: x * np.sqrt(self.periodicity))
         )
 
-    @staticmethod
-    def calculate_sharp_ratio(asset_ts, risk_free_rate_ts):
-        pd.concat(asset_ts, risk_free_rate_ts)
+    def calculate_rolling_sharpe_ratio(
+        self, asset_ts, risk_free_rate_ts, lookback_window
+    ):
+        """Implementation note:  this approach reports the modern excess sharpe approach,
+        where the time series is net of risk free rate in the denominator
+        as well as the numerator
+        (William Sharpe's original implementation uses absolute returns in denominator)
+        """
+        df = pd.concat([asset_ts, risk_free_rate_ts], axis=1)
+        df.dropna(inplace=True)
+        df["excess"] = df.apply(lambda x: x[0] - x[1], axis=1)
+        roll = df["excess"].rolling(lookback_window)
+        return np.sqrt(self.periodicity) * roll.mean() / roll.std()
 
 
 class TSCalcSchema(ma.Schema):

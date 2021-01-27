@@ -1,5 +1,5 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
+import { Grid, Paper } from "@material-ui/core";
 import TimeWindowReturns from "./TimeWindowReturns";
 import CalendarYearReturns from "./CalendarYearReturns";
 import ReturnsChart from "./ReturnsChart";
@@ -18,23 +18,33 @@ const StatisticsDisplay: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <Paper style={{ padding: 5 }} elevation={5}>
-        <TimeWindowReturns
-          activeFinObj={activeFinObj}
-          activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
-          statistics={statistics}
-        />
-      </Paper>
-      <br />
-
-      <Paper style={{ padding: 5 }} elevation={5}>
-        <CalendarYearReturns
-          activeFinObj={activeFinObj}
-          activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
-          statistics={statistics}
-        />
-      </Paper>
-      <br />
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="stretch"
+        spacing={8}
+        style={{ marginTop: 10 }}
+      >
+        <Grid item>
+          <Paper style={{ padding: 5 }} elevation={5}>
+            <TimeWindowReturns
+              activeFinObj={activeFinObj}
+              activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
+              statistics={statistics}
+            />
+          </Paper>
+        </Grid>
+        <Grid item>
+          <Paper style={{ padding: 5 }} elevation={5}>
+            <CalendarYearReturns
+              activeFinObj={activeFinObj}
+              activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
+              statistics={statistics}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
     </>
   );
 };

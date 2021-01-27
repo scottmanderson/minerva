@@ -1,3 +1,3 @@
-export interface IFinObjsLookup {
+export interface IFinObjLookup {
   [key: number]: string;
 }

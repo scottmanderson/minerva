@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { apiRoot } from "../../helpers";
 import { IFinObj, IDataSource } from "../../redux/storeTypes";
-import { IFinObjsLookup } from "../../globalTypes";
+import { IFinObjLookup } from "../../globalTypes";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   activeFinObj: IFinObj;
   dataSources: IDataSource[];
-  finObjsLookup: IFinObjsLookup;
+  finObjsLookup: IFinObjLookup;
 }
 
 const GeneralDisplay: React.FC<Props> = ({

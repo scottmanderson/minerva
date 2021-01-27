@@ -19,16 +19,25 @@ export interface ISubStatistics {
   calendar_year_returns: ICalendarYearReturns;
 }
 
+export interface IRollStat {
+  rolling_vol_x: string[];
+  rolling_vol_y: (number | null)[];
+  rolling_sharpe_x?: string[];
+  rolling_sharpe_y?: (number | null)[];
+}
+
 export interface IStatistics {
   foid: string;
   absolute_statistics: ISubStatistics;
   benchmark_statistics: ISubStatistics;
   relative_statistics: ISubStatistics;
+  roll_stat?: IRollStat;
   cumulative_x: string[];
   cumulative_y: number[];
   ts_y: number[];
   bm_cumulative_x?: string[];
   bm_cumulative_y?: number[];
+  bm_roll_stat?: IRollStat;
 }
 
 export interface IDataSource {

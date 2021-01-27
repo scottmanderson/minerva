@@ -408,6 +408,7 @@ class TSCalc(object):
             ts.rolling(lookback_window)
             .std()
             .apply(lambda x: x * np.sqrt(self.periodicity))
+            .dropna()
         )
 
     def calculate_rolling_sharpe_ratio(
@@ -419,10 +420,9 @@ class TSCalc(object):
         (William Sharpe's original implementation uses absolute returns in denominator)
         """
         df = pd.concat([asset_ts, risk_free_rate_ts], axis=1)
-        df.dropna(inplace=True)
         df["excess"] = df.apply(lambda x: x[0] - x[1], axis=1)
         roll = df["excess"].rolling(lookback_window)
-        return np.sqrt(self.periodicity) * roll.mean() / roll.std()
+        return (np.sqrt(self.periodicity) * roll.mean() / roll.std()).dropna()
 
 
 class TSCalcSchema(ma.Schema):

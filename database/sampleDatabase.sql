@@ -304,6 +304,7 @@ COPY public.financial_objects (foid, name, report_name, ticker, benchmark) FROM 
 --
 
 COPY public.settings (setting_id, key, value) FROM stdin;
+1	default_risk_free	12
 \.
 
 

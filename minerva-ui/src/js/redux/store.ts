@@ -38,12 +38,6 @@ export const initialState: IState = {
     ticker: "SPY",
     benchmark: 11,
   },
-  activeBenchmarkDefaultFinObj: {
-    foid: "",
-    name: "Benchmark",
-    report_name: "Benchmark",
-    ticker: "Benchmark",
-  },
   statistics: {
     foid: "1",
     absolute_statistics: nullStatStub,

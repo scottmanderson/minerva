@@ -61,7 +61,6 @@ export interface ISetting {
 export interface IState {
   finObjs: IFinObj[];
   activeFinObj: IFinObj;
-  activeBenchmarkDefaultFinObj: IFinObj;
   statistics: IStatistics;
   dataSources: IDataSource[];
   dataSourcePolls: IDataSourcePoll[];

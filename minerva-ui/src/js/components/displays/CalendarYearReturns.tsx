@@ -14,15 +14,10 @@ import { IFinObj, IStatistics } from "../../redux/storeTypes";
 
 interface Props {
   activeFinObj: IFinObj;
-  activeBenchmarkDefaultFinObj: IFinObj;
   statistics: IStatistics;
 }
 
-const CalendarYearReturns: React.FC<Props> = ({
-  activeFinObj,
-  activeBenchmarkDefaultFinObj,
-  statistics,
-}) => (
+const CalendarYearReturns: React.FC<Props> = ({ activeFinObj, statistics }) => (
   <>
     <Typography color="textPrimary">
       <h5>Calendar Year Returns</h5>
@@ -56,7 +51,7 @@ const CalendarYearReturns: React.FC<Props> = ({
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>{activeBenchmarkDefaultFinObj.ticker}</TableCell>
+              <TableCell>Benchmark</TableCell>
               {Object.keys(
                 statistics.benchmark_statistics.calendar_year_returns
               ).map((el) => (

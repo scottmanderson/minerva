@@ -12,7 +12,6 @@ import { percentFormat } from "../../helpers";
 import { IFinObj, IStatistics } from "../../redux/storeTypes";
 
 interface Props {
-  activeBenchmarkDefaultFinObj: IFinObj;
   activeFinObj: IFinObj;
   statistics: IStatistics;
 }
@@ -21,11 +20,7 @@ interface IHeadingLookup {
   [key: string]: string;
 }
 
-const TimeWindowReturns: React.FC<Props> = ({
-  activeBenchmarkDefaultFinObj,
-  activeFinObj,
-  statistics,
-}) => {
+const TimeWindowReturns: React.FC<Props> = ({ activeFinObj, statistics }) => {
   const headingLookup: IHeadingLookup = {
     mtd_return: "MTD",
     qtd_return: "QTD",
@@ -73,7 +68,7 @@ const TimeWindowReturns: React.FC<Props> = ({
                 ))}
               </TableRow>
               <TableRow>
-                <TableCell>{activeBenchmarkDefaultFinObj.ticker}</TableCell>
+                <TableCell>Benchmark</TableCell>
                 {Object.keys(
                   statistics.benchmark_statistics.time_window_returns
                 ).map((el) => (

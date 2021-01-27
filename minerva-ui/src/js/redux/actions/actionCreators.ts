@@ -2,7 +2,6 @@ import {
   FIN_OBJS_REQUESTED,
   STATISTICS_REQUESTED,
   SET_ACTIVE_FINANCIAL_OBJECT,
-  SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
   DATA_SOURCES_REQUESTED,
   DATA_SOURCE_POLLS_REQUESTED,
   SETTINGS_REQUESTED,
@@ -53,12 +52,5 @@ export function setActiveFinObj(fo: IFinObj) {
   return {
     type: SET_ACTIVE_FINANCIAL_OBJECT,
     payload: { activeFinObj: fo },
-  };
-}
-
-export function setActiveBenchmarkDefaultFinObj(fo: IFinObj) {
-  return {
-    type: SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT,
-    payload: { activeBenchmarkDefaultFinObj: fo },
   };
 }

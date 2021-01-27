@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppBar, Grid, Tab, Tabs } from "@material-ui/core";
+import { Tab } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { getStatistics } from "../redux/actions/actionCreators";
 import StatisticsDisplay from "../components/displays/StatisticsDisplay";
 import GeneralDisplay from "../components/displays/GeneralDisplay";
-import GraphDisplay from "../components/displays/GraphDisplay";
+import ReturnsChartDisplay from "../components/displays/ReturnsChartDisplay";
 import VolatilityChart from "../components/displays/VolatilityChart";
 import SharpeChart from "../components/displays/SharpeChart";
 import { IState } from "../redux/storeTypes";
@@ -13,9 +13,6 @@ import { IFinObjLookup } from "../globalTypes";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state: IState) => state.activeFinObj);
-  const activeBenchmarkDefaultFinObj = useSelector(
-    (state: IState) => state.activeBenchmarkDefaultFinObj
-  );
   const finObjs = useSelector((state: IState) => state.finObjs);
   const statistics = useSelector((state: IState) => state.statistics);
   const dataSources = useSelector((state: IState) => state.dataSources);
@@ -31,7 +28,7 @@ const DisplayPane = () => {
         activeFinObj.benchmark
       )
     );
-  }, [dispatch, activeFinObj, activeBenchmarkDefaultFinObj]);
+  }, [dispatch, activeFinObj]);
 
   const [value, setValue] = React.useState("Statistics");
 
@@ -63,14 +60,12 @@ const DisplayPane = () => {
         <TabPanel value="Statistics">
           <StatisticsDisplay
             activeFinObj={activeFinObj}
-            activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
             statistics={statistics}
           />
         </TabPanel>
         <TabPanel value="Growth">
-          <GraphDisplay
+          <ReturnsChartDisplay
             activeFinObj={activeFinObj}
-            activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
             statistics={statistics}
           />
         </TabPanel>

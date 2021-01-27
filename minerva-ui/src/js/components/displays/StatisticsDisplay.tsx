@@ -2,20 +2,14 @@ import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import TimeWindowReturns from "./TimeWindowReturns";
 import CalendarYearReturns from "./CalendarYearReturns";
-import ReturnsChart from "./ReturnsChart";
 import { IFinObj, IStatistics } from "../../redux/storeTypes";
 
 interface Props {
-  activeBenchmarkDefaultFinObj: IFinObj;
   activeFinObj: IFinObj;
   statistics: IStatistics;
 }
 
-const StatisticsDisplay: React.FC<Props> = ({
-  activeBenchmarkDefaultFinObj,
-  activeFinObj,
-  statistics,
-}) => {
+const StatisticsDisplay: React.FC<Props> = ({ activeFinObj, statistics }) => {
   return (
     <>
       <Grid
@@ -30,7 +24,6 @@ const StatisticsDisplay: React.FC<Props> = ({
           <Paper style={{ padding: 5 }} elevation={5}>
             <TimeWindowReturns
               activeFinObj={activeFinObj}
-              activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
               statistics={statistics}
             />
           </Paper>
@@ -39,7 +32,6 @@ const StatisticsDisplay: React.FC<Props> = ({
           <Paper style={{ padding: 5 }} elevation={5}>
             <CalendarYearReturns
               activeFinObj={activeFinObj}
-              activeBenchmarkDefaultFinObj={activeBenchmarkDefaultFinObj}
               statistics={statistics}
             />
           </Paper>

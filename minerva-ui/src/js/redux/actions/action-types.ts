@@ -68,14 +68,6 @@ export interface ISetActiveFinancialObject {
     activeFinObj: IFinObj;
   };
 }
-export const SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT =
-  "SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT";
-export interface ISetActiveBenchmarkDefault_Finanical_Object {
-  type: typeof SET_ACTIVE_BENCHMARK_DEFAULT_FINANCIAL_OBJECT;
-  payload: {
-    activeBenchmarkDefaultFinObj: IFinObj;
-  };
-}
 
 export const API_ERRORED = "API_ERRORED";
 export interface IApiErrored {
@@ -95,5 +87,4 @@ export type ActionTypesMain =
   | IStatisticsRequested
   | IStatisticsLoaded
   | ISetActiveFinancialObject
-  | ISetActiveBenchmarkDefault_Finanical_Object
   | IApiErrored;

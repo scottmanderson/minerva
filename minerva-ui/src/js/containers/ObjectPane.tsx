@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
-import {
-  getFinObjs,
-  setActiveBenchmarkDefaultFinObj,
-  setActiveFinObj,
-} from "../redux/actions/actionCreators";
+import { getFinObjs, setActiveFinObj } from "../redux/actions/actionCreators";
 import ObjectList from "../components/displays/ObjectList";
-import { nullActiveBenchmarkDefaultFinObj } from "../redux/nullStateStubs";
 import AddFinancialObjectDialog from "../components/dialogs/AddFinancialObjectDialog";
 import { IState, IFinObj } from "../redux/storeTypes";
 
@@ -15,9 +10,6 @@ const ObjectPane = () => {
   const [addOpen, setAddOpen] = useState(false);
   const finObjs = useSelector((state: IState) => state.finObjs);
   const activeFinObj = useSelector((state: IState) => state.activeFinObj);
-  const activeBenchmarkDefaultFinObj = useSelector(
-    (state: IState) => state.activeBenchmarkDefaultFinObj
-  );
   const dispatch = useDispatch();
 
   const handleAddOpen = () => {
@@ -35,15 +27,6 @@ const ObjectPane = () => {
     let newFo = finObjs.find((obj) => obj.foid === foid);
     if (newFo) {
       dispatch(setActiveFinObj(newFo));
-    }
-    if (newFo && newFo.benchmark) {
-      const { benchmark } = newFo;
-      let newBmFo = finObjs.find((obj) => obj.foid === benchmark);
-      dispatch(setActiveBenchmarkDefaultFinObj(newBmFo as IFinObj));
-    } else {
-      dispatch(
-        setActiveBenchmarkDefaultFinObj(nullActiveBenchmarkDefaultFinObj)
-      );
     }
   };
 

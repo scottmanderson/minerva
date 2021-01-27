@@ -1,13 +1,14 @@
 import React from "react";
-import Plot from "react-plotly.js";
+import { IFinObj, IStatistics } from "../../redux/storeTypes";
 import { useTheme } from "@material-ui/core";
-import { IStatistics } from "../../redux/storeTypes";
+import Plot from "react-plotly.js";
 
 interface Props {
+  activeFinObj: IFinObj;
   statistics: IStatistics;
 }
 
-const ReturnsChart: React.FC<Props> = ({ statistics }) => {
+const ReturnsChartDisplay: React.FC<Props> = ({ activeFinObj, statistics }) => {
   const theme = useTheme();
   let x = statistics.cumulative_x;
   let y = statistics.cumulative_y;
@@ -93,4 +94,4 @@ const ReturnsChart: React.FC<Props> = ({ statistics }) => {
   );
 };
 
-export default ReturnsChart;
+export default ReturnsChartDisplay;

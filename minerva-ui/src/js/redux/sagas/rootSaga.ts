@@ -5,6 +5,7 @@ import getStat from "./getStatSaga";
 import getDataSources from "./getDataSourcesSaga";
 import getDataSourcePolls from "./getDataSourcePollsSaga";
 import getSettingsSaga from "./getSettingsSaga";
+import getTSDataSaga from "./getTSDataSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     getDataSources(),
     getDataSourcePolls(),
     getSettingsSaga(),
+    getTSDataSaga(),
   ]);
 }

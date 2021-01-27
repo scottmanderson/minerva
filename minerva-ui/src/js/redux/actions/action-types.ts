@@ -4,6 +4,7 @@ import {
   IFinObj,
   ISetting,
   IStatistics,
+  ITSData,
 } from "../storeTypes";
 
 export const FIN_OBJS_REQUESTED = "FIN_OBJS_REQUESTED";
@@ -55,10 +56,23 @@ export interface IStatisticsRequested {
   end: string | null;
   benchmark_foid: number | null;
 }
+
 export const STATISTICS_LOADED = "STATISTICS_LOADED";
 export interface IStatisticsLoaded {
   type: typeof STATISTICS_LOADED;
   payload: IStatistics;
+}
+
+export const TS_DATA_REQUESTED = "TS_DATA_REQUESTED";
+export interface ITSDataRequested {
+  type: typeof TS_DATA_REQUESTED;
+  foid: number;
+}
+
+export const TS_DATA_LOADED = "TS_DATA_LOADED";
+export interface ITSDataLoaded {
+  type: typeof TS_DATA_LOADED;
+  payload: ITSData;
 }
 
 export const SET_ACTIVE_FINANCIAL_OBJECT = "SET_ACTIVE_FINANCIAL_OBJECT";
@@ -87,4 +101,6 @@ export type ActionTypesMain =
   | IStatisticsRequested
   | IStatisticsLoaded
   | ISetActiveFinancialObject
+  | ITSDataRequested
+  | ITSDataLoaded
   | IApiErrored;

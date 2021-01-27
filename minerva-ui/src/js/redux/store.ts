@@ -59,6 +59,7 @@ export const initialState: IState = {
   ],
   dataSourcePolls: [],
   settings: [],
+  tsDataActiveFinObj: [],
 };
 
 const store = createStore(

@@ -1,15 +1,17 @@
 import {
-  FIN_OBJS_REQUESTED,
-  STATISTICS_REQUESTED,
-  SET_ACTIVE_FINANCIAL_OBJECT,
-  DATA_SOURCES_REQUESTED,
   DATA_SOURCE_POLLS_REQUESTED,
-  SETTINGS_REQUESTED,
-  IFinObjsRequested,
-  IDataSourcesRequested,
+  DATA_SOURCES_REQUESTED,
+  FIN_OBJS_REQUESTED,
   IDataSourcePollsRequested,
+  IDataSourcesRequested,
+  IFinObjsRequested,
   ISettingsRequested,
   IStatisticsRequested,
+  ITSDataRequested,
+  SET_ACTIVE_FINANCIAL_OBJECT,
+  SETTINGS_REQUESTED,
+  STATISTICS_REQUESTED,
+  TS_DATA_REQUESTED,
 } from "./action-types";
 import { IFinObj } from "../storeTypes";
 
@@ -45,6 +47,13 @@ export function getStatistics(
     start: start || null,
     end: end || null,
     benchmark_foid: benchmark_foid || null,
+  };
+}
+
+export function getTSData(foid: number): ITSDataRequested {
+  return {
+    type: TS_DATA_REQUESTED,
+    foid: foid,
   };
 }
 

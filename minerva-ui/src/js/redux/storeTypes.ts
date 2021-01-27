@@ -58,6 +58,13 @@ export interface ISetting {
   value: string;
 }
 
+export interface ITSData {
+  dt: string;
+  source: string;
+  level: number;
+  tsid: number;
+}
+
 export interface IState {
   finObjs: IFinObj[];
   activeFinObj: IFinObj;
@@ -65,4 +72,5 @@ export interface IState {
   dataSources: IDataSource[];
   dataSourcePolls: IDataSourcePoll[];
   settings: ISetting[];
+  tsDataActiveFinObj?: ITSData[];
 }

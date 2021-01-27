@@ -1,12 +1,12 @@
-import React from "react";
 import {
-  SET_ACTIVE_FINANCIAL_OBJECT,
-  FIN_OBJS_LOADED,
-  STATISTICS_LOADED,
-  DATA_SOURCES_LOADED,
-  DATA_SOURCE_POLLS_LOADED,
-  SETTINGS_LOADED,
   ActionTypesMain,
+  DATA_SOURCE_POLLS_LOADED,
+  DATA_SOURCES_LOADED,
+  FIN_OBJS_LOADED,
+  SET_ACTIVE_FINANCIAL_OBJECT,
+  SETTINGS_LOADED,
+  STATISTICS_LOADED,
+  TS_DATA_LOADED,
 } from "./actions/action-types";
 import { IState } from "./storeTypes";
 import { initialState } from "./store";
@@ -36,6 +36,10 @@ const rootReducer = (state = initialState, action: ActionTypesMain): IState => {
     case SET_ACTIVE_FINANCIAL_OBJECT:
       return Object.assign({}, state, {
         activeFinObj: action.payload.activeFinObj,
+      });
+    case TS_DATA_LOADED:
+      return Object.assign({}, state, {
+        tsDataActiveFinObj: action.payload,
       });
     default:
       return state;

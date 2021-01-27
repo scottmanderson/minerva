@@ -22,6 +22,7 @@ psycopg2 = "*"
 passlib = "*"
 itsdangerous = "*"
 flask-httpauth = "*"
+schedule = "*"
 
 [requires]
 python_version = "3.7"

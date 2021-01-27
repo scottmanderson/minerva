@@ -20,7 +20,8 @@ import os
 
 financial_object_schema = FinancialObjectSchema()
 financial_objects_schema = FinancialObjectSchema(many=True)
-ts_data_schema = TSDataSchema()
+ts_datum_schema = TSDataSchema()
+ts_data_schema = TSDataSchema(many=True)
 ts_calc_schema = TSCalcSchema()
 data_source_schema = DataSourceSchema()
 data_sources_schema = DataSourceSchema(many=True)
@@ -119,7 +120,7 @@ def add_tsi():
     db.session.add(new_tsi)
     db.session.commit()
 
-    return ts_data_schema.jsonify(new_tsi)
+    return ts_datum_schema.jsonify(new_tsi)
 
 
 @app.route("/ts_level/<foid>", methods=["GET"])
@@ -127,15 +128,16 @@ def get_ts_level(foid):
     TSCalc.compute_ts_level(foid)
 
 
-@app.route("/ts_returns/<foid>/<freq>", methods=["GET"])
-def get_ts_returns(foid, freq):
-    TSCalc.compute_ts_returns(foid, freq)
+@app.route("/ts_returns/<foid>", methods=["GET"])
+def get_ts_returns(foid):
+    all_ts = TSData.query.filter(TSData.foid == foid)
+    return ts_data_schema.jsonify(all_ts)
 
 
 @app.route("/tsi/<tsid>", methods=["GET"])
 def get_tsi(tsid):
     tsi = TSData.query.get(tsid)
-    return ts_data_schema.jsonify(tsi)
+    return ts_datum_schema.jsonify(tsi)
 
 
 @app.route("/tsi/<tsid>", methods=["PUT"])
@@ -153,7 +155,7 @@ def update_tsi(tsid):
     tsi.source = source
 
     db.session.commit()
-    return ts_data_schema.jsonify(tsi)
+    return ts_datum_schema.jsonify(tsi)
 
 
 @app.route("/tsi/<tsid>", methods=["DELETE"])

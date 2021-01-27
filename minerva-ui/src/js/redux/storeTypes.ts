@@ -63,6 +63,7 @@ export interface ITSData {
   source: string;
   level: number;
   tsid: number;
+  id: number | string;
 }
 
 export interface IState {
@@ -72,5 +73,5 @@ export interface IState {
   dataSources: IDataSource[];
   dataSourcePolls: IDataSourcePoll[];
   settings: ISetting[];
-  tsDataActiveFinObj?: ITSData[];
+  tsDataActiveFinObj: ITSData[];
 }

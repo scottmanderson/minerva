@@ -10,6 +10,7 @@ import VolatilityChart from "../components/displays/VolatilityChart";
 import SharpeChart from "../components/displays/SharpeChart";
 import { IState } from "../redux/storeTypes";
 import { IFinObjLookup } from "../globalTypes";
+import DataTab from "../components/displays/DataTab";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state: IState) => state.activeFinObj);
@@ -48,6 +49,7 @@ const DisplayPane = () => {
           <Tab label="Growth" value="Growth" />
           <Tab label="Volatility" value="Volatility" />
           <Tab label="Sharpe" value="Sharpe" />
+          <Tab label="Data" value="Data" />
           <Tab label="Customize" value="Customize" />
         </TabList>
         <TabPanel value="Customize">
@@ -82,6 +84,9 @@ const DisplayPane = () => {
             finObjLookup={finObjLookup}
             statistics={statistics}
           />
+        </TabPanel>
+        <TabPanel value="Data">
+          <DataTab />
         </TabPanel>
       </TabContext>
     </>

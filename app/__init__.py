@@ -6,11 +6,17 @@ from flask_migrate import Migrate
 
 from config import Config
 
-app = application = Flask(__name__, static_folder="../minerva-ui/build")
-CORS(app)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
-migrate = Migrate(app, db)
+
+def create_app(conf):
+    app = Flask(__name__, static_folder="../minerva-ui/build")
+    CORS(app)
+    app.config.from_object(conf)
+    db = SQLAlchemy(app)
+    ma = Marshmallow(app)
+    migrate = Migrate(app, db)
+    return app, db, ma, migrate
+
+
+app, db, ma, migrate = create_app(Config)
 
 from app import routes, models

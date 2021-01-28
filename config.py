@@ -15,3 +15,9 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY")
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get("DATABASE_URI_TEST") or "postgresql://localhost/minervaDBTest"
+    )

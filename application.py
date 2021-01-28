@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from app import app, application, db
+from app import app as application, db
 from app.models import FinancialObject, TSData
 
 import numpy as np
 import pandas as pd
 
 
-@app.shell_context_processor
+@application.shell_context_processor
 def make_shell_context():
     return {
         "db": db,

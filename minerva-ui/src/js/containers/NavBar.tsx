@@ -7,10 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDataSources } from "../redux/actions/actionCreators";
 import SettingsDialog from "../components/dialogs/SettingsDialog";
 import { IState } from "../redux/storeTypes";
+import { makeStyles } from "@material-ui/core/styles";
+import { PlayForWork } from "@material-ui/icons";
+import DataSourcePollsDialog from "../components/dialogs/DataSourcePollsDialog";
 
 const NavBar = () => {
-  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
+  const [dataSourcePollsOpen, setDataSourcePollsOpen] = useState(false);
   const dataSources = useSelector((state: IState) => state.dataSources);
   const dispatch = useDispatch();
 
@@ -34,15 +38,31 @@ const NavBar = () => {
     setDataSourcesOpen(false);
   };
 
+  const handleDataSourcePollsOpen = () => {
+    setDataSourcePollsOpen(true);
+  };
+
+  const handleDataSourcePollsClose = () => {
+    setDataSourcePollsOpen(false);
+  };
+
   const refreshDataSources = () => {
     dispatch(getDataSources());
   };
+
+  const useStyles = makeStyles((theme) => ({
+    Button: {
+      marginLeft: 32,
+    },
+  }));
+
+  const styles = useStyles();
 
   return (
     <div>
       <Toolbar>
         <Button
-          style={{ marginLeft: 32 }}
+          className={styles.Button}
           variant="outlined"
           startIcon={<SettingsIcon />}
           onClick={handleSettingsOpen}
@@ -51,7 +71,7 @@ const NavBar = () => {
         </Button>
         <SettingsDialog open={settingsOpen} handleClose={handleSettingsClose} />
         <Button
-          style={{ marginLeft: 32 }}
+          className={styles.Button}
           variant="outlined"
           startIcon={<Shuffle />}
           onClick={handleDataSourcesOpen}
@@ -63,6 +83,18 @@ const NavBar = () => {
           open={dataSourcesOpen}
           handleClose={handleDataSourcesClose}
           refreshDataSources={refreshDataSources}
+        />
+        <Button
+          className={styles.Button}
+          variant="outlined"
+          startIcon={<PlayForWork />}
+          onClick={handleDataSourcePollsOpen}
+        >
+          Data Source Feed Mapping
+        </Button>
+        <DataSourcePollsDialog
+          open={dataSourcePollsOpen}
+          handleClose={handleDataSourcePollsClose}
         />
       </Toolbar>
     </div>

@@ -19,7 +19,7 @@ const rootReducer = (state = initialState, action: ActionTypesMain): IState => {
       });
     case DATA_SOURCE_POLLS_LOADED:
       return Object.assign({}, state, {
-        dataSources: action.payload,
+        dataSourcePolls: action.payload,
       });
     case SETTINGS_LOADED:
       return Object.assign({}, state, {

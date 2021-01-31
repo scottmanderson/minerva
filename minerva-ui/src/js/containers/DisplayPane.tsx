@@ -11,6 +11,7 @@ import SharpeChart from "../components/displays/SharpeChart";
 import { IState } from "../redux/storeTypes";
 import { IFinObjLookup } from "../globalTypes";
 import DataTab from "../components/displays/DataTab";
+import { makeFinObjLookup } from "../helpers";
 
 const DisplayPane = () => {
   const activeFinObj = useSelector((state: IState) => state.activeFinObj);
@@ -33,9 +34,7 @@ const DisplayPane = () => {
 
   const [value, setValue] = React.useState("Statistics");
 
-  const finObjLookup: IFinObjLookup = Object.fromEntries(
-    finObjs.map((fo) => [fo.foid, fo.name])
-  );
+  const finObjLookup: IFinObjLookup = makeFinObjLookup(finObjs);
 
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);

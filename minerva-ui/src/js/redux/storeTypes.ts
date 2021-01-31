@@ -49,6 +49,8 @@ export interface IDataSource {
 
 export interface IDataSourcePoll {
   ds_poll_id: number;
+  source_id: number;
+  foid: number;
   data_source_code: string;
 }
 

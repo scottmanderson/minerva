@@ -80,6 +80,7 @@ class DataSourcePollSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = DataSourcePoll
         load_instance = True
+        include_fk = True
 
 
 class DataSourceSchema(ma.SQLAlchemyAutoSchema):

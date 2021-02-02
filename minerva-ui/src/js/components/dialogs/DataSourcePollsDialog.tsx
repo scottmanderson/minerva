@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IDataSourcePoll, IState } from "../../redux/storeTypes";
 import {
@@ -20,12 +20,15 @@ import {
   makeFinObjLookup,
   makeFinObjReverseLookup,
 } from "../../helpers";
-import theme from "../../theme";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   dataSourcePolls: IDataSourcePoll[];
+}
+
+interface IFormState {
+  [key: string]: string | number;
 }
 
 const DataSourcePollsDialog: React.FC<Props> = ({
@@ -42,6 +45,30 @@ const DataSourcePollsDialog: React.FC<Props> = ({
   const dataSourceLookup = makeDataSourceLookup(dataSources);
   const reverseDataSourceLookup = makeDataSourceReverseLookup(dataSources);
 
+  const initialFormState: IFormState = {};
+  for (const dsp of dataSourcePolls) {
+    Object.defineProperty(initialFormState, `dsps${dsp.ds_poll_id}`, {
+      value: dataSourceLookup[dsp.source_id],
+    });
+    Object.defineProperty(initialFormState, `dspf${dsp.ds_poll_id}`, {
+      value: finObjsLookup[dsp.foid],
+    });
+    Object.defineProperty(initialFormState, `dspc${dsp.ds_poll_id}`, {
+      value: dsp.data_source_code,
+    });
+  }
+
+  const [formState, setFormState] = useState<IFormState>({
+    ...initialFormState,
+  });
+
+  const handleUpdateField = (event: any) => {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleSubmitAdd = (event: any) => {
     event.preventDefault();
     let newSourcePoll = {};
@@ -49,12 +76,10 @@ const DataSourcePollsDialog: React.FC<Props> = ({
 
   const handleSubmitAll = (event: any) => {
     event.preventDefault();
-
     for (let dsp of dataSourcePolls) {
       let sourcePollUpdate = {
-        source_id:
-          reverseDataSourceLookup[event.target[`dsps${dsp.ds_poll_id}`].value],
-        foid: reverseFinObjsLookup[event.target[`dspf${dsp.ds_poll_id}`].value],
+        source_id: reverseDataSourceLookup[formState[`dsps${dsp.ds_poll_id}`]],
+        foid: reverseFinObjsLookup[formState[`dspf${dsp.ds_poll_id}`]],
         data_source_code: event.target[`dspc${dsp.ds_poll_id}`],
       };
       const request = {
@@ -107,6 +132,8 @@ const DataSourcePollsDialog: React.FC<Props> = ({
                       id={"dspf" + el.ds_poll_id}
                       key={"dspf" + el.ds_poll_id}
                       select
+                      value={formState[`dspf${el.ds_poll_id}`]}
+                      onChange={handleUpdateField}
                       defaultValue={finObjsLookup[el.foid]}
                       fullWidth
                     >
@@ -121,8 +148,10 @@ const DataSourcePollsDialog: React.FC<Props> = ({
                     <TextField
                       id={"dsps" + el.ds_poll_id}
                       key={"dsps" + el.ds_poll_id}
-                      defaultValue={dataSourceLookup[el.source_id]}
                       select
+                      value={formState[`dsps${el.ds_poll_id}`]}
+                      onChange={handleUpdateField}
+                      defaultValue={dataSourceLookup[el.source_id]}
                       fullWidth
                     >
                       {dataSources.map((ds) => (

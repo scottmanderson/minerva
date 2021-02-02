@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Button, Modal, Toolbar } from "@material-ui/core";
+import { Button, Toolbar } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Shuffle from "@material-ui/icons/Shuffle";
 import DataSourcesDialog from "../components/dialogs/DataSourcesDialog";
@@ -16,6 +16,7 @@ const NavBar = () => {
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
   const [dataSourcePollsOpen, setDataSourcePollsOpen] = useState(false);
   const dataSources = useSelector((state: IState) => state.dataSources);
+  const dataSourcePolls = useSelector((state: IState) => state.dataSourcePolls);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -69,7 +70,6 @@ const NavBar = () => {
         >
           Settings
         </Button>
-        <SettingsDialog open={settingsOpen} handleClose={handleSettingsClose} />
         <Button
           className={styles.Button}
           variant="outlined"
@@ -78,12 +78,7 @@ const NavBar = () => {
         >
           Data Sources
         </Button>
-        <DataSourcesDialog
-          dataSources={dataSources}
-          open={dataSourcesOpen}
-          handleClose={handleDataSourcesClose}
-          refreshDataSources={refreshDataSources}
-        />
+
         <Button
           className={styles.Button}
           variant="outlined"
@@ -92,9 +87,17 @@ const NavBar = () => {
         >
           Data Source Feed Mapping
         </Button>
+        <SettingsDialog open={settingsOpen} handleClose={handleSettingsClose} />
+        <DataSourcesDialog
+          dataSources={dataSources}
+          open={dataSourcesOpen}
+          handleClose={handleDataSourcesClose}
+          refreshDataSources={refreshDataSources}
+        />
         <DataSourcePollsDialog
           open={dataSourcePollsOpen}
           handleClose={handleDataSourcePollsClose}
+          dataSourcePolls={dataSourcePolls}
         />
       </Toolbar>
     </div>

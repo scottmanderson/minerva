@@ -14,8 +14,16 @@ export function makeFinObjLookup(finObjs: IFinObj[]): IFinObjLookup {
   return Object.fromEntries(finObjs.map((fo) => [fo.foid, fo.name]));
 }
 
+export function makeFinObjReverseLookup(finObjs: IFinObj[]) {
+  return Object.fromEntries(finObjs.map((fo) => [fo.name, fo.foid]));
+}
+
 export function makeDataSourceLookup(
   dataSources: IDataSource[]
 ): IDataSourceLookup {
   return Object.fromEntries(dataSources.map((ds) => [ds.source_id, ds.name]));
+}
+
+export function makeDataSourceReverseLookup(dataSources: IDataSource[]) {
+  return Object.fromEntries(dataSources.map((ds) => [ds.name, ds.source_id]));
 }

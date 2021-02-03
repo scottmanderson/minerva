@@ -33,15 +33,12 @@ const GeneralDisplay: React.FC<Props> = ({
 }) => {
   const styles = useStyles();
   const handleSubmitAddFeed = (event: any) => {
-    event.preventDefault();
-    let sourceMatch = dataSources.find(
-      (obj: IDataSource) => obj.name === event.target["dataSourceName"].value
-    );
     let newDSP = {
-      source_id: sourceMatch ? sourceMatch.source_id : null,
+      source_id: event.target["dataSourceName"].value,
       foid: activeFinObj.foid,
       data_source_code: event.target["data_source_code"].value,
     };
+    console.log(newDSP);
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,14 +52,16 @@ const GeneralDisplay: React.FC<Props> = ({
     <div>
       <Typography>
         <Paper className={styles.paper}>
-          <h3>{activeFinObj.name}</h3>
-          <p>Ticker: {activeFinObj.ticker}</p>
-          <p>
-            Default Benchmark:{" "}
-            {activeFinObj.benchmark
-              ? finObjsLookup[activeFinObj.benchmark]
-              : "None"}
-          </p>
+          <form>
+            <h3>{activeFinObj.name}</h3>
+            <p>Ticker: {activeFinObj.ticker}</p>
+            <p>
+              Default Benchmark:{" "}
+              {activeFinObj.benchmark
+                ? finObjsLookup[activeFinObj.benchmark]
+                : "None"}
+            </p>
+          </form>
         </Paper>
         <Paper className={styles.paper}>
           <h4>Add Feed</h4>
@@ -80,7 +79,7 @@ const GeneralDisplay: React.FC<Props> = ({
                 <MenuItem
                   key={"ds" + ds.source_id}
                   id={"ds" + ds.source_id}
-                  value={ds.name}
+                  value={ds.source_id}
                 >
                   {ds.name}
                 </MenuItem>

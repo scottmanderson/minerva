@@ -47,14 +47,14 @@ null_stat = {
 
 class TSCalc(object):
     def __init__(
-        self,
-        foid,
-        freq_code="M",
-        start=None,
-        end=None,
-        benchmark_foid=None,
-        risk_free_rate_id=None,
-        roll_window=None,
+            self,
+            foid,
+            freq_code="M",
+            start=None,
+            end=None,
+            benchmark_foid=None,
+            risk_free_rate_id=None,
+            roll_window=None,
     ):
         self.has_data = False  # Will be set to true in return in self.generate_time_series if data exists
         self.has_benchmark_data = False
@@ -65,7 +65,7 @@ class TSCalc(object):
         self.end: datetime = datetime.fromisoformat(end) if end else None
         self.benchmark_foid = benchmark_foid
         self.risk_free_rate_foid = (
-            risk_free_rate_id or default_risk_free_rate_id or None
+                risk_free_rate_id or default_risk_free_rate_id or None
         )
 
         self.periodicity = self.set_periodicity()
@@ -99,9 +99,7 @@ class TSCalc(object):
         if self.has_benchmark_data:
             self.rel_ts = self.generate_benchmark_relative_ts()
             self.rel_cumulative = self.compute_cumulative_return(self.rel_ts)
-            self.relative_statistics = self.generate_statistics(
-                self.rel_ts, self.rel_cumulative
-            )
+            self.relative_statistics = self.generate_relative_statistics()
             self.bm_roll_stat = self.generate_rolling_statistics(
                 self.bm_ts, self.rf_ts, self.roll_window
             )
@@ -150,11 +148,11 @@ class TSCalc(object):
 
         returns = (
             df.pivot(index="dt", columns="rank", values="level")
-            .resample(self.freq_code)
-            .ffill()
-            .pct_change()
-            .reset_index()
-            .melt(id_vars="dt")
+                .resample(self.freq_code)
+                .ffill()
+                .pct_change()
+                .reset_index()
+                .melt(id_vars="dt")
         )
 
         if len(sources) > 1:
@@ -179,40 +177,40 @@ class TSCalc(object):
         df.dropna()
 
         cumulative = (
-            self.compute_cumulative_return(returns["returns"][self.start : self.end])
-            .resample(self.freq_code)
-            .ffill()
+            self.compute_cumulative_return(returns["returns"][self.start: self.end])
+                .resample(self.freq_code)
+                .ffill()
         )
-        return df["level"], returns["returns"][self.start : self.end], cumulative
+        return df["level"], returns["returns"][self.start: self.end], cumulative
 
     def generate_statistics(self, ts, cumulative):
         statistics = {
             "time_window_returns": {
                 "mtd_return": (
-                    cumulative[-1]
-                    / cumulative[
-                        cumulative.index.get_loc(
-                            self.find_previous_month_end(cumulative.index.max())
-                            .date()
-                            .isoformat(),
-                            "backfill",
-                        )
-                    ]
-                )
-                - 1
+                                      cumulative[-1]
+                                      / cumulative[
+                                          cumulative.index.get_loc(
+                                              self.find_previous_month_end(cumulative.index.max())
+                                                  .date()
+                                                  .isoformat(),
+                                              "backfill",
+                                          )
+                                      ]
+                              )
+                              - 1
                 if self.has_data
                 else None,
                 "qtd_return": (
-                    cumulative[-1]
-                    / cumulative[
-                        cumulative.index.get_loc(
-                            self.find_previous_quarter_end(cumulative.index.max())
-                            .date()
-                            .isoformat(),
-                        )
-                    ]
-                )
-                - 1
+                                      cumulative[-1]
+                                      / cumulative[
+                                          cumulative.index.get_loc(
+                                              self.find_previous_quarter_end(cumulative.index.max())
+                                                  .date()
+                                                  .isoformat(),
+                                          )
+                                      ]
+                              )
+                              - 1
                 if self.has_data
                 else None,
                 "ytd_return": (
@@ -220,8 +218,8 @@ class TSCalc(object):
                     / cumulative[
                         cumulative.index.get_loc(
                             self.find_previous_year_end(cumulative.index.max())
-                            .date()
-                            .isoformat(),
+                                .date()
+                                .isoformat(),
                             "backfill",
                         )
                     ]
@@ -275,16 +273,16 @@ class TSCalc(object):
             },
             "calendar_year_returns": {
                 self.end.year: (
-                    (
-                        cumulative.loc[cumulative.index.max()]
-                        / cumulative.iloc[
-                            cumulative.index.get_loc(
-                                datetime(self.end.year - 1, 12, 31).date().isoformat(),
-                                "backfill",
-                            )
-                        ]
-                    )
-                    - 1
+                        (
+                                cumulative.loc[cumulative.index.max()]
+                                / cumulative.iloc[
+                                    cumulative.index.get_loc(
+                                        datetime(self.end.year - 1, 12, 31).date().isoformat(),
+                                        "backfill",
+                                    )
+                                ]
+                        )
+                        - 1
                 )
                 if self.has_data
                 else None,
@@ -325,6 +323,24 @@ class TSCalc(object):
                 if self.has_data
                 else None,
             },
+        }
+        return statistics
+
+    def generate_relative_statistics(self):
+        if not self.has_benchmark_data or not self.has_data:
+            return null_stat
+
+        statistics = {
+            "time_window_returns": {
+                k: self.absolute_statistics["time_window_returns"][k] -
+                   self.benchmark_statistics["time_window_returns"][k] for k in
+                self.absolute_statistics["time_window_returns"]
+            },
+            "calendar_year_returns": {
+                k: self.absolute_statistics["calendar_year_returns"][k] -
+                   self.benchmark_statistics["calendar_year_returns"][k] for k in
+                self.absolute_statistics["calendar_year_returns"]
+            }
         }
         return statistics
 
@@ -373,11 +389,11 @@ class TSCalc(object):
                 self.end.month,
                 monthrange(self.end.year - years, self.end.month)[1],
             )
-            .date()
-            .isoformat()
+                .date()
+                .isoformat()
         )
         ret = (
-            cumulative[self.end.date().isoformat()] / cumulative[indexable_denominator]
+                cumulative[self.end.date().isoformat()] / cumulative[indexable_denominator]
         )
         return ret ** (365 / (365 * years)) - 1
 
@@ -387,32 +403,32 @@ class TSCalc(object):
         begin_iloc_value = cumulative.index.get_loc(begin_iso, "backfill")
         through_iso = through.date().isoformat()
         return (cumulative.loc[through_iso] / cumulative.iloc[begin_iloc_value]) ** (
-            self.periodicity / (len(cumulative[begin_iso:through_iso]) - 1)
+                self.periodicity / (len(cumulative[begin_iso:through_iso]) - 1)
         ) - 1
 
     @staticmethod
     def calculate_calendar_year_return(year: int, cumulative):
         return (
-            cumulative.loc[datetime(year, 12, 31).date().isoformat()]
-            if datetime(year, 12, 31).date().isoformat() in cumulative.index
-            else np.nan
-        ) / (
-            cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
-            if datetime(year - 1, 12, 31).date().isoformat() in cumulative.index
-            else np.nan
-        ) - 1
+                   cumulative.loc[datetime(year, 12, 31).date().isoformat()]
+                   if datetime(year, 12, 31).date().isoformat() in cumulative.index
+                   else np.nan
+               ) / (
+                   cumulative.loc[datetime(year - 1, 12, 31).date().isoformat()]
+                   if datetime(year - 1, 12, 31).date().isoformat() in cumulative.index
+                   else np.nan
+               ) - 1
 
     def calculate_rolling_annualized_volatility(self, ts, lookback_window):
         ts.dropna(inplace=True)
         return (
             ts.rolling(lookback_window)
-            .std()
-            .apply(lambda x: x * np.sqrt(self.periodicity))
-            .dropna()
+                .std()
+                .apply(lambda x: x * np.sqrt(self.periodicity))
+                .dropna()
         )
 
     def calculate_rolling_sharpe_ratio(
-        self, asset_ts, risk_free_rate_ts, lookback_window
+            self, asset_ts, risk_free_rate_ts, lookback_window
     ):
         """Implementation note:  this approach reports the modern excess sharpe approach,
         where the time series is net of risk free rate in the denominator

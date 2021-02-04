@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { IDataSourcePoll, IState } from "../../redux/storeTypes";
+import { IDataSource, IDataSourcePoll, IState } from "../../redux/storeTypes";
 import {
   Button,
   Dialog,
@@ -9,7 +9,6 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-  Select,
   TextField,
 } from "@material-ui/core";
 import { getDataSourcePolls } from "../../redux/actions/actionCreators";
@@ -24,6 +23,7 @@ import {
 interface Props {
   open: boolean;
   handleClose: () => void;
+  dataSources: IDataSource[];
   dataSourcePolls: IDataSourcePoll[];
 }
 
@@ -34,10 +34,10 @@ interface IFormState {
 const DataSourcePollsDialog: React.FC<Props> = ({
   open,
   handleClose,
+  dataSources,
   dataSourcePolls,
 }) => {
   const finObjs = useSelector((state: IState) => state.finObjs);
-  const dataSources = useSelector((state: IState) => state.dataSources);
   const dispatch = useDispatch();
 
   const finObjsLookup = makeFinObjLookup(finObjs);
@@ -45,42 +45,15 @@ const DataSourcePollsDialog: React.FC<Props> = ({
   const dataSourceLookup = makeDataSourceLookup(dataSources);
   const reverseDataSourceLookup = makeDataSourceReverseLookup(dataSources);
 
-  const initialFormState: IFormState = {};
-  for (const dsp of dataSourcePolls) {
-    Object.defineProperty(initialFormState, `dsps${dsp.ds_poll_id}`, {
-      value: dataSourceLookup[dsp.source_id],
-    });
-    Object.defineProperty(initialFormState, `dspf${dsp.ds_poll_id}`, {
-      value: finObjsLookup[dsp.foid],
-    });
-    Object.defineProperty(initialFormState, `dspc${dsp.ds_poll_id}`, {
-      value: dsp.data_source_code,
-    });
-  }
-
-  const [formState, setFormState] = useState<IFormState>({
-    ...initialFormState,
-  });
-
-  const handleUpdateField = (event: any) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmitAdd = (event: any) => {
-    event.preventDefault();
-    let newSourcePoll = {};
-  };
-
   const handleSubmitAll = (event: any) => {
     event.preventDefault();
     for (let dsp of dataSourcePolls) {
+      console.log(dsp);
+      console.log(event);
       let sourcePollUpdate = {
-        source_id: reverseDataSourceLookup[formState[`dsps${dsp.ds_poll_id}`]],
-        foid: reverseFinObjsLookup[formState[`dspf${dsp.ds_poll_id}`]],
-        data_source_code: event.target[`dspc${dsp.ds_poll_id}`],
+        source_id: event.target[`dsps${dsp.ds_poll_id}`].value,
+        foid: event.target[`dspf${dsp.ds_poll_id}`].value,
+        data_source_code: event.target[`dspc${dsp.ds_poll_id}`].value,
       };
       const request = {
         method: "PUT",
@@ -125,52 +98,57 @@ const DataSourcePollsDialog: React.FC<Props> = ({
               </Grid>
             </Grid>
             {dataSourcePolls.map((el) => (
-              <>
-                <Grid container item xs={12} spacing={3}>
-                  <Grid item xs={4}>
-                    <TextField
-                      id={"dspf" + el.ds_poll_id}
-                      key={"dspf" + el.ds_poll_id}
-                      select
-                      value={formState[`dspf${el.ds_poll_id}`]}
-                      onChange={handleUpdateField}
-                      defaultValue={finObjsLookup[el.foid]}
-                      fullWidth
-                    >
-                      {finObjs.map((fo) => (
-                        <MenuItem key={fo.name} value={fo.name}>
-                          {fo.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      id={"dsps" + el.ds_poll_id}
-                      key={"dsps" + el.ds_poll_id}
-                      select
-                      value={formState[`dsps${el.ds_poll_id}`]}
-                      onChange={handleUpdateField}
-                      defaultValue={dataSourceLookup[el.source_id]}
-                      fullWidth
-                    >
-                      {dataSources.map((ds) => (
-                        <MenuItem key={ds.name} value={ds.name}>
-                          {ds.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      id={"dspc" + el.ds_poll_id}
-                      key={"dspc" + el.ds_poll_id}
-                      defaultValue={el.data_source_code}
-                      fullWidth
-                    />
-                  </Grid>
+              <Grid
+                container
+                item
+                xs={12}
+                spacing={3}
+                key={"dspgrid" + el.ds_poll_id}
+              >
+                <Grid item xs={4}>
+                  <TextField
+                    id={"dspf" + el.ds_poll_id}
+                    key={"dspf" + el.ds_poll_id}
+                    select
+                    value={el.foid}
+                    defaultValue={el.foid}
+                    fullWidth
+                  >
+                    {finObjs.map((fo) => (
+                      <MenuItem key={"fomu" + fo.foid} value={fo.foid}>
+                        {fo.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
-              </>
+                <Grid item xs={4}>
+                  <TextField
+                    id={"dsps" + el.ds_poll_id}
+                    key={"dsps" + el.ds_poll_id}
+                    select
+                    value={el.source_id}
+                    defaultValue={el.source_id}
+                    fullWidth
+                  >
+                    {dataSources.map((ds) => (
+                      <MenuItem
+                        key={"dsmu" + ds.source_id}
+                        value={ds.source_id}
+                      >
+                        {ds.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    id={"dspc" + el.ds_poll_id}
+                    key={"dspc" + el.ds_poll_id}
+                    defaultValue={el.data_source_code}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
             ))}
             <DialogActions>
               <br />

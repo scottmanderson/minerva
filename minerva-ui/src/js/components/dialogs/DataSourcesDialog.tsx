@@ -58,7 +58,7 @@ const DataSourcesDialog: React.FC<Props> = ({
 
   const handleSubmitAll = (event: any) => {
     event.preventDefault();
-
+    console.log(event);
     for (let source of dataSources) {
       let sourceUpdate = {
         name: event.target[`dsn${source.source_id}`].value,
@@ -105,34 +105,38 @@ const DataSourcesDialog: React.FC<Props> = ({
               </Grid>
               <br />
               {dataSources.map((el) => (
-                <>
-                  <Grid container item xs={12} spacing={3}>
-                    <Grid item xs={4}>
-                      <TextField
-                        id={"dsn" + el.source_id}
-                        key={"dsn" + el.source_id}
-                        defaultValue={el.name}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <TextField
-                        id={"dsr" + el.source_id}
-                        key={"dsr" + el.source_id}
-                        defaultValue={el.hierarchy_rank}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={5}>
-                      <TextField
-                        id={"dsk" + el.source_id}
-                        key={"dsk" + el.source_id}
-                        defaultValue={el.api_key}
-                        fullWidth
-                      />
-                    </Grid>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  spacing={3}
+                  key={"dsgrid" + el.source_id}
+                >
+                  <Grid item xs={4}>
+                    <TextField
+                      id={"dsn" + el.source_id}
+                      key={"dsn" + el.source_id}
+                      defaultValue={el.name}
+                      fullWidth
+                    />
                   </Grid>
-                </>
+                  <Grid item xs={2}>
+                    <TextField
+                      id={"dsr" + el.source_id}
+                      key={"dsr" + el.source_id}
+                      defaultValue={el.hierarchy_rank}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
+                    <TextField
+                      id={"dsk" + el.source_id}
+                      key={"dsk" + el.source_id}
+                      defaultValue={el.api_key}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
               ))}
               <DialogActions>
                 <br />

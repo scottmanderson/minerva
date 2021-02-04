@@ -38,7 +38,6 @@ const GeneralDisplay: React.FC<Props> = ({
       foid: activeFinObj.foid,
       data_source_code: event.target["data_source_code"].value,
     };
-    console.log(newDSP);
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

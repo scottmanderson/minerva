@@ -97,6 +97,7 @@ const NavBar = () => {
         <DataSourcePollsDialog
           open={dataSourcePollsOpen}
           handleClose={handleDataSourcePollsClose}
+          dataSources={dataSources}
           dataSourcePolls={dataSourcePolls}
         />
       </Toolbar>
